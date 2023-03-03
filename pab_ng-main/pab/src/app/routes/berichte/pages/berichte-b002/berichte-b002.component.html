@@ -1,0 +1,105 @@
+<pab-berichte-action-bar
+  (erstelleExcelEvent)="reagiereAufErstelleExcel()"
+  [actionBarButtonKonfiguration]="actionBarButtonKonfiguration"
+></pab-berichte-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline [text]="ueberschrift"></pab-headline>
+    <div class="justify-end">
+      <button (click)="oeffneHinweisDialog()" [matTooltip]="hinweisText" mat-button>
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="border">
+    <form [formGroup]="berichtFilterFormGroup" class="grid-berichte-b003-columns">
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>
+          <mat-icon
+            *ngIf="getAbgeschlossenIcon(berichtFilterFormGroup.get('abrechnungsmonat')!.value)"
+            [fontIcon]="getAbgeschlossenIcon(berichtFilterFormGroup.get('abrechnungsmonat')!.value)"
+          ></mat-icon>
+          Abrechnungsmonat
+        </mat-label>
+        <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="abrechnungsmonat">
+          <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonatAuswahl" [value]="abrechnungsmonat">
+            <mat-icon [fontIcon]="getAbgeschlossenIcon(abrechnungsmonat)"></mat-icon>
+            {{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <pab-autocomplete-mitarbeiter
+        [mitarbeiterAuswahl]="mitarbeiterAuswahl | mitarbeiterToObs"
+        [mitErrorPlatzhalter]="false"
+        [parentFormGroup]="berichtFilterFormGroup"
+        parentFormFieldName="mitarbeiter"
+      ></pab-autocomplete-mitarbeiter>
+
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Sachbearbeiter:in</mat-label>
+        <mat-select [compareWith]="sindMitarbeiterGleich" formControlName="sachbearbeiter">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let sachbearbeiter of sachbearbeiterAuswahl" [value]="sachbearbeiter"
+            >{{ sachbearbeiter | mitarbeiterAnzeigeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="justify-end">
+        <button (click)="onLeereFilter()" color="basic" mat-stroked-button matTooltip="Filter leeren">
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="border">
+    <div class="height-full" #pabB002UebersichtTabelleBorder>
+      <pab-spinner
+        *ngIf="!ladeBerichteSpinner.isClosed()"
+        [spinnerHeight]="(pabB002UebersichtTabelleBorder.offsetHeight - 20).toString()"
+        [spinnerWidth]="(pabB002UebersichtTabelleBorder.offsetWidth - 20).toString()"
+      ></pab-spinner>
+
+      <section class="table-container">
+        <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+          <ng-container matColumnDef="abrechnungsmonat">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="abrechnungsmonat">Abrechnungsmonat</th>
+            <td *matCellDef="let element" mat-cell>{{ element.abrechnungsmonat }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="mitarbeiterPersonalnummer">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitarbeiterPersonalnummer">Personalnummer</th>
+            <td *matCellDef="let element" mat-cell>{{ element.mitarbeiterPersonalnummer }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="mitarbeiterFullname">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitarbeiterFullname">Mitarbeiter:in</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon *ngIf="!element.mitarbeiterIstAktiv" class="vertical-center" color="warn">
+                not_interested
+              </mat-icon>
+              {{ element.mitarbeiterFullname }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="mitarbeiterKurzname">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitarbeiterKurzname">Kürzel</th>
+            <td *matCellDef="let element" mat-cell>{{ element.mitarbeiterKurzname }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="sachbearbeiterFullname">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="sachbearbeiterFullname">Sachbearbeiter:in</th>
+            <td *matCellDef="let element" mat-cell>{{ element.sachbearbeiterFullname }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+        </table>
+        <pab-tabelle-leer-card *ngIf="anzahlErgebnisse === 0"></pab-tabelle-leer-card>
+      </section>
+    </div>
+  </div>
+</div>

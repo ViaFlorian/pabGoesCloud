@@ -1,0 +1,122 @@
+mat-icon {
+  height: auto;
+}
+
+mat-toolbar {
+  background: linear-gradient(45deg, #681885, #c5344e);
+  min-height: 50px;
+}
+
+.sichtbare-titelleiste {
+  display: grid;
+  grid-template-columns: 3% 22% 50% 25%;
+  height: 50px;
+  width: 100%;
+}
+
+pab-suche {
+  align-self: center;
+  justify-self: center;
+  padding-top: 5px;
+}
+
+.pab-menu-overlay {
+  backdrop-filter: blur(4px) saturate(200%);
+  -webkit-backdrop-filter: blur(4px) saturate(200%);
+  background-color: rgba(246, 246, 246, 0.84);
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 50px);
+  z-index: 999;
+  transition: opacity 2s linear;
+}
+
+.pab-suchergebnisse-overlay {
+  background-color: white;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 50px);
+  z-index: 999;
+  transition: opacity 2s linear;
+}
+
+.pab-menu-grid {
+  margin-top: 20px;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+
+.pab-suchergebnisse-grid {
+  margin-top: 20px;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+
+.pab-menu-grid-card {
+  align-self: center;
+  justify-self: center;
+  width: 230px;
+  height: 260px;
+}
+
+.pab-menu-grid-card-title {
+  padding: 10px;
+}
+
+.pab-menu-sub-menu {
+  z-index: 200;
+}
+
+.mat-mdc-menu-panel.mat-mdc-menu-panel {
+  min-width: 500px;
+  max-width: 500px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+.title-menu-text {
+  color: white !important;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.title-menu-icon {
+  color: white !important;
+}
+
+.menu-spacer {
+  margin-right: 25px;
+}
+
+.nutzerinformationen {
+  display: grid;
+  grid-template-columns: 80% 10% 10%;
+  width: 400px;
+  height: 50px;
+  justify-self: end;
+}
+
+.rightside-element {
+  min-width: 32px;
+  padding: 0 8px;
+  color: white;
+  justify-self: center;
+  align-self: center;
+}
+
+::ng-deep .mat-menu-width {
+  max-width: 600px !important;
+}

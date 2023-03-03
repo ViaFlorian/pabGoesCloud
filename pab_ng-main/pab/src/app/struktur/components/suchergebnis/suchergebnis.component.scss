@@ -1,0 +1,63 @@
+.suchergebnis-content {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 15% 85%;
+}
+
+.suchergebnis-filter {
+  height: 100%;
+}
+
+.suchergebnis-filter-form {
+  height: 100%;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 4% 4% 4% 4% 4% 4% 4% 72%;
+  justify-content: start;
+}
+
+.suchergebnis-tabelle {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  width: 97%;
+  height: calc(100% - 50px);
+  margin: auto;
+  margin-top: 10px;
+  padding: 10px;
+  overflow: scroll;
+}
+
+.suchergebnis-text {
+  padding: 10px;
+  overflow: clip;
+  margin-right: 10px;
+}
+
+.suchergebnis-zeile :hover {
+  font-weight: 500;
+  background: whitesmoke;
+}
+
+.suchergebnis-zeile {
+  cursor: pointer;
+}
+
+.suchergebnis-aktion {
+  padding: 5px;
+  justify-self: right;
+}
+
+.suchergebnis {
+  display: grid;
+  grid-template-columns: 65% 15% 20%;
+  grid-template-rows: 100%;
+  height: 40px;
+  width: 100%;
+  font-size: 1.3em;
+  font-weight: 300;
+  background: transparent;
+}
+
+.scroll-viewport {
+  height: 100%;
+}

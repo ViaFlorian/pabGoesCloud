@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sonderarbeitszeiten" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="ef993e1b-3122-4cb9-a60c-358899cf3e0a">
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="net.sf.jasperreports.export.xlsx.detect.cell.type" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<style name="Style1" fontName="DejaVu Sans"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="tagVon" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[tagVon]]></fieldDescription>
+	</field>
+	<field name="uhrzeitVon" class="java.time.LocalTime">
+		<fieldDescription><![CDATA[uhrzeitVon]]></fieldDescription>
+	</field>
+	<field name="uhrzeitBis" class="java.time.LocalTime">
+		<fieldDescription><![CDATA[uhrzeitBis]]></fieldDescription>
+	</field>
+	<field name="projektbezeichnung" class="java.lang.String">
+		<fieldDescription><![CDATA[projektbezeichnung]]></fieldDescription>
+	</field>
+	<field name="projektnummer" class="java.lang.String">
+		<fieldDescription><![CDATA[projektnummer]]></fieldDescription>
+	</field>
+	<field name="feiertag" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[feiertag]]></fieldDescription>
+	</field>
+	<field name="mitarbeiterFullname" class="java.lang.String">
+		<fieldDescription><![CDATA[mitarbeiterFullname]]></fieldDescription>
+	</field>
+	<field name="mitarbeiterpersonalnummer" class="java.lang.String">
+		<fieldDescription><![CDATA[mitarbeiterpersonalnummer]]></fieldDescription>
+	</field>
+	<field name="abrechnungsmonat" class="java.lang.String">
+		<fieldDescription><![CDATA[abrechnungsmonat]]></fieldDescription>
+	</field>
+	<field name="uhrzeitVonAlsDouble" class="java.lang.Double">
+		<fieldDescription><![CDATA[uhrzeitVonAlsDouble]]></fieldDescription>
+	</field>
+	<field name="uhrzeitBisAlsDouble" class="java.lang.Double">
+		<fieldDescription><![CDATA[uhrzeitBisAlsDouble]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement style="Style1" mode="Opaque" x="300" y="30" width="90" height="30" backcolor="#EBEBEB" uuid="ceae8a4c-9e6a-4e4e-a6c2-304c8f4055c6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d9dcfd29-db72-49d6-9ae6-3052dcf4d649"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Projektnummer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" mode="Opaque" x="390" y="30" width="100" height="30" backcolor="#EBEBEB" uuid="eef9fe5e-7f31-48f6-a785-4e72b312a62f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="da4c0250-bb34-4c6c-81a0-ec9306c0459c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tag von]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" mode="Opaque" x="490" y="30" width="80" height="30" backcolor="#EBEBEB" uuid="3227628c-2e9f-466b-9d87-469b6af1ed33">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="089cbf54-b6f6-48d5-bfeb-09ca49596e01"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Uhrzeit von]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" mode="Opaque" x="570" y="30" width="80" height="30" backcolor="#EBEBEB" uuid="d7366837-0e0d-479e-aa46-ce01f8081532">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="12a581f4-0f09-4de1-93f7-8eaf50fad086"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Uhrzeit bis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" mode="Opaque" x="650" y="30" width="80" height="30" backcolor="#EBEBEB" uuid="6712f91e-5885-446a-9167-0f65af5af821">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="317e2c98-8283-4488-b72e-fb20043f8dd1"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Feiertag]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="30" width="100" height="30" backcolor="#EBEBEB" uuid="115115ee-b959-4615-bc7f-fcddb2f46f5b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="45b4c2f6-e282-4e6f-9e8f-eed983655ecd"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Personalnummer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="30" width="100" height="30" backcolor="#EBEBEB" uuid="a6651c4b-6b03-47bb-bd04-4e7c67cd707c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="57f8295d-00d1-48cb-8242-aa68fe249777"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" mode="Opaque" x="0" y="30" width="100" height="30" backcolor="#EBEBEB" uuid="224c5480-a5ce-4e5c-ab69-8788bba495dc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4819f099-0a14-4e89-ae05-9b987b90589d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Monat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="0" y="0" width="300" height="20" uuid="27f19025-4a03-4991-a162-0c78e6d15028"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[B002 - Sonderarbeitszeit pro Mitarbeiter/in, Projekt]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="300" y="0" width="90" height="20" backcolor="#707070" uuid="4181b09d-f5d1-4443-98b6-dea62b75d70f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f96d1b8e-7290-45fd-9106-6122045289bc"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{projektnummer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="0" width="100" height="20" uuid="4b2c46ae-a615-4c3e-912f-c7dce265d2f1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="18b80db1-61b6-4857-ba0c-4617026cb94e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tagVon}.getDayOfMonth()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="490" y="0" width="80" height="20" uuid="dc528134-60c6-4949-b62d-18be041873e4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="db125300-4385-453b-92d9-254fef3f7d0a"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{uhrzeitVonAlsDouble}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="570" y="0" width="80" height="20" uuid="cdfd7db4-19fe-43ac-b5ad-be809e68f01a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="870643f6-c56b-4d12-a752-9e0e2712ae21"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{uhrzeitBisAlsDouble}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="650" y="0" width="80" height="20" uuid="ec41dd42-c636-4afa-9f4a-2f59169bb281">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="317e2c98-8283-4488-b72e-fb20043f8dd1"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{feiertag} == true ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" mode="Opaque" x="100" y="0" width="100" height="20" backcolor="#CECECE" uuid="5440f4c5-73d2-4fd2-947c-fc0370f23ec2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="45b4c2f6-e282-4e6f-9e8f-eed983655ecd"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mitarbeiterpersonalnummer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" mode="Opaque" x="200" y="0" width="100" height="20" backcolor="#CECECE" uuid="e20265ce-09b8-40b5-ba47-166e2b1e96d7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="57f8295d-00d1-48cb-8242-aa68fe249777"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mitarbeiterFullname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#CECECE" uuid="45fa4923-9066-4da9-9f9a-0bbb6ed223af">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4819f099-0a14-4e89-ae05-9b987b90589d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{abrechnungsmonat}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

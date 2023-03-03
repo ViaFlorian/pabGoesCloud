@@ -1,0 +1,57 @@
+.suche-container {
+  height: 45px;
+  color: #ffffff;
+}
+
+.suche-form {
+  height: 45px;
+  max-height: 45px;
+}
+
+.suche-box {
+  display: grid;
+  border-bottom: white;
+  border-bottom-style: solid;
+  min-width: 450px;
+  width: 450px;
+  height: 32px;
+  max-height: 40px;
+}
+
+.suche-feld {
+  border: none;
+  background: rgba(255, 255, 255, 0);
+  color: #ffffff;
+  font-size: 0.95em;
+  font-weight: 200;
+  letter-spacing: -0.015em;
+  outline: none;
+  justify-self: center;
+  align-self: center;
+  min-width: 400px;
+}
+
+.suche-icon {
+  height: 20px;
+}
+
+.close-icon {
+  height: 19px;
+  cursor: pointer;
+}
+
+.suche-feld::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.suche-feldh::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.suche-feld:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.suche-feld:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}

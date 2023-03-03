@@ -1,0 +1,14 @@
+UPDATE Parameter SET VALUE = 'Arbeitsnachweis pro Mitarbeiter/in und Abrechnungsmonat'
+    WHERE [Key] = 'emailSubjectB004';
+UPDATE Parameter SET VALUE = 'Arbeitszeit, Stundenkonto pro Mitarbeiter/in und Jahr'
+    WHERE [Key] = 'emailSubjectB006';
+UPDATE Parameter SET VALUE = 'Kosten, Leistung pro Projekt'
+    WHERE [Key] = 'emailSubjectB007';
+UPDATE Parameter SET VALUE = 'Kennzahlen - OE nach Monat, Projekt'
+    WHERE [Key] = 'emailSubjectB011';
+UPDATE Parameter SET VALUE = 'Kennzahlen - Gesamt nach OE'
+    WHERE [Key] = 'emailSubjectB012';
+UPDATE Parameter SET VALUE = 'Faktur, Leistung nach OE, Kunde, Projekt'
+    WHERE [Key] = 'emailSubjectB013';
+UPDATE Parameter SET VALUE = 'Übersicht Abrechnung, Faktur, Budget pro Projekt'
+    WHERE [Key] = 'emailSubjectB014';

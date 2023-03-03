@@ -1,0 +1,19 @@
+.grid-areas-arbeitsnachweis-bearbeiten-abwesenheiten-columns {
+  display: grid;
+  grid-template-columns: 12% 12% 20% 20% 12% 9%;
+  grid-gap: 3%;
+  grid-template-areas:
+    'TagVonTag         TagBisTag         Projekt        Bemerkung           Essen     Button'
+    'TagVonUhrzeit     TagBisUhrzeit     Einsatzort     Dreimonatsregel     Essen     .'
+    'TagFehlermeldung  TagFehlermeldung  .              .                   .         .';
+}
+
+// Hinweis: Angepasste Klasse aufbauend auf 2 Reihen + etwas Platz für eine zusätzliche, angepasst Fehlermeldung
+// Die Fehlermeldung nimmt 40px ein.
+.tab-container-arbeitsnachweis-bearbeiten-abwesenheit-form {
+  display: grid;
+  grid-template-rows: 196px calc(100% - 231px);
+  grid-row-gap: 35px;
+  height: calc(100% - 15px);
+  padding-top: 15px;
+}

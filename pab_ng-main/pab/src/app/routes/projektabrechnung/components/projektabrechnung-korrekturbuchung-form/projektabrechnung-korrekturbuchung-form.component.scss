@@ -1,0 +1,15 @@
+.grid-areas-pab-korrekturbuchung-form-columns {
+  display: grid;
+  grid-template-columns: 19.5% 19.5% 20% 20% 9%;
+  grid-gap: 3%;
+}
+
+.grid-areas-pab-korrekturbuchung-teilbuchung-columns {
+  display: grid;
+  grid-template-columns: 20% 6% 9.5% 6% 6% 9.5% 6% 20%;
+  grid-gap: 2%;
+}
+
+.no-margin {
+  margin: 0 0 0 0;
+}

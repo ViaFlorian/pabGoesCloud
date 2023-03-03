@@ -1,0 +1,17 @@
+<div>
+  <h2>Entwicklung Leistung Plan/Ist {{ aktuellesAbrechnungsjahr }}</h2>
+  <div class="charts-line-chart-container">
+    <ngx-charts-line-chart
+      [customColors]="farben"
+      [legendPosition]="legendePosition"
+      [legendTitle]="legendeTitel"
+      [legend]="zeigeLegaendeAn"
+      [results]="daten"
+      [showXAxisLabel]="zeigeXAxisLabel"
+      [showYAxisLabel]="zeigeYAxisLabel"
+      [xAxis]="zeigeXAxis"
+      [yAxis]="zeigeYAxis"
+      [view]="ansicht"
+    ></ngx-charts-line-chart>
+  </div>
+</div>

@@ -1,0 +1,1 @@
+ALTER TABLE C_Lohnart ADD Bearbeitungsschluessel int NULL

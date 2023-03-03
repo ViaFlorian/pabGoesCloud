@@ -1,0 +1,18 @@
+.grid-areas {
+  display: grid;
+  grid-template-columns: 60% 38%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'MitarbeiterHeadline ProjekteHeadline'
+    'MitarbeiterSubline .'
+    'MitarbeiterDiagramme ProjekteDiagramme';
+}
+
+h2 {
+  font-size: 21px;
+  margin: auto;
+}
+
+h3 {
+  text-align: center;
+}

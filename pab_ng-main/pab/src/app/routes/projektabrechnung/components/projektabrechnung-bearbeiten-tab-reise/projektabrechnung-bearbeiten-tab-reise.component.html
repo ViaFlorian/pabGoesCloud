@@ -1,0 +1,289 @@
+<div class="tab-container-only-form">
+  <div class="grid-form-mit-card">
+    <form [formGroup]="pabReiseFormGroup">
+      <div class="grid-areas-pab-bearbeiten-reise">
+        <div>
+          <mat-expansion-panel expanded="true" class="expansion-border">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Reisezeiten</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="grid-areas-pab-bearbeiten-reise-reisezeiten-input-slots">
+              <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+              <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+              <mat-form-field style="grid-area: SlotLinks1">
+                <mat-label>Angerechnete Reisezeit</mat-label>
+                <input formControlName="kostenReisezeitenAngerechneteReisezeit" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks2">
+                <mat-label>* Kostensatz</mat-label>
+                <input formControlName="kostenReisezeitenKostensatz" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks3">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="kostenReisezeitenBetrag" matInput type="text" />
+              </mat-form-field>
+
+              <mat-form-field style="grid-area: SlotRechts1">
+                <mat-label>Fakturierte Reisezeit</mat-label>
+                <input
+                  formControlName="leistungReisezeitenFakturierteReisezeit"
+                  matInput
+                  type="text"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                  (input)="
+                    entferneUnerlaubteZeichen('leistungReisezeitenFakturierteReisezeit', '^([0-9]+)(,?)([0-9]{0,2})$')
+                  "
+                />
+                <mat-error
+                  *ngIf="pabReiseFormGroup.get('leistungReisezeitenFakturierteReisezeit')?.errors?.['pattern']"
+                >
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts2">
+                <mat-label>* Stundensatz</mat-label>
+                <input
+                  formControlName="leistungReisezeitenStundensatz"
+                  matInput
+                  type="text"
+                  (input)="entferneUnerlaubteZeichen('leistungReisezeitenStundensatz', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                />
+                <mat-error *ngIf="pabReiseFormGroup.get('leistungReisezeitenStundensatz')?.errors?.['pattern']">
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts3">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="leistungReisezeitenBetrag" matInput type="text" />
+              </mat-form-field>
+
+              <mat-form-field style="grid-area: TatsaechlicheReisezeit">
+                <mat-label>Tatsächliche Reisezeit</mat-label>
+                <input formControlName="leistungReisezeitenTatsaechlicheReisezeit" matInput type="text" />
+              </mat-form-field>
+            </div>
+          </mat-expansion-panel>
+        </div>
+
+        <div>
+          <mat-expansion-panel expanded="true" class="expansion-border">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Belege und Auslagen</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="grid-areas-pab-bearbeiten-reise-belege-und-auslagen-input-slots">
+              <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+              <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+              <mat-form-field style="grid-area: SlotLinks1">
+                <mat-label>Belege (Arbeitsnachweis)</mat-label>
+                <input formControlName="kostenBelegeUndAuslagenBelege" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks2">
+                <mat-label>+ Auslagen (viadee)</mat-label>
+                <input formControlName="kostenBelegeUndAuslagenAuslagen" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks3">
+                <mat-label>+ Spesen</mat-label>
+                <input formControlName="kostenBelegeUndAuslagenSpesen" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks4">
+                <mat-label>+ Zuschläge</mat-label>
+                <input formControlName="kostenBelegeUndAuslagenZuschlaege" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks5">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="kostenBelegeUndAuslagenBetrag" matInput type="text" />
+              </mat-form-field>
+
+              <div style="grid-area: SlotLinks1Button1" class="pab-button-position">
+                <button
+                  [disabled]="!aktuelleProjektabrechnung"
+                  (click)="oeffneBelegeDialog()"
+                  color="basic"
+                  mat-stroked-button
+                  matTooltip="Belege anzeigen"
+                  class="pab-button"
+                >
+                  <mat-icon class="mat-icon-in-button">view_list</mat-icon>
+                </button>
+              </div>
+              <div style="grid-area: SlotLinks1Button2" class="pab-button-position">
+                <button
+                  [disabled]="!aktuelleProjektabrechnung"
+                  (click)="navigiereZuArbeitsnachweisBearbeiten()"
+                  color="basic"
+                  mat-stroked-button
+                  matTooltip="Belege bearbeiten"
+                  class="pab-button"
+                >
+                  <mat-icon class="mat-icon-in-button">edit</mat-icon>
+                </button>
+              </div>
+
+              <div style="grid-area: SlotLinks2Button1" class="pab-button-position">
+                <button
+                  [disabled]="!aktuelleProjektabrechnung"
+                  (click)="oeffneAuslagenDialog()"
+                  color="basic"
+                  mat-stroked-button
+                  matTooltip="Auslagen anzeigen"
+                  class="pab-button"
+                >
+                  <mat-icon class="mat-icon-in-button">view_list</mat-icon>
+                </button>
+              </div>
+              <div style="grid-area: SlotLinks2Button2" class="pab-button-position">
+                <button
+                  [disabled]="!aktuelleProjektabrechnung"
+                  (click)="navigiereZuAuslagenErfassen()"
+                  color="basic"
+                  mat-stroked-button
+                  matTooltip="Auslagen erfassen"
+                  class="pab-button"
+                >
+                  <mat-icon class="mat-icon-in-button">edit</mat-icon>
+                </button>
+              </div>
+
+              <div style="grid-area: SlotLinks3Button1" class="pab-button-position">
+                <button
+                  [disabled]="!aktuelleProjektabrechnung"
+                  (click)="oeffneSpesenUndZuschlaegeDialog()"
+                  color="basic"
+                  mat-stroked-button
+                  matTooltip="Spesen&Zuschläge anzeigen"
+                  class="pab-button"
+                >
+                  <mat-icon class="mat-icon-in-button">view_list</mat-icon>
+                </button>
+              </div>
+
+              <mat-form-field style="grid-area: SlotRechts1">
+                <mat-label>Belege (Arbeitsnachweis)</mat-label>
+                <input
+                  formControlName="leistungBelegeUndAuslagenBelege"
+                  matInput
+                  type="text"
+                  (input)="entferneUnerlaubteZeichen('leistungBelegeUndAuslagenBelege', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                />
+                <mat-error *ngIf="pabReiseFormGroup.get('leistungBelegeUndAuslagenBelege')?.errors?.['pattern']">
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts2">
+                <mat-label>+ Auslagen (viadee)</mat-label>
+                <input
+                  formControlName="leistungBelegeUndAuslagenAuslagen"
+                  matInput
+                  type="text"
+                  (input)="entferneUnerlaubteZeichen('leistungBelegeUndAuslagenAuslagen', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                />
+                <mat-error *ngIf="pabReiseFormGroup.get('leistungBelegeUndAuslagenAuslagen')?.errors?.['pattern']">
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts3">
+                <mat-label>+ Spesen</mat-label>
+                <input
+                  formControlName="leistungBelegeUndAuslagenSpesen"
+                  matInput
+                  type="text"
+                  (input)="entferneUnerlaubteZeichen('leistungBelegeUndAuslagenSpesen', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                />
+                <mat-error *ngIf="pabReiseFormGroup.get('leistungBelegeUndAuslagenSpesen')?.errors?.['pattern']">
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts4">
+                <mat-label>+ Zuschläge</mat-label>
+                <input
+                  formControlName="leistungBelegeUndAuslagenZuschlaege"
+                  matInput
+                  type="text"
+                  (input)="
+                    entferneUnerlaubteZeichen('leistungBelegeUndAuslagenZuschlaege', '^([0-9]+)(,?)([0-9]{0,2})$')
+                  "
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                />
+                <mat-error *ngIf="pabReiseFormGroup.get('leistungBelegeUndAuslagenZuschlaege')?.errors?.['pattern']">
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts5">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="leistungBelegeUndAuslagenBetrag" matInput type="text" />
+              </mat-form-field>
+            </div>
+          </mat-expansion-panel>
+        </div>
+
+        <div>
+          <mat-expansion-panel expanded="true" class="expansion-border">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Pauschale</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="grid-areas-pab-bearbeiten-reise-pauschale-input-slots">
+              <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+              <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+              <mat-form-field style="grid-area: SlotRechts1">
+                <mat-label>Anzahl</mat-label>
+                <input
+                  formControlName="leistungPauschaleAnzahl"
+                  matInput
+                  type="text"
+                  (input)="entferneUnerlaubteZeichen('leistungPauschaleAnzahl', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                />
+                <mat-error *ngIf="pabReiseFormGroup.get('leistungPauschaleAnzahl')?.errors?.['pattern']">
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts2">
+                <mat-label>* Pauschale p. Tag</mat-label>
+                <input
+                  formControlName="leistungPauschaleProTag"
+                  matInput
+                  type="text"
+                  (input)="entferneUnerlaubteZeichen('leistungPauschaleProTag', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                />
+                <mat-error *ngIf="pabReiseFormGroup.get('leistungPauschaleProTag')?.errors?.['pattern']">
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts3">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="leistungPauschaleBetrag" matInput type="text" />
+              </mat-form-field>
+            </div>
+          </mat-expansion-panel>
+        </div>
+      </div>
+    </form>
+
+    <mat-card class="card-border card-pab-bearbeiten">
+      <mat-card-header>
+        <mat-card-title class="card-title">Summe Reise</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="pabReiseFormGroup">
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Kosten</mat-label>
+            <input formControlName="kosten" matInput type="text" />
+          </mat-form-field>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Leistung</mat-label>
+            <input formControlName="leistung" matInput type="text" />
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

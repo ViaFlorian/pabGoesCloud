@@ -1,0 +1,33 @@
+<pab-projektbudget-action-bar
+  [aenderung]="projektbudgetListe.istVeraendert()"
+  (speichernEvent)="reagiereAufSpeichernEvent($event)"
+></pab-projektbudget-action-bar>
+<div class="basis-container basis-container-grid">
+  <pab-headline text="Projektbudget"></pab-headline>
+
+  <div class="border">
+    <pab-projektbudget-auswahl-form
+      [projektbudgetAuswahlFormGroup]="projektbudgetAuswahlFormGroup"
+      [projektAuswahl]="projektAuswahl"
+      [kundeAlle]="kundeAlle"
+      [mitarbeiterAlle]="mitarbeiterAlle"
+      [sachbearbeiterAlle]="sachbearbeiterAlle"
+      [organisationseinheitAlle]="organisationseinheitAlle"
+    ></pab-projektbudget-auswahl-form>
+  </div>
+
+  <div #pabProjektbudgetBorder class="border">
+    <pab-spinner
+      *ngIf="!ladeProjektbudgetSpinner.isClosed()"
+      [spinnerHeight]="(pabProjektbudgetBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabProjektbudgetBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <pab-projektbudget-budget-form-tabelle
+      [projektbudgetListe]="projektbudgetListe"
+      [projektbudgetFormGroup]="projektbudgetFormGroup"
+      [projektbudgetAuswahlFormGroup]="projektbudgetAuswahlFormGroup"
+      [projektAlle]="projektAuswahl"
+      [istProjektAusgewaehlt]="istProjektAusgewaehlt()"
+    ></pab-projektbudget-budget-form-tabelle>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<form [formGroup]="parentFormGroup">
+  <mat-form-field>
+    <mat-label>Einsatzort</mat-label>
+    <input [matAutocomplete]="autoEinsatzort" [formControlName]="parentFormFieldName" matInput type="text" />
+    <mat-autocomplete #autoEinsatzort="matAutocomplete">
+      <mat-option *ngFor="let einsatzort of einsatzortAuswahlGefiltert | async" [value]="einsatzort"
+        >{{ einsatzort }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="parentFormGroup.get('einsatzort')?.errors?.['required']"> Pflichtfeld </mat-error>
+    <mat-hint *ngIf="this.zeigeEinsatzortAuswahlWarnung()" class="warn-hint">Einsatzort unbekannt </mat-hint>
+  </mat-form-field>
+</form>

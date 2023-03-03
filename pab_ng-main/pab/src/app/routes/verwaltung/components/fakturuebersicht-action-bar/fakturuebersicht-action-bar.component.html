@@ -1,0 +1,13 @@
+<mat-toolbar color="secondary">
+  <div>
+    <button [disabled]="!aenderung" (click)="speichern()" mat-button>
+      <mat-icon>save</mat-icon>
+      <span>Speichern</span>
+    </button>
+    <button [disabled]="!aenderung" (click)="speichernUndSchliessen()" mat-button>
+      <mat-icon>save_alt</mat-icon>
+      <span>Speichern und Schließen</span>
+    </button>
+    <pab-close-button></pab-close-button>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,17 @@
+<form [formGroup]="parentFormGroup">
+  <mat-form-field>
+    <mat-label>{{ label }}</mat-label>
+    <input
+      (blur)="onVerlasseEingabefeldKunde()"
+      [matAutocomplete]="autoKunden"
+      [formControlName]="parentFormFieldName"
+      matInput
+      type="text"
+    />
+    <mat-autocomplete #autoKunden="matAutocomplete" [displayWith]="kundeAnzeigeNamePipe.transform">
+      <mat-option *ngFor="let kunde of kundeAuswahlGefiltert | async" [value]="kunde">{{
+        kunde | kundeAnzeigeName
+      }}</mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

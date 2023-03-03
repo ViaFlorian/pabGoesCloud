@@ -1,0 +1,108 @@
+<div class="height-full">
+  <section class="table-container">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="actionEdit">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actionEdit"></th>
+        <td *matCellDef="let element" mat-cell>
+          <a (click)="navigiereZuProjektabrechnungBearbeiten(element)" mat-icon-button matTooltip="Bearbeiten">
+            <mat-icon>edit</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="istKorrektur">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="istKorrektur"></th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon
+            *ngIf="element.hatKorrekturbuchungen"
+            class="vertical-center"
+            color="accent"
+            matTooltip="Korrekturbuchung vorhanden"
+          >
+            report_problem
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="abrechnungsmonat">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="abrechnungsmonat">Abrechnungsmonat</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon
+            class="vertical-center"
+            [fontIcon]="getAbgeschlossenIcon(element.statusId | statusIdZuBearbeitungsstatusEnum)"
+          ></mat-icon>
+          {{ element.abrechnungsmonat }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="projektnummer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn"> not_interested </mat-icon>
+          {{ element.projektnummer }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="projektBezeichnung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektBezeichnung">Bezeichnung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.projektBezeichnung }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="projekttyp">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projekttyp">Projekttyp</th>
+        <td *matCellDef="let element" mat-cell>{{ element.projekttyp }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="organisationseinheitName">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="organisationseinheitName">OE</th>
+        <td *matCellDef="let element" mat-cell>{{ element.organisationseinheitName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="kundeName">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kundeName">Kunde</th>
+        <td *matCellDef="let element" mat-cell>{{ element.kundeName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="sachbearbeiterName">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="sachbearbeiterName">Sachbearbeiter:in</th>
+        <td *matCellDef="let element" mat-cell>
+          {{ element.sachbearbeiterName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="anzahlMitarbeiter">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="anzahlMitarbeiter">Anz. MA</th>
+        <td *matCellDef="let element" mat-cell>
+          {{ element.anzahlMitarbeiter }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="kosten">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kosten">Kosten</th>
+        <td *matCellDef="let element" mat-cell>{{ element.kosten | currency : 'EUR' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="leistung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="leistung">Leistung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.leistung | currency : 'EUR' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="statusId">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="statusId">Bearbeitungsstatus</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-progress-bar
+            [matTooltip]="element.statusId | statusIdZuBearbeitungsstatusEnum"
+            [value]="element.statusId | statusIdZuBearbeitungsstatusEnum | bearbeitungsstatusEnumZuFortschritt"
+          ></mat-progress-bar>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr
+        (dblclick)="navigiereZuProjektabrechnungBearbeiten(row)"
+        *matRowDef="let row; columns: tabelle.displayedColumns"
+        mat-row
+      ></tr>
+    </table>
+  </section>
+</div>

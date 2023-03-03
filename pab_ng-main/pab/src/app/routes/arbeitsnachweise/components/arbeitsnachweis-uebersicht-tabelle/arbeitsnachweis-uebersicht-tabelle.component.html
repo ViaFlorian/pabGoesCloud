@@ -1,0 +1,100 @@
+<div class="height-full">
+  <section class="table-container">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="actionEdit">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actionEdit"></th>
+        <td *matCellDef="let element" mat-cell>
+          <a (click)="navigiereZuArbeitsnachweisBearbeiten(element)" mat-icon-button matTooltip="Bearbeiten">
+            <mat-icon>edit</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="abrechnungsmonat">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="abrechnungsmonat">Abrechnungsmonat</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon
+            [fontIcon]="getAbgeschlossenIcon(element.statusId | statusIdZuBearbeitungsstatusEnum)"
+            class="vertical-center"
+          ></mat-icon>
+          {{ element.abrechnungsmonat }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mitarbeiterName">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitarbeiterName">Mitarbeiter:in</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon *ngIf="!element.mitarbeiter.istAktiv" class="vertical-center" color="warn"
+            >not_interested
+          </mat-icon>
+          <span>
+            {{ element.mitarbeiterName }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="internExtern">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="internExtern">Intern/Extern</th>
+        <td *matCellDef="let element" mat-cell>
+          {{ element.internExtern }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sachbearbeiterName">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="sachbearbeiterName">Sachbearbeiter:in</th>
+        <td *matCellDef="let element" mat-cell>
+          {{ element.sachbearbeiterName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="summeProjektstunden">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="summeProjektstunden">Projektstunden</th>
+        <td *matCellDef="let element" mat-cell>{{ element.summeProjektstunden | number : '1.2-2' : 'de' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="summeSpesen">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="summeSpesen">Spesen u. Zuschläge</th>
+        <td *matCellDef="let element" mat-cell>{{ element.summeSpesen | currency : 'EUR' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="summeBelege">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="summeBelege">Belege u. Auslagen</th>
+        <td *matCellDef="let element" mat-cell>{{ element.summeBelege | currency : 'EUR' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="statusId">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="statusId">Bearbeitungsstatus</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-progress-bar
+            [matTooltip]="element.statusId | statusIdZuBearbeitungsstatusEnum"
+            [value]="element.statusId | statusIdZuBearbeitungsstatusEnum | bearbeitungsstatusEnumZuFortschritt"
+          ></mat-progress-bar>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actionRemove">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actionDelete"></th>
+        <td *matCellDef="let element" mat-cell>
+          <a
+            (click)="onLoeschen(element, $event)"
+            *ngIf="
+              (element.statusId | statusIdZuBearbeitungsstatusEnum) !== eBearbeitungsstatusEnum.ABGESCHLOSSEN &&
+              element.arbeitsnachweisId
+            "
+            mat-icon-button
+            matTooltip="Löschen"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr
+        (dblclick)="navigiereZuArbeitsnachweisBearbeiten(row)"
+        *matRowDef="let row; columns: tabelle.displayedColumns"
+        mat-row
+      ></tr>
+    </table>
+  </section>
+</div>

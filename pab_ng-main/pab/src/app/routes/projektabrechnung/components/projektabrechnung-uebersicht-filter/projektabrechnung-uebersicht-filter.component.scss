@@ -1,0 +1,9 @@
+.grid-pab-uebersicht-filter-columns {
+  display: grid;
+  grid-template-columns: 29% 15% 15% 25% 4%;
+  grid-gap: 3%;
+  grid-template-areas:
+    'Abrechnungsmonat       Projekt            Kunde                        Kosten       Button'
+    'Mitarbeiter            Sachbearbeiter     Organisationseinheit         Leistung     .'
+    'Bearbeitungsstatus     Projekttyp         AktivInaktiv                 Bebucht      .';
+}

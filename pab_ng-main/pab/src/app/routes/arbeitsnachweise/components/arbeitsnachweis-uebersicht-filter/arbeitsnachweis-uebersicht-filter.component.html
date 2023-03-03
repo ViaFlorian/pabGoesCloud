@@ -1,0 +1,153 @@
+<form [formGroup]="formGroup" class="grid-arbeitsnachweis-uebersicht-filter-columns">
+  <div class="grid-with-2-columns" style="grid-area: Abrechnungsmonat">
+    <mat-form-field>
+      <mat-label>Von Abrechnungsmonat</mat-label>
+      <input [matDatepicker]="dpAbrechnungsmonatAbWann" formControlName="abrechnungsmonatAbWann" matInput />
+      <mat-hint>MM.YY</mat-hint>
+      <mat-datepicker-toggle [for]="dpAbrechnungsmonatAbWann" matSuffix></mat-datepicker-toggle>
+      <mat-datepicker
+        #dpAbrechnungsmonatAbWann
+        (monthSelected)="setAbrechnungsmonatAbWann($event, dpAbrechnungsmonatAbWann)"
+        startView="year"
+      >
+      </mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Bis Abrechnungsmonat</mat-label>
+      <input [matDatepicker]="dpAbrechnungsmonatBisWann" formControlName="abrechnungsmonatBisWann" matInput />
+      <mat-hint>MM.YY</mat-hint>
+      <mat-datepicker-toggle [for]="dpAbrechnungsmonatBisWann" matSuffix></mat-datepicker-toggle>
+      <mat-datepicker
+        #dpAbrechnungsmonatBisWann
+        (monthSelected)="setAbrechnungsmonatBisWann($event, dpAbrechnungsmonatBisWann)"
+        startView="year"
+      >
+      </mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <pab-autocomplete-mitarbeiter
+    [mitarbeiterAuswahl]="mitarbeiterAuswahl"
+    [mitErrorPlatzhalter]="true"
+    [parentFormGroup]="formGroup"
+    parentFormFieldName="mitarbeiter"
+    style="grid-area: Mitarbeiter"
+  ></pab-autocomplete-mitarbeiter>
+
+  <div class="grid-form-plus-operator" style="grid-area: Projektstunden">
+    <mat-form-field (keydown.enter)="$event.preventDefault()">
+      <mat-label>Projektstunden</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('projektstundenFilter', '^[1-9][0-9]*?$')"
+        formControlName="projektstundenFilter"
+        matInput
+        type="text"
+      />
+      <button
+        (click)="onSetzeFilterZurueck('projektstundenFilter')"
+        *ngIf="formGroup.value.projektstundenFilter"
+        aria-label="Clear"
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="projektstundenOperator">
+        <mat-option *ngFor="let type of eOperatorEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="justify-end" style="grid-area: Button">
+    <button (click)="onLeereFilter()" mat-stroked-button color="basic" matTooltip="Filter leeren">
+      <mat-icon class="mat-icon-in-button">clear</mat-icon>
+    </button>
+  </div>
+
+  <mat-form-field style="grid-area: Sachbearbeiter">
+    <mat-label>Sachbearbeiter:in</mat-label>
+    <mat-select [compareWith]="sindMitarbeiterGleich" formControlName="sachbearbeiter">
+      <mat-option></mat-option>
+      <mat-option *ngFor="let sachbearbeiter of sachbearbeiterAuswahl" [value]="sachbearbeiter"
+        >{{ sachbearbeiter | mitarbeiterAnzeigeName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="grid-area: OffenVorhanden">
+    <mat-label>Offen/Vorhanden</mat-label>
+    <mat-select formControlName="offenVorhanden">
+      <mat-option *ngFor="let type of eOffenVorhandenEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="grid-form-plus-operator" style="grid-area: SpesenZuschlaege">
+    <mat-form-field (keydown.enter)="$event.preventDefault()">
+      <mat-label>Spesen u. Zuschläge</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('spesenZuschlaegeFilter', '^[1-9][0-9]*?$')"
+        formControlName="spesenZuschlaegeFilter"
+        matInput
+        type="text"
+      />
+      <button
+        (click)="onSetzeFilterZurueck('spesenZuschlaegeFilter')"
+        *ngIf="formGroup.value.spesenZuschlaegeFilter"
+        aria-label="Clear"
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="spesenZuschlaegeOperator">
+        <mat-option *ngFor="let type of eOperatorEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field style="grid-area: Bearbeitungsstatus">
+    <mat-label>Bearbeitungsstatus</mat-label>
+    <mat-select formControlName="bearbeitungsstatus">
+      <mat-option *ngFor="let type of eBearbeitungsstatusEnum | keyvalue" [value]="type.value">{{
+        type.value
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="grid-area: InternExtern">
+    <mat-label>Intern/Extern</mat-label>
+    <mat-select #selectInternExtern formControlName="internExtern">
+      <mat-option *ngFor="let type of eInternExternEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="grid-form-plus-operator" style="grid-area: BelegeAuslagen">
+    <mat-form-field (keydown.enter)="$event.preventDefault()">
+      <mat-label>Belege u. Auslagen</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('belegeAuslagenFilter', '^[1-9][0-9]*?$')"
+        formControlName="belegeAuslagenFilter"
+        matInput
+        type="text"
+      />
+      <button
+        (click)="onSetzeFilterZurueck('belegeAuslagenFilter')"
+        *ngIf="formGroup.value.belegeAuslagenFilter"
+        aria-label="Clear"
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="belegeAuslagenOperator">
+        <mat-option *ngFor="let type of eOperatorEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>

@@ -1,0 +1,170 @@
+<div class="tab-container-only-form">
+  <div class="grid-form-mit-card">
+    <form [formGroup]="pabSonderarbeitFormGroup">
+      <div class="grid-areas-pab-bearbeiten-sonderarbeit">
+        <div>
+          <mat-expansion-panel expanded="true" class="expansion-border">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Rufbereitschaften</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="grid-areas-pab-bearbeiten-sonderarbeit-rufbereitschaften-input-slots">
+              <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+              <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+              <mat-form-field style="grid-area: SlotLinks1">
+                <mat-label>Anzahl Stunden</mat-label>
+                <input formControlName="kostenRufbereitschaftenAnzahlStunden" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks2">
+                <mat-label>* Kostensatz</mat-label>
+                <input formControlName="kostenRufbereitschaftenKostensatz" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks4">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="kostenRufbereitschaftenBetrag" matInput type="text" />
+              </mat-form-field>
+
+              <mat-form-field style="grid-area: SlotRechts1">
+                <mat-label>Anzahl Stunden</mat-label>
+                <input
+                  formControlName="leistungRufbereitschaftenAnzahlStunden"
+                  matInput
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                  type="text"
+                  (input)="
+                    entferneUnerlaubteZeichen('leistungRufbereitschaftenAnzahlStunden', '^([0-9]+)(,?)([0-9]{0,2})$')
+                  "
+                />
+                <mat-error
+                  *ngIf="pabSonderarbeitFormGroup.get('leistungRufbereitschaftenAnzahlStunden')?.errors?.['pattern']"
+                >
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts2">
+                <mat-label>* Stundensatz</mat-label>
+                <input
+                  formControlName="leistungRufbereitschaftenStundensatz"
+                  matInput
+                  type="text"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                  (input)="
+                    entferneUnerlaubteZeichen('leistungRufbereitschaftenStundensatz', '^([0-9]+)(,?)([0-9]{0,2})$')
+                  "
+                />
+                <mat-error
+                  *ngIf="pabSonderarbeitFormGroup.get('leistungRufbereitschaftenStundensatz')?.errors?.['pattern']"
+                >
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts3">
+                <mat-label>+ Pauschale</mat-label>
+                <input
+                  formControlName="leistungRufbereitschaftenPauschale"
+                  matInput
+                  type="text"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                  (input)="
+                    entferneUnerlaubteZeichen('leistungRufbereitschaftenPauschale', '^([0-9]+)(,?)([0-9]{0,2})$')
+                  "
+                />
+                <mat-error
+                  *ngIf="pabSonderarbeitFormGroup.get('leistungRufbereitschaftenPauschale')?.errors?.['pattern']"
+                >
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts4">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="leistungRufbereitschaftenBetrag" matInput type="text" />
+              </mat-form-field>
+            </div>
+          </mat-expansion-panel>
+        </div>
+
+        <div>
+          <mat-expansion-panel expanded="true" class="expansion-border">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Sonderarbeitszeiten</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="grid-areas-pab-bearbeiten-sonderarbeit-sonderarbeit-input-slots">
+              <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+              <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+              <mat-form-field style="grid-area: SlotLinks1">
+                <mat-label>Anzahl Stunden mit 50% Zuschlag</mat-label>
+                <input formControlName="kostenSonderarbeitszeitenAnzahlStunden50" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks2">
+                <mat-label>Anzahl Stunden mit 100% Zuschlag</mat-label>
+                <input formControlName="kostenSonderarbeitszeitenAnzahlStunden100" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks3">
+                <mat-label>* Kostensatz (bei 50% Zuschlag * 0,5)</mat-label>
+                <input formControlName="kostenSonderarbeitszeitenKostensatz" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks4">
+                <mat-label>Pauschale</mat-label>
+                <input formControlName="kostenSonderarbeitszeitenPauschale" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks5">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="kostenSonderarbeitszeitenBetrag" matInput type="text" />
+              </mat-form-field>
+
+              <mat-form-field style="grid-area: SlotRechts4">
+                <mat-label>Pauschale</mat-label>
+                <input
+                  formControlName="leistungSonderarbeitszeitenPauschale"
+                  matInput
+                  type="text"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                  (input)="
+                    entferneUnerlaubteZeichen('leistungSonderarbeitszeitenPauschale', '^([0-9]+)(,?)([0-9]{0,2})$')
+                  "
+                />
+                <mat-error
+                  *ngIf="pabSonderarbeitFormGroup.get('leistungSonderarbeitszeitenPauschale')?.errors?.['pattern']"
+                >
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts5">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="leistungSonderarbeitszeitenBetrag" matInput type="text" />
+              </mat-form-field>
+            </div>
+          </mat-expansion-panel>
+        </div>
+      </div>
+    </form>
+
+    <div>
+      <mat-card class="card-border card-pab-bearbeiten">
+        <mat-card-header>
+          <mat-card-title class="card-title">Summe Sonderarbeit</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="pabSonderarbeitFormGroup">
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>Kosten</mat-label>
+              <input formControlName="kosten" matInput type="text" />
+            </mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
+              <mat-label>Leistung</mat-label>
+              <input formControlName="leistung" matInput type="text" />
+            </mat-form-field>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      <div>
+        <mat-icon class="mat-icon-in-text-align">info</mat-icon>
+        <span>Die zusätzlichen Kosten und Leistung für Sonderarbeitszeiten werden hier verrechnet.</span>
+      </div>
+    </div>
+  </div>
+</div>

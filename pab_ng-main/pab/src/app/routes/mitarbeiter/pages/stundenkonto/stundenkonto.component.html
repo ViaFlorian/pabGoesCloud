@@ -1,0 +1,125 @@
+<pab-mitarbeiter-action-bar
+  (speichernEvent)="reagiereAufSpeichernEvent($event)"
+  [aenderung]="stundenkontoListe.istVeraendert()"
+></pab-mitarbeiter-action-bar>
+<div class="basis-container basis-container-grid">
+  <pab-headline text="Stundenkonto"></pab-headline>
+
+  <div class="border">
+    <div class="grid-auswahl-columns">
+      <pab-autocomplete-mitarbeiter
+        [mitErrorPlatzhalter]="false"
+        [mitarbeiterAuswahl]="mitarbeiterAuswahl | mitarbeiterToObs"
+        [parentFormGroup]="mitarbeiterAuswahlFormGroup"
+        parentFormFieldName="mitarbeiter"
+      ></pab-autocomplete-mitarbeiter>
+    </div>
+  </div>
+
+  <div #pabStundenkontoBorder class="border">
+    <pab-spinner
+      *ngIf="!ladeStundenkontoSpinner.isClosed()"
+      [spinnerHeight]="(pabStundenkontoBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabStundenkontoBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <div class="tab-container-double-line-form">
+      <div class="border-bottom">
+        <form (ngSubmit)="fuegeNeuesElementHinzu()" [formGroup]="stundenkontoFormGroup" class="grid-form-columns">
+          <mat-form-field>
+            <mat-label>Wertstellung</mat-label>
+            <input
+              [matDatepicker]="dpWertstellung"
+              [min]="aktuellerAbrechnungsmonat"
+              formControlName="wertstellung"
+              matInput
+            />
+            <mat-hint>TT.MM.JJJJ</mat-hint>
+            <mat-datepicker-toggle [for]="dpWertstellung" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #dpWertstellung startView="month"></mat-datepicker>
+            <mat-error *ngIf="stundenkontoFormGroup.get('wertstellung')?.errors?.['required']">
+              Pflichtfeld (TT.MM.JJJJ)
+            </mat-error>
+            <mat-error *ngIf="stundenkontoFormGroup.get('wertstellung')?.errors?.['matDatepickerMin']">
+              Nur Kalendertage ab dem aktuellen Abrechnungsmonat. (TT.MM.JJJJ)
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Buchungstyp</mat-label>
+            <mat-select formControlName="buchungstyp">
+              <mat-option *ngFor="let buchungstypStunde of buchungstypStunden" [value]="buchungstypStunde">
+                {{ buchungstypStunde.bezeichnung }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="stundenkontoFormGroup.get('buchungstyp')?.errors?.['required']"> Pflichtfeld </mat-error>
+          </mat-form-field>
+          <div class="justify-end">
+            <button class="margin-right-small" color="basic" mat-stroked-button matTooltip="Hinzufügen" type="submit">
+              <mat-icon class="mat-icon-in-button">add</mat-icon>
+            </button>
+            <button (click)="leereForm()" color="basic" mat-stroked-button matTooltip="Formular leeren">
+              <mat-icon class="mat-icon-in-button">clear</mat-icon>
+            </button>
+          </div>
+
+          <mat-form-field>
+            <mat-label>Anzahl Stunden</mat-label>
+            <input
+              (input)="entferneUnerlaubteZeichen('anzahlStunden', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+              formControlName="anzahlStunden"
+              matInput
+              pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+              type="text"
+            />
+            <mat-error *ngIf="stundenkontoFormGroup.get('anzahlStunden')?.errors?.['required']">
+              Pflichtfeld
+            </mat-error>
+            <mat-error *ngIf="stundenkontoFormGroup.get('anzahlStunden')?.errors?.['pattern']">
+              Formatfehler
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Bemerkung</mat-label>
+            <input formControlName="bemerkung" matInput />
+            <mat-error *ngIf="stundenkontoFormGroup.get('bemerkung')?.errors?.['required']"> Pflichtfeld </mat-error>
+          </mat-form-field>
+        </form>
+      </div>
+
+      <section class="table-container">
+        <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+          <ng-container matColumnDef="wertstellung">
+            <th *matHeaderCellDef mat-header-cell>Wertstellung</th>
+            <td *matCellDef="let element" mat-cell>{{ element.wertstellung | date : 'dd.MM.yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="buchungstyp">
+            <th *matHeaderCellDef mat-header-cell>Buchungstyp</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.buchungstypStundenId | buchungstypIdStundenkontoZuText : buchungstypStunden }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="bemerkung">
+            <th *matHeaderCellDef mat-header-cell>Bemerkung</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.bemerkung }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="anzahlStunden">
+            <th *matHeaderCellDef mat-header-cell>Anzahl Stunden</th>
+            <td *matCellDef="let element" mat-cell>{{ element.anzahlStunden | number : '1.2-2' : 'de' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="saldo">
+            <th *matHeaderCellDef mat-header-cell>Saldo</th>
+            <td *matCellDef="let element" mat-cell>{{ element.lfdSaldo | number : '1.2-2' : 'de' }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+        </table>
+      </section>
+    </div>
+  </div>
+</div>

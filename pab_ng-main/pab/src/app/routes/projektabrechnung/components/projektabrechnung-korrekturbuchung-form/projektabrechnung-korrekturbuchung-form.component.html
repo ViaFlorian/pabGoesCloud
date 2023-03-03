@@ -1,0 +1,239 @@
+<form (ngSubmit)="reagiereAufProjektabrechnungKorrekturbuchungHinzufuegen()" [formGroup]="korrekturbuchungFormGroup">
+  <div class="grid-areas-pab-korrekturbuchung-form-columns">
+    <mat-form-field>
+      <mat-label>
+        <mat-icon
+          *ngIf="getAbgeschlossenIcon(korrekturbuchungFormGroup.get('abrechnungsmonat')?.value)"
+          [fontIcon]="getAbgeschlossenIcon(korrekturbuchungFormGroup.get('abrechnungsmonat')?.value)"
+        ></mat-icon>
+        Abrechnungsmonat
+      </mat-label>
+      <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="abrechnungsmonat">
+        <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonatAuswahl" [value]="abrechnungsmonat">
+          <mat-icon [fontIcon]="getAbgeschlossenIcon(abrechnungsmonat)"></mat-icon>
+          {{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('abrechnungsmonat')?.errors?.['objektLeer']">
+        Pflichtfeld
+      </mat-error>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('abrechnungsmonat')?.errors?.['abrechnungsmonatAbgeschlossen']">
+        Abrechnungsmonat ist bereits abgeschlossen
+      </mat-error>
+    </mat-form-field>
+
+    <pab-autocomplete-mitarbeiter
+      [fehlermeldungenMap]="mitarbeiterFehlderMeldungen"
+      [mitErrorPlatzhalter]="true"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahl | mitarbeiterToObs"
+      [parentFormGroup]="korrekturbuchungFormGroup"
+      parentFormFieldName="mitarbeiter"
+    ></pab-autocomplete-mitarbeiter>
+
+    <mat-form-field>
+      <mat-label>Kostenart</mat-label>
+      <mat-select formControlName="kostenart">
+        <mat-option *ngFor="let kostenart of kostenartAuswahlGefiltert" [value]="kostenart">
+          {{ kostenart.bezeichnung }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('kostenart')?.errors?.['objektLeer']"> Pflichtfeld </mat-error>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('kostenart')?.errors?.['kostenartUngueltig']">
+        Ungültige Kostenart
+      </mat-error>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('kostenart')?.errors?.['rabattFuerProjektTypNichtMoeglich']">
+        Rabatte bitte als Budgetverminderung in der Budgetverwaltung buchen!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>
+        <mat-icon
+          *ngIf="getAbgeschlossenIcon(korrekturbuchungFormGroup.get('referenzmonat')?.value)"
+          [fontIcon]="getAbgeschlossenIcon(korrekturbuchungFormGroup.get('referenzmonat')?.value)"
+        ></mat-icon>
+        Referenzmonat
+      </mat-label>
+      <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="referenzmonat">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let referenzmonat of referenzmonatAuswahl" [value]="referenzmonat">
+          <mat-icon [fontIcon]="getAbgeschlossenIcon(referenzmonat)"></mat-icon>
+          {{ referenzmonat | abrechnungsmonatAnzeigeName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="justify-end">
+      <button class="margin-right-small" color="basic" mat-stroked-button matTooltip="Hinzufügen" type="submit">
+        <mat-icon class="mat-icon-in-button">add</mat-icon>
+      </button>
+      <button (click)="leereForm()" color="basic" mat-stroked-button matTooltip="Formular leeren" type="button">
+        <mat-icon class="mat-icon-in-button">clear</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <h3 class="no-margin">Korrekturbuchung</h3>
+  <div class="grid-areas-pab-korrekturbuchung-teilbuchung-columns">
+    <pab-autocomplete-projekt
+      [mitErrorPlatzhalter]="true"
+      [parentFormGroup]="korrekturbuchungFormGroup"
+      [projektAuswahl]="projektAuswahl"
+      parentFormFieldName="projektComboBoxKorrektur"
+    >
+    </pab-autocomplete-projekt>
+    <mat-form-field>
+      <mat-label>Std.</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('stundenKorrektur', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        formControlName="stundenKorrektur"
+        matInput
+        pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+        type="text"
+      />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('stundenKorrektur')?.errors?.['pattern']">
+        Formatfehler
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Betrag/Kostensatz</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('betragKostensatzKorrektur', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        formControlName="betragKostensatzKorrektur"
+        matInput
+        pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+        type="text"
+      />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('betragKostensatzKorrektur')?.errors?.['required']">
+        Pflichtfeld
+      </mat-error>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('betragKostensatzKorrektur')?.errors?.['pattern']">
+        Formatfehler
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Kosten</mat-label>
+      <input formControlName="kostenKorrektur" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>fakt. Stunden</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('faktStundenKorrektur', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        formControlName="faktStundenKorrektur"
+        matInput
+        pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+        type="text"
+      />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('faktStundenKorrektur')?.errors?.['pattern']">
+        Formatfehler
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Betrag/Stundensatz</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('betragStundensatzKorrektur', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        formControlName="betragStundensatzKorrektur"
+        matInput
+        pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+        type="text"
+      />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('betragStundensatzKorrektur')?.errors?.['required']">
+        Pflichtfeld
+      </mat-error>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('betragStundensatzKorrektur')?.errors?.['pattern']">
+        Formatfehler
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Leistung</mat-label>
+      <input formControlName="leistungKorrektur" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Bemerkung</mat-label>
+      <input formControlName="bemerkungKorrektur" matInput type="text" />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('bemerkungKorrektur')?.errors?.['required']">
+        Pflichtfeld
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <h3 class="no-margin">Gegenbuchung (optional)</h3>
+  <div class="grid-areas-pab-korrekturbuchung-teilbuchung-columns">
+    <pab-autocomplete-projekt
+      [mitErrorPlatzhalter]="true"
+      [parentFormGroup]="korrekturbuchungFormGroup"
+      [projektAuswahl]="projektAuswahl"
+      parentFormFieldName="projektComboBoxGegen"
+    >
+    </pab-autocomplete-projekt>
+    <mat-form-field>
+      <mat-label>Std.</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('stundenGegen', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        formControlName="stundenGegen"
+        matInput
+        pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+        type="text"
+      />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('stundenGegen')?.errors?.['pattern']"> Formatfehler </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Betrag/Kostensatz</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('betragKostensatzGegen', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        formControlName="betragKostensatzGegen"
+        matInput
+        pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+        type="text"
+      />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('betragKostensatzGegen')?.errors?.['required']">
+        Pflichtfeld
+      </mat-error>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('betragKostensatzGegen')?.errors?.['pattern']">
+        Formatfehler
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Kosten</mat-label>
+      <input formControlName="kostenGegen" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>fakt. Stunden</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('faktStundenGegen', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        formControlName="faktStundenGegen"
+        matInput
+        pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+        type="text"
+      />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('faktStundenGegen')?.errors?.['pattern']">
+        Formatfehler
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Betrag/Stundensatz</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('betragStundensatzGegen', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        formControlName="betragStundensatzGegen"
+        matInput
+        pattern="^[-+]?(\d+(?:,\d{1,2})?)$"
+        type="text"
+      />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('betragStundensatzGegen')?.errors?.['required']">
+        Pflichtfeld
+      </mat-error>
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('betragStundensatzGegen')?.errors?.['pattern']">
+        Formatfehler
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Leistung</mat-label>
+      <input formControlName="leistungGegen" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Bemerkung</mat-label>
+      <input formControlName="bemerkungGegen" matInput type="text" />
+      <mat-error *ngIf="korrekturbuchungFormGroup.get('bemerkungGegen')?.errors?.['required']"> Pflichtfeld </mat-error>
+    </mat-form-field>
+  </div>
+</form>

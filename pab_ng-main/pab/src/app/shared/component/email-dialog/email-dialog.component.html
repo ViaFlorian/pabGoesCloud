@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Email Nachricht</h1>
+
+<div class="dialog-body" mat-dialog-content>
+  <form [formGroup]="emailFormGroup" class="dialog-email-form">
+    <mat-form-field *ngIf="!data.empfangerBearbeitbar">
+      <mat-label>Empfänger</mat-label>
+      <input formControlName="empfaenger" matInput />
+    </mat-form-field>
+    <pab-autocomplete-multiselect-email
+      *ngIf="data.empfangerBearbeitbar"
+      [ausgewaehlteEmailAdressen]="ausgewaehlteEmailAdressen"
+      [emailAdressenAuswahl]="data.mitarbeiterEmails"
+    >
+    </pab-autocomplete-multiselect-email>
+    <mat-form-field>
+      <mat-label>Betreff</mat-label>
+      <input formControlName="betreff" matInput />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nachricht</mat-label>
+      <textarea cdkAutosizeMaxRows="10" cdkTextareaAutosize formControlName="nachricht" matInput></textarea>
+    </mat-form-field>
+    <div class="datei-oeffnen-row">
+      {{ data.dateiname }}
+      <button (click)="oeffnePdfAnhang()" color="accent" mat-raised-button>Öffnen</button>
+    </div>
+  </form>
+</div>
+
+<div align="end" mat-dialog-actions>
+  <button mat-button mat-dialog-close="false">
+    {{ data.abbruchButtonText }}
+  </button>
+  <button (click)="sendeEmail()" color="primary" mat-flat-button>
+    {{ data.sumbmitButtonText }}
+  </button>
+</div>

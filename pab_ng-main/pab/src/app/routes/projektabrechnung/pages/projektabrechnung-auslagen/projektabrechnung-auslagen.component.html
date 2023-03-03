@@ -1,0 +1,30 @@
+<pab-projektabrechnung-auslagen-action-bar
+  (speichernEvent)="reagiereAufSpeichernEvent()"
+  [istAenderungVorhanden]="sonstigeProjektkostenListe.istVeraendert()"
+></pab-projektabrechnung-auslagen-action-bar>
+<div class="basis-container basis-container-grid">
+  <pab-headline [text]="ueberschrift"></pab-headline>
+  <div class="border">
+    <pab-projektabrechnung-auslagen-filter
+      [abrechnungsmonatAuswahl]="abrechnungsmonatAuswahl"
+      [auslagenFilterFormGroup]="auslagenFilterFormGroup"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahl"
+      [projektAuswahl]="projektAuswahl"
+    >
+    </pab-projektabrechnung-auslagen-filter>
+  </div>
+  <div class="border">
+    <pab-projektabrechnung-auslagen-form-tabelle
+      [abrechnungsmonatAuswahl]="abrechnungsmonatAuswahl"
+      [alleMitarbeiter]="alleMitarbeiter"
+      [auslagenDetailsFormGroup]="auslagenDetailsFormGroup"
+      [auslagenFilterFormGroup]="auslagenFilterFormGroup"
+      [belegartAuswahl]="belegartAuswahl"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahl"
+      [projektAuswahl]="projektAuswahl"
+      [projektabrechnungAuslagenSpinner]="projektabrechnungAuslagenSpinner"
+      [sonstigeProjektkostenListe]="sonstigeProjektkostenListe"
+      [viadeeAuslagenKostenartAuswahl]="viadeeAuslagenKostenartAuswahl"
+    ></pab-projektabrechnung-auslagen-form-tabelle>
+  </div>
+</div>

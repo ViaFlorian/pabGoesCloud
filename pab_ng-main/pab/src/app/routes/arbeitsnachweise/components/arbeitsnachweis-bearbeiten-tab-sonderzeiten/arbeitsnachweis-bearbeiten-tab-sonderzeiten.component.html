@@ -1,0 +1,367 @@
+<div class="tab-container-double-line-form">
+  <div class="border-bottom">
+    <form
+      (ngSubmit)="fuegeOderAktualisiereSonderzeit()"
+      [formGroup]="sonderzeitenFormGroup"
+      class="grid-arbeitsnachweis-bearbeiten-sonderzeiten-columns"
+    >
+      <div>
+        <mat-form-field>
+          <mat-label>Art</mat-label>
+          <mat-select formControlName="projektstundeTyp">
+            <mat-option *ngFor="let projektstundeTyp of relevanteProjektstundeTypAuswahl" [value]="projektstundeTyp">
+              {{ projektstundeTyp.textLang }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="sonderzeitenFormGroup.get('belegart')?.errors?.['objektLeer']"> Pflichtfeld </mat-error>
+        </mat-form-field>
+
+        <pab-autocomplete-projekt
+          [mitErrorPlatzhalter]="true"
+          [parentFormGroup]="sonderzeitenFormGroup"
+          [projektAuswahl]="projektAuswahl"
+          parentFormFieldName="projekt"
+        ></pab-autocomplete-projekt>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Tag von</mat-label>
+          <input
+            (input)="entferneUnerlaubteZeichen('tagVon', '^[1-9][0-9]?$')"
+            [errorStateMatcher]="vonBisAngabenValidMatcher"
+            formControlName="tagVon"
+            matInput
+            type="text"
+          />
+          <mat-error *ngIf="sonderzeitenFormGroup.get('tagVon')?.errors?.['required']"> Pflichtfeld </mat-error>
+          <mat-error *ngIf="sonderzeitenFormGroup.get('tagVon')?.errors?.['dayInMoth']"> Tag nicht im Monat </mat-error>
+        </mat-form-field>
+        <div class="grid-with-2-columns">
+          <mat-form-field>
+            <mat-label>Stunde</mat-label>
+            <input
+              (input)="entferneUnerlaubteZeichen('hhVon', '^[0-9][0-9]?$')"
+              [errorStateMatcher]="vonBisAngabenValidMatcher"
+              formControlName="hhVon"
+              matInput
+              type="text"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Minute</mat-label>
+            <input
+              (input)="entferneUnerlaubteZeichen('mmVon', '^[0-9][0-9]?$')"
+              [errorStateMatcher]="vonBisAngabenValidMatcher"
+              formControlName="mmVon"
+              matInput
+              type="text"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Tag bis</mat-label>
+          <input
+            (input)="entferneUnerlaubteZeichen('tagBis', '^[1-9][0-9]?$')"
+            [errorStateMatcher]="vonBisAngabenValidMatcher"
+            formControlName="tagBis"
+            matInput
+            type="text"
+          />
+          <mat-error *ngIf="sonderzeitenFormGroup.get('tagBis')?.errors?.['required']"> Pflichtfeld </mat-error>
+          <mat-error *ngIf="sonderzeitenFormGroup.get('tagBis')?.errors?.['dayInMoth']"> Tag nicht im Monat </mat-error>
+        </mat-form-field>
+        <div class="grid-with-2-columns">
+          <mat-form-field>
+            <mat-label>Stunde</mat-label>
+            <input
+              (input)="entferneUnerlaubteZeichen('hhBis', '^[0-9][0-9]?$')"
+              [errorStateMatcher]="vonBisAngabenValidMatcher"
+              formControlName="hhBis"
+              matInput
+              type="text"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Minute</mat-label>
+            <input
+              (input)="entferneUnerlaubteZeichen('mmBis', '^[0-9][0-9]?$')"
+              [errorStateMatcher]="vonBisAngabenValidMatcher"
+              formControlName="mmBis"
+              matInput
+              type="text"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Stunden</mat-label>
+          <input
+            (input)="entferneUnerlaubteZeichen('stunden', '^([0-9]+)(,?)([0-9]{0,2})$')"
+            formControlName="stunden"
+            matInput
+            pattern="^(\d+(?:,\d{1,2})?)$"
+            type="text"
+          />
+          <mat-error *ngIf="sonderzeitenFormGroup.get('stunden')?.errors?.['required']"> Pflichtfeld </mat-error>
+          <mat-error *ngIf="sonderzeitenFormGroup.get('stunden')?.errors?.['pattern']"> Formatfehler </mat-error>
+          <mat-error *ngIf="sonderzeitenFormGroup.get('stunden')?.errors?.['stundenUeberMax']">
+            Reisezeit darf 24 Stunden nicht überschreiten
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Bemerkung</mat-label>
+          <input formControlName="bemerkung" matInput type="text" />
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="arbeitsnachweisOffen" class="justify-end">
+        <button
+          *ngIf="!sonderzeitenFormGroup.getRawValue().id"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Hinzufügen"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">add</mat-icon>
+        </button>
+        <button
+          *ngIf="this.sonderzeitenFormGroup.getRawValue().id"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Aktualisieren"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">autorenew</mat-icon>
+        </button>
+
+        <button (click)="leereForm()" color="basic" mat-stroked-button matTooltip="Formular leeren">
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <mat-tab-group [(selectedIndex)]="ausgewaehlterTab" animationDuration="0ms" mat-align-tabs="start">
+    <mat-tab label="Reisezeiten">
+      <section class="table-container">
+        <table
+          #reisezeitenSort="matMultiSort"
+          (matSortChange)="reisezeitenTabelle.onSortEvent()"
+          [dataSource]="reisezeitenTabelle.dataSource"
+          mat-table
+          matMultiSort
+        >
+          <ng-container matColumnDef="tagVon">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tagVon">Tag</th>
+            <td *matCellDef="let element" mat-cell>{{ element.tagVon }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="projektnummer">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn">
+                not_interested
+              </mat-icon>
+              {{ element.projektnummer }}
+            </td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="stunden">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="stunden">Stunden</th>
+            <td *matCellDef="let element" mat-cell>{{ element.anzahlStunden | number : '1.2-2' : 'de' }}</td>
+            <td *matFooterCellDef mat-footer-cell>
+              Summe: {{ reisezeitenTabelle.dataSource.data | summiereProjektStunden | number : '1.2-2' : 'de' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="bemerkung">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+            <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actions"></th>
+            <td *matCellDef="let element" mat-cell>
+              <a (click)="loescheProjektstunde(element)" *ngIf="arbeitsnachweisOffen" mat-icon-button>
+                <mat-icon>delete_forever</mat-icon>
+              </a>
+            </td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="reisezeitenTabelle.displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="ladeProjektstundenInForm(row)"
+            *matRowDef="let row; columns: reisezeitenTabelle.displayedColumns"
+            mat-row
+          ></tr>
+          <tr *matFooterRowDef="reisezeitenTabelle.displayedColumns; sticky: true" mat-footer-row></tr>
+        </table>
+      </section>
+    </mat-tab>
+    <mat-tab label="Rufbereitschaften">
+      <section class="table-container">
+        <table
+          #rufbereitschaftenSort="matMultiSort"
+          (matSortChange)="rufbereitschaftenTabelle.onSortEvent()"
+          [dataSource]="rufbereitschaftenTabelle.dataSource"
+          mat-table
+          matMultiSort
+        >
+          <ng-container matColumnDef="tagVon">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tagVon">Tag</th>
+            <td *matCellDef="let element" mat-cell>{{ element.tagVon }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="uhrzeitVon">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="uhrzeitVon">Von</th>
+            <td *matCellDef="let element" mat-cell>{{ element.uhrzeitVon }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="tagBis">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tagBis">Tag</th>
+            <td *matCellDef="let element" mat-cell>{{ element.tagBis }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="uhrzeitBis">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="uhrzeitBis">Bis</th>
+            <td *matCellDef="let element" mat-cell>{{ element.uhrzeitBis }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="projektnummer">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn">
+                not_interested
+              </mat-icon>
+              {{ element.projektnummer }}
+            </td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="stunden">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="stunden">Stunden</th>
+            <td *matCellDef="let element" mat-cell>{{ element.anzahlStunden | number : '1.2-2' : 'de' }}</td>
+            <td *matFooterCellDef mat-footer-cell>
+              Summe:
+              {{ rufbereitschaftenTabelle.dataSource.data | summiereProjektStunden | number : '1.2-2' : 'de' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="bemerkung">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+            <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actions"></th>
+            <td *matCellDef="let element" mat-cell>
+              <a (click)="loescheProjektstunde(element)" *ngIf="arbeitsnachweisOffen" mat-icon-button>
+                <mat-icon>delete_forever</mat-icon>
+              </a>
+            </td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="rufbereitschaftenTabelle.displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="ladeProjektstundenInForm(row)"
+            *matRowDef="let row; columns: rufbereitschaftenTabelle.displayedColumns"
+            mat-row
+          ></tr>
+          <tr *matFooterRowDef="rufbereitschaftenTabelle.displayedColumns; sticky: true" mat-footer-row></tr>
+        </table>
+      </section>
+    </mat-tab>
+    <mat-tab label="Sonderarbeitszeiten">
+      <section class="table-container">
+        <table
+          #sonderarbeitszeitenSort="matMultiSort"
+          (matSortChange)="sonderarbeitszeitenTabelle.onSortEvent()"
+          [dataSource]="sonderarbeitszeitenTabelle.dataSource"
+          mat-table
+          matMultiSort
+        >
+          <ng-container matColumnDef="tagVon">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tagVon">Tag</th>
+            <td *matCellDef="let element" mat-cell>{{ element.tagVon }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="uhrzeitVon">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="uhrzeitVon">Von</th>
+            <td *matCellDef="let element" mat-cell>{{ element.uhrzeitVon }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="uhrzeitBis">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="uhrzeitBis">Bis</th>
+            <td *matCellDef="let element" mat-cell>{{ element.uhrzeitBis }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="projektnummer">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn">
+                not_interested
+              </mat-icon>
+              {{ element.projektnummer }}
+            </td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="stunden">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="stunden">Stunden</th>
+            <td *matCellDef="let element" mat-cell>{{ element.anzahlStunden | number : '1.2-2' : 'de' }}</td>
+            <td *matFooterCellDef mat-footer-cell>
+              Summe:
+              {{ sonderarbeitszeitenTabelle.dataSource.data | summiereProjektStunden | number : '1.2-2' : 'de' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="bemerkung">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+            <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actions"></th>
+            <td *matCellDef="let element" mat-cell>
+              <a (click)="loescheProjektstunde(element)" *ngIf="arbeitsnachweisOffen" mat-icon-button>
+                <mat-icon>delete_forever</mat-icon>
+              </a>
+            </td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="sonderarbeitszeitenTabelle.displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="ladeProjektstundenInForm(row)"
+            *matRowDef="let row; columns: sonderarbeitszeitenTabelle.displayedColumns"
+            mat-row
+          ></tr>
+          <tr *matFooterRowDef="sonderarbeitszeitenTabelle.displayedColumns; sticky: true" mat-footer-row></tr>
+        </table>
+      </section>
+    </mat-tab>
+  </mat-tab-group>
+</div>

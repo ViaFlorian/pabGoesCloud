@@ -1,0 +1,217 @@
+<pab-berichte-action-bar
+  (erstelleExcelEvent)="reagiereAufErstelleExcel()"
+  (erstellePDFEvent)="erstelleUndZeigePdf()"
+  (versendePDFEvent)="versendePdfAlsEmail()"
+  [actionBarButtonKonfiguration]="actionBarButtonKonfiguration"
+></pab-berichte-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline [text]="ueberschrift"></pab-headline>
+  </div>
+
+  <div class="border">
+    <form [formGroup]="berichtFilterFormGroup" class="grid-berichte-b007-columns">
+      <div class="grid-with-2-columns" style="grid-area: Abrechnungsmonat">
+        <mat-form-field>
+          <mat-label>Von Abrechnungsmonat</mat-label>
+          <input [matDatepicker]="dpAbrechnungsmonatAbWann" formControlName="abrechnungsmonatAbWann" matInput />
+          <mat-hint>MM.YY</mat-hint>
+          <mat-datepicker-toggle [for]="dpAbrechnungsmonatAbWann" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker
+            #dpAbrechnungsmonatAbWann
+            (monthSelected)="setAbrechnungsmonatAbWann($event, dpAbrechnungsmonatAbWann)"
+            startView="year"
+          >
+          </mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Bis Abrechnungsmonat</mat-label>
+          <input [matDatepicker]="dpAbrechnungsmonatBisWann" formControlName="abrechnungsmonatBisWann" matInput />
+          <mat-hint>MM.YY</mat-hint>
+          <mat-datepicker-toggle [for]="dpAbrechnungsmonatBisWann" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker
+            #dpAbrechnungsmonatBisWann
+            (monthSelected)="setAbrechnungsmonatBisWann($event, dpAbrechnungsmonatBisWann)"
+            startView="year"
+          >
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div style="grid-area: Sachbearbeiter">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Sachbearbeiter:in</mat-label>
+          <mat-select formControlName="sachbearbeiter">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let sachbearbeiter of sachbearbeiterAuswahl" [value]="sachbearbeiter"
+              >{{ sachbearbeiter | mitarbeiterAnzeigeName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div style="grid-area: Bearbeitungsstatus">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Bearbeitungsstatus</mat-label>
+          <mat-select formControlName="bearbeitungsstatus">
+            <mat-option *ngFor="let type of eBearbeitungsstatusAuswahl | keyvalue" [value]="type.value">{{
+              type.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div style="grid-area: AktivInaktiv">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Aktiv/Inaktiv</mat-label>
+          <mat-select formControlName="aktivInaktiv">
+            <mat-option *ngFor="let type of eAktivInaktivAuswahl | keyvalue" [value]="type.value">{{
+              type.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div style="grid-area: Buchungstyp">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Buchungstyp</mat-label>
+          <mat-select formControlName="buchungstyp">
+            <mat-option *ngFor="let type of eBuchungstypAuswahl | keyvalue" [value]="type.value">{{
+              type.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <pab-autocomplete-projekt
+        [mitErrorPlatzhalter]="true"
+        [parentFormGroup]="berichtFilterFormGroup"
+        [projektAuswahl]="projektAuswahl"
+        parentFormFieldName="projekt"
+        style="grid-area: Projekt"
+      >
+      </pab-autocomplete-projekt>
+
+      <pab-autocomplete-kunde
+        [parentFormGroup]="berichtFilterFormGroup"
+        [kundeAuswahl]="kundeAuswahl"
+        parentFormFieldName="kunde"
+        style="grid-area: Kunde"
+        label="Kunde"
+      ></pab-autocomplete-kunde>
+
+      <pab-autocomplete-mitarbeiter
+        [mitarbeiterAuswahl]="mitarbeiterAuswahl | mitarbeiterToObs"
+        [mitErrorPlatzhalter]="false"
+        [parentFormGroup]="berichtFilterFormGroup"
+        parentFormFieldName="mitarbeiter"
+        style="grid-area: Mitarbeiter"
+      ></pab-autocomplete-mitarbeiter>
+
+      <div style="grid-area: Organisationseinheit">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>OE</mat-label>
+          <mat-select formControlName="organisationseinheit">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let organisationseinheit of organisationseinheitAuswahl" [value]="organisationseinheit"
+              >{{ organisationseinheit | organisationseinheitAnzeigeName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div style="grid-area: Projekttyp">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Projekttyp</mat-label>
+          <mat-select formControlName="projekttyp">
+            <mat-option *ngFor="let type of eProjekttypAuswahl | keyvalue" [value]="type.value">{{
+              type.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div style="grid-area: Mitarbeitergruppe">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Mitarbeitergruppe</mat-label>
+          <mat-select formControlName="mitarbeitergruppe">
+            <mat-option *ngFor="let type of eMitarbeitergruppeAuswahl | keyvalue" [value]="type.value">{{
+              type.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div style="grid-area: Kostenart">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Kostenart</mat-label>
+          <mat-select multiple formControlName="kostenarten">
+            <mat-option *ngFor="let type of eKostenartAuswahl | keyvalue" [value]="type.value">{{
+              type.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="grid-kostenartdetails-checkbox">
+        <mat-checkbox formControlName="istKostenartdetails"> Kostenartdetails </mat-checkbox>
+      </div>
+
+      <div class="justify-end" style="grid-area: ClearButton">
+        <button (click)="onLeereFilter()" color="basic" mat-stroked-button matTooltip="Filter leeren">
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="border">
+    <div class="height-full" #pabB007UebersichtTabelleBorder>
+      <pab-spinner
+        *ngIf="!ladeBerichteSpinner.isClosed()"
+        [spinnerHeight]="(pabB007UebersichtTabelleBorder.offsetHeight - 20).toString()"
+        [spinnerWidth]="(pabB007UebersichtTabelleBorder.offsetWidth - 20).toString()"
+      ></pab-spinner>
+
+      <section class="table-container">
+        <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+          <ng-container matColumnDef="projektnummer">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+            <td *matCellDef="let element" mat-cell class="text-rechtsbuendig">
+              <mat-icon *ngIf="!element.projektIstAktiv" class="vertical-center" color="warn">
+                not_interested
+              </mat-icon>
+              {{ element.projektnummer }}
+            </td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="projektbezeichnung">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektbezeichnung">Bezeichnung</th>
+            <td *matCellDef="let element" mat-cell>{{ element.projektbezeichnung }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="abrechnungsmonat">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="abrechnungsmonat">Abrechnungsmonat</th>
+            <td *matCellDef="let element" mat-cell>{{ element.abrechnungsmonat }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="kosten">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kosten">Kosten</th>
+            <td *matCellDef="let element" mat-cell>{{ element.kosten | anzeigeGeldbetraegeEuro }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="leistungen">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="leistungen">Leistungen</th>
+            <td *matCellDef="let element" mat-cell>{{ element.leistungen | anzeigeGeldbetraegeEuro }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+        </table>
+        <pab-tabelle-leer-card *ngIf="anzahlErgebnisse === 0"></pab-tabelle-leer-card>
+      </section>
+    </div>
+  </div>
+</div>

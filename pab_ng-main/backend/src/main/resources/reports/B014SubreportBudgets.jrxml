@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B014SubreportBudgets" pageWidth="555" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d2844463-1e9b-4528-94e9-e188a356f2f3">
+	<style name="Ueberschrift" hTextAlign="Left" fontName="DejaVu Sans" fontSize="11" isBold="true"/>
+	<style name="Filter" fontName="DejaVu Sans" fontSize="10"/>
+	<style name="DetailUeberschrift" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8" isBold="true"/>
+	<style name="Gruppenwechsel" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
+	<style name="Detail" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8"/>
+	<style name="DetailSumme" hTextAlign="Right" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8" isBold="true"/>
+	<style name="DetailUeberschriftRotiert" style="DetailUeberschrift" hTextAlign="Left" vTextAlign="Middle" rotation="Right"/>
+	<style name="Footer" fontName="DejaVu Sans" fontSize="6"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="wertstellung" class="java.lang.String"/>
+	<field name="betrag" class="java.math.BigDecimal"/>
+	<field name="bemerkung" class="java.lang.String"/>
+	<variable name="budgetSumme" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{betrag} == null ? BigDecimal.ZERO : $F{betrag}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement style="Gruppenwechsel" x="0" y="0" width="555" height="15" uuid="59b01d5d-ad4b-4a03-b96b-aeaf13c280c9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Budgetdetails]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="0" width="75" height="15" uuid="7ff87279-548d-4b51-bdfb-3b111a3fdf80">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Wertstellung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="75" y="0" width="75" height="15" uuid="6b37d7e9-ec09-4c9b-b1c7-249e5803c493">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Budgetbetrag]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="155" y="0" width="400" height="15" uuid="0580a7ae-2942-4bef-80b1-4c1df99f9076">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Bemerkung]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="75" height="15" uuid="67cdef54-2567-41f0-bde8-b73716895138">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{wertstellung}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="75" y="0" width="75" height="15" uuid="9a4703c5-7a6c-4042-98f0-c1e97b06463d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{betrag}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="155" y="0" width="400" height="15" uuid="35058e7d-ec7c-483b-8d55-30aa9ab7c46a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{bemerkung} == null ? "" : $F{bemerkung}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement style="DetailUeberschrift" mode="Transparent" x="0" y="0" width="75" height="15" backcolor="#FFFFFF" uuid="77415f87-f5ee-4d00-8dab-3753480d6e19">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+					<topPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[Summe]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement style="DetailSumme" mode="Transparent" x="75" y="0" width="75" height="15" backcolor="#FFFFFF" uuid="d896a43c-7626-463b-a0e0-585046ebea44">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+					<topPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$V{budgetSumme}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="150" y="0" width="405" height="15" backcolor="#FFFFFF" uuid="71f18858-8636-4414-bc00-426a4a4937d9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+					<topPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

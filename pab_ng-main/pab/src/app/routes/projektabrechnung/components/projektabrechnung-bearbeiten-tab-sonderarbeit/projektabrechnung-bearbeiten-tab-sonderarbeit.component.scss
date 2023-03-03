@@ -1,0 +1,30 @@
+.grid-areas-pab-bearbeiten-sonderarbeit {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-row-gap: 15px;
+}
+
+.grid-areas-pab-bearbeiten-sonderarbeit-rufbereitschaften-input-slots {
+  display: grid;
+  grid-template-columns: 44% 8% 44%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'LabelLinks       Trenner         LabelRechts'
+    'SlotLinks1       Trenner         SlotRechts1'
+    'SlotLinks2       Trenner         SlotRechts2'
+    '.                Trenner         SlotRechts3'
+    'SlotLinks4       Trenner         SlotRechts4';
+}
+
+.grid-areas-pab-bearbeiten-sonderarbeit-sonderarbeit-input-slots {
+  display: grid;
+  grid-template-columns: 44% 8% 44%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'LabelLinks       Trenner         LabelRechts'
+    'SlotLinks1       Trenner         .'
+    'SlotLinks2       Trenner         .'
+    'SlotLinks3       Trenner         .'
+    'SlotLinks4       Trenner         SlotRechts4'
+    'SlotLinks5       Trenner         SlotRechts5';
+}

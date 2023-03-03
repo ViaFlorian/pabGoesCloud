@@ -1,0 +1,20 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 20% 80%;
+  grid-template-areas:
+    'monatsabschluss'
+    'monatsabschlussAktionenTabelle';
+}
+
+.grid-verwaltung-monatsabschluss-nicht-abgeschlossen-columns {
+  display: grid;
+  grid-template-columns: 48.5% 48.5%;
+  grid-gap: 3%;
+}
+
+.monatsabschlussContainer {
+  display: grid;
+  grid-template-columns: 24.25% 48.5%;
+  grid-gap: 27.75%;
+}

@@ -1,0 +1,42 @@
+.grid-areas-pab-bearbeiten-projektzeit-columns {
+  display: grid;
+  grid-template-columns: 83% 5% 12%;
+  grid-row-gap: 15px;
+  grid-template-areas:
+    'GesamtStunden      Trenner         Card'
+    'Stundensatz01      Trenner         Card'
+    'StundensatzAlt01   LoeschButton01  Card'
+    'StundensatzAlt02   LoeschButton02  Card';
+}
+
+.grid-pab-bearbeiten-projektzeit-stunden-gesamt {
+  display: grid;
+  grid-template-columns: 20% 5%;
+  grid-column-gap: 75%;
+}
+
+.grid-areas-pab-bearbeiten-projektzeit-stundensatz-input-slots {
+  display: grid;
+  grid-template-columns: 20% 10% 10% 8% 20% 10% 10%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'LabelLinks         LabelLinks                LabelLinks                Trenner         LabelRechts         LabelRechts               LabelRechts'
+    'SlotLinks1         .                         .                         Trenner         SlotRechts1         .                         .'
+    'SlotLinks2         SlotLinks2Letzter         SlotLinks2Vertrag         Trenner         SlotRechts2         SlotRechts2Letzter        SlotRechts2Vertrag'
+    'SlotLinks3         .                         .                         Trenner         SlotRechts3         .                         .';
+}
+
+.grid-areas-pab-bearbeiten-projektzeit-alternativer-stundensatz-input-slots {
+  display: grid;
+  grid-template-columns: 44% 8% 44%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'LabelLinks         Trenner         LabelRechts'
+    'SlotLinks1         Trenner         SlotRechts1'
+    'SlotLinks2         Trenner         SlotRechts2'
+    'SlotLinks3         Trenner         SlotRechts3';
+}
+
+.pab-loesch-button {
+  height: 48px;
+}

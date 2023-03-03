@@ -1,0 +1,25 @@
+.grid-berichte-b008-columns {
+  display: grid;
+  grid-template-columns: 35% 26% 26% 4%;
+  grid-gap: 3%;
+  grid-template-areas:
+    'Abrechnungsmonat       Projekt            Kunde        ClearButton'
+    'Checkbox               Sachbearbeiter     OE           .';
+}
+
+.mat-column-projektnummer {
+  width: 5%;
+}
+
+.mat-column-projektBezeichnung {
+  width: 35%;
+}
+
+.grid-with-2-columns.grid-checkbox {
+  grid-area: Checkbox;
+  margin-top: 10px;
+}
+
+.table-container .text-rechtsbuendig {
+  text-align: right;
+}

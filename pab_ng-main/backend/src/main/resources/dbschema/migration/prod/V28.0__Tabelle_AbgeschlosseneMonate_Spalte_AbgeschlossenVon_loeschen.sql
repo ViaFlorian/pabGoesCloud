@@ -1,0 +1,1 @@
+ALTER TABLE AbgeschlosseneMonate DROP COLUMN AbgeschlossenVon;

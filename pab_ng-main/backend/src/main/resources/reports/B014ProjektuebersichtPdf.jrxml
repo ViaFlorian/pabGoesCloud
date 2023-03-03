@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B014Projektuebersicht" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b44f0637-4488-447c-bca7-81f0bf2c26c5">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Ueberschrift" hTextAlign="Left" fontName="DejaVu Sans" fontSize="11" isBold="true"/>
+	<style name="Filter" fontName="DejaVu Sans" fontSize="10"/>
+	<style name="DetailUeberschrift" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8" isBold="true"/>
+	<style name="Gruppenwechsel" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
+	<style name="Detail" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8"/>
+	<style name="DetailSumme" hTextAlign="Right" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8" isBold="true"/>
+	<style name="DetailUeberschriftRotiert" style="DetailUeberschrift" hTextAlign="Left" vTextAlign="Middle" rotation="Right"/>
+	<style name="Footer" fontName="DejaVu Sans" fontSize="6"/>
+	<style name="RestbudgetFarbig" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($F{gesamtBudget}.subtract($F{gesamtFaktLeistung})).compareTo(BigDecimal.ZERO) < 0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<style name="RechnungMonatFarbig" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($F{monatRechnungssumme}.subtract($F{monatFaktLeistung})).compareTo(BigDecimal.ZERO) < 0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<style name="RechnungJahrFarbig" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($F{jahrRechnungssumme}.subtract($F{jahrFaktLeistung})).compareTo(BigDecimal.ZERO) < 0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<style name="RechnungGesamtFarbig" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($F{gesamtRechnungssumme}.subtract($F{gesamtFaktLeistung})).compareTo(BigDecimal.ZERO) < 0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<style name="OffeneRechnungFarbig" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($F{gesamtBudget}.subtract($F{gesamtRechnungssumme}).add($F{gesamtNichtBudgetrelevant})).compareTo(BigDecimal.ZERO) < 0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="logo" class="java.awt.Image"/>
+	<parameter name="FilterString" class="java.lang.String"/>
+	<parameter name="BudgetsSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="FakturSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="KostenLeistungenSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="auswertungsmonat" class="java.lang.String"/>
+	<parameter name="istProjektdetails" class="java.lang.Boolean"/>
+	<parameter name="istVorlaeufig" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="projektnummer" class="java.lang.String"/>
+	<field name="projektBezeichnung" class="java.lang.String"/>
+	<field name="projekttyp" class="java.lang.String"/>
+	<field name="kunde" class="java.lang.String"/>
+	<field name="oeBezeichnung" class="java.lang.String"/>
+	<field name="oeBeschreibung" class="java.lang.String"/>
+	<field name="projektVerantwortlicher" class="java.lang.String"/>
+	<field name="debitorennummer" class="java.lang.String"/>
+	<field name="projektStart" class="java.lang.String"/>
+	<field name="projektEnde" class="java.lang.String"/>
+	<field name="listeBudgets" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<field name="listeFaktur" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<field name="listeKostenLeistungen" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<field name="oeVerantwortlicher" class="java.lang.String"/>
+	<field name="fertigstellungsgrad" class="java.math.BigDecimal"/>
+	<field name="monatFaktLeistung" class="java.math.BigDecimal"/>
+	<field name="monatKosten" class="java.math.BigDecimal"/>
+	<field name="monatRechnungssumme" class="java.math.BigDecimal"/>
+	<field name="jahrFaktLeistung" class="java.math.BigDecimal"/>
+	<field name="jahrKosten" class="java.math.BigDecimal"/>
+	<field name="jahrRechnungssumme" class="java.math.BigDecimal"/>
+	<field name="gesamtFaktLeistung" class="java.math.BigDecimal"/>
+	<field name="gesamtKosten" class="java.math.BigDecimal"/>
+	<field name="gesamtBudget" class="java.math.BigDecimal"/>
+	<field name="gesamtRechnungssumme" class="java.math.BigDecimal"/>
+	<field name="gesamtNichtBudgetrelevant" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="40">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image onErrorType="Icon">
+				<reportElement x="455" y="0" width="100" height="40" uuid="007ed8b0-ffda-4e11-bb82-61caafc83ba5"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement key="" style="Ueberschrift" x="0" y="0" width="455" height="20" uuid="d5ce3977-8365-425d-9354-b104239d1f67">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Übersicht Abrechnung, Faktur, Budget pro Projekt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Ueberschrift" x="0" y="20" width="455" height="20" isRemoveLineWhenBlank="true" uuid="fdc09a48-c709-485e-a065-20db72ef7565">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[$P{istVorlaeufig}]]></printWhenExpression>
+				</reportElement>
+				<text><![CDATA[- vorläufig -]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24">
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Filter" isPrintRepeatedValues="false" x="0" y="0" width="555" height="16" uuid="15ba41a3-c75d-4165-aaa2-b7075cac165a"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[($P{FilterString} == null ? "keine Filter angegeben" : $P{FilterString})]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="320" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement style="Gruppenwechsel" x="0" y="31" width="555" height="15" uuid="817d43b0-c1e6-413e-b2f1-77594fa1c871">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Projektstammdaten]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="55" width="90" height="15" uuid="cfc007d0-9e04-4e1d-834b-b60d41f36abd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Bezeichnung:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="70" width="90" height="15" uuid="f23fc5a7-0fe4-45ea-a3e1-a9515c8723f8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Kunde:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="85" width="90" height="15" uuid="81a733a9-0036-4370-9b1e-d58d52e51ffb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Debitorennummer:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="200" y="55" width="70" height="15" uuid="21807326-16c5-49b0-b61a-9b77c7413f2a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Org.Einheit:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="200" y="70" width="70" height="15" uuid="d081ccc1-4a33-43f3-8856-44686e25c2e9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[OE-VA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="200" y="85" width="70" height="15" uuid="12cc2611-a6aa-499b-84b7-a02498ea0d23">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Projektbeginn:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="400" y="55" width="60" height="15" uuid="b24981ec-94d2-4a59-96ef-ba70650c7be9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Projekttyp:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="400" y="70" width="60" height="15" uuid="a2ae2701-13d2-4af5-a62c-a9c0a03f9fc5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Projekt-VA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="400" y="85" width="60" height="15" uuid="5e5d5ac6-4562-4152-b4d3-031ee032edc3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Projektende:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="460" y="55" width="95" height="15" uuid="1ac29dfa-6778-48d6-bf32-29d9d765b747">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{projekttyp}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="460" y="70" width="95" height="15" uuid="64eda625-b673-4bc1-99a2-65865f8a2c1a"/>
+				<textFieldExpression><![CDATA[$F{projektVerantwortlicher}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="460" y="85" width="95" height="15" uuid="ab6dc09a-e931-4070-9389-b02f7eb57051"/>
+				<textFieldExpression><![CDATA[$F{projektEnde}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="270" y="55" width="130" height="15" uuid="761bd096-44a7-4cb8-98d2-bef2861fa668">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{oeBezeichnung}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="270" y="70" width="130" height="15" uuid="0c1d7cb3-6280-4a5a-a35d-5c812240ecd0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{oeVerantwortlicher}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="270" y="85" width="130" height="15" uuid="c62017ce-49d9-4cdb-aeea-8facf4fb1df0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{projektStart}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="90" y="55" width="110" height="15" uuid="6ad53460-682f-4209-a5dc-2b053937e843">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{projektBezeichnung}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="90" y="70" width="110" height="15" uuid="7bfdc134-116a-4477-98a2-c66accfdbc82"/>
+				<textFieldExpression><![CDATA[$F{kunde}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="90" y="85" width="110" height="15" uuid="1cbaee9f-ec0f-45a0-bc1c-3945818b185e"/>
+				<textFieldExpression><![CDATA[$F{debitorennummer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Ueberschrift" x="0" y="0" width="555" height="15" uuid="81ce11b5-0c0f-4f73-b11d-6cc7ea5e4da1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["Projekt: " + $F{projektnummer}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Gruppenwechsel" x="0" y="115" width="555" height="15" uuid="a6df5a14-4d06-4bcd-bde3-df2e936ec2b3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Projektkennzahlen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="145" width="225" height="15" uuid="961aa67f-8082-4769-9fd1-892312f15d02">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Fertigstellungsgrad in %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="165" width="225" height="15" uuid="c8d6d4fb-29c5-4c42-9278-d4dd4c97a8ee">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[fakturierfähige Leistung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="180" width="225" height="15" uuid="4603384b-e10d-4dc4-8344-15c697531cff">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[Kosten]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="195" width="225" height="15" uuid="f7b01d00-f3dd-4912-a967-91a03a9593c4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Deckungsbeitrag]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="210" width="225" height="15" uuid="138aa4af-7a4c-4c8f-9855-2daf37a6e46e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[in %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="230" width="225" height="15" uuid="ca954cee-428a-4274-b19d-2b195ea05c83">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[fakturierfähiges Budget]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="245" width="225" height="15" uuid="47d5dd73-d3f0-4b51-96bb-4298b56c4656">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Restbudget (Budget - Leistung)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="265" width="225" height="15" uuid="a665d7ac-e051-4eb9-bdf1-e671f45ffeb3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Rechnungssumme]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="280" width="225" height="15" uuid="54a8e315-914a-4a79-9e6d-cc4c504c94c6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[(+)Über oder (-)Unterzahlung zur Leistung]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="DetailUeberschrift" x="225" y="130" width="110" height="15" uuid="511773fc-6b5d-4fef-9081-9b8df17da1ee">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Monat " + $P{auswertungsmonat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="DetailUeberschrift" x="335" y="130" width="110" height="15" uuid="3cb03d84-cd76-4df2-ab23-5b8cf3b7b50c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Jahr bis " + $P{auswertungsmonat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="DetailUeberschrift" x="445" y="130" width="110" height="15" uuid="03fa37a5-8344-43b1-8f60-83ad7b441db5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Gesamt bis " + $P{auswertungsmonat}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000%">
+				<reportElement style="Detail" x="225" y="145" width="110" height="15" uuid="fc991d94-e5aa-452a-aba6-7f84eaa38b53">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[! "Dienstleistung".equals($F{projekttyp}) && ! "intern".equals($F{projekttyp})]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{fertigstellungsgrad}.divide(BigDecimal.valueOf(100))]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="225" y="165" width="110" height="15" uuid="d4867d62-8585-4226-ac88-8f29b4ed4f0b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{monatFaktLeistung}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="225" y="180" width="110" height="15" uuid="b9adbd16-2352-459c-a842-8c193f62aedf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{monatKosten}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="225" y="195" width="110" height="15" uuid="cdb2b63c-de14-4b85-9076-54153f6c910c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{monatFaktLeistung}.subtract($F{monatKosten})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0%" isBlankWhenNull="true">
+				<reportElement style="Detail" x="225" y="210" width="110" height="15" uuid="1db1c3a6-ff6d-4999-9bf4-fd8661dbfad7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{monatFaktLeistung}.compareTo(BigDecimal.ZERO) == 0 ? null : $F{monatFaktLeistung}.subtract($F{monatKosten}).divide($F{monatFaktLeistung}, 3, RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="225" y="265" width="110" height="15" uuid="a71c4d53-1968-4b2b-98ff-e94a99fee6fd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{monatRechnungssumme}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="RechnungMonatFarbig" x="225" y="280" width="110" height="15" uuid="b50f430b-40e3-4281-88ad-280fcda76b3f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{monatRechnungssumme}.subtract($F{monatFaktLeistung})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="335" y="165" width="110" height="15" uuid="8ab5f078-b36a-48e3-8397-8d880ba45c63">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{jahrFaktLeistung}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="335" y="180" width="110" height="15" uuid="1df603a5-27b0-4a1a-ad11-2742565770a4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{jahrKosten}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="335" y="195" width="110" height="15" uuid="32dd6f6b-8c8b-42a6-ac3b-d9b7bddd0976">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{jahrFaktLeistung}.subtract($F{jahrKosten})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0%" isBlankWhenNull="true">
+				<reportElement style="Detail" x="335" y="210" width="110" height="15" uuid="976970a7-4b31-4054-b589-28aca83473ff">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{jahrFaktLeistung}.compareTo(BigDecimal.ZERO) == 0 ? null : $F{jahrFaktLeistung}.subtract($F{jahrKosten}).divide($F{jahrFaktLeistung}, 3, RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="335" y="265" width="110" height="15" uuid="c936f405-5d4c-4896-8b42-84d9ac15038d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{jahrRechnungssumme}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="RechnungJahrFarbig" x="335" y="280" width="110" height="15" uuid="33a8c704-3117-4bc8-93ff-3475ac136e87">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{jahrRechnungssumme}.subtract($F{jahrFaktLeistung})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="445" y="165" width="110" height="15" uuid="db0b303e-0611-4c49-bb38-f40cfcc9195a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gesamtFaktLeistung}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="445" y="180" width="110" height="15" uuid="4afa5978-9ec5-4372-9512-68f6015cbb97">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gesamtKosten}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="445" y="195" width="110" height="15" uuid="b2adc2e8-517b-4ece-a735-cf3b4acfe023">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gesamtFaktLeistung}.subtract($F{gesamtKosten})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0%" isBlankWhenNull="true">
+				<reportElement style="Detail" x="445" y="210" width="110" height="15" uuid="52bfaaf6-41b4-47b1-958f-36b63b21e2b6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gesamtFaktLeistung}.compareTo(BigDecimal.ZERO) == 0 ? null : $F{gesamtFaktLeistung}.subtract($F{gesamtKosten}).divide($F{gesamtFaktLeistung}, 3, RoundingMode.HALF_UP)]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="445" y="230" width="110" height="15" uuid="de9f4003-b7d6-4442-bac3-af0d9c1530a5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["intern".equals($F{projekttyp}) ||  $F{gesamtBudget} == null ? null : $F{gesamtBudget}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="RestbudgetFarbig" x="445" y="245" width="110" height="15" uuid="bd033ed7-724a-4898-9758-aad04ddc7af3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gesamtBudget} == null ? null : $F{gesamtBudget}.subtract($F{gesamtFaktLeistung})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="Detail" x="445" y="265" width="110" height="15" uuid="51e54ce3-c69e-4b19-9518-20f6a7004028">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gesamtRechnungssumme}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="RechnungGesamtFarbig" x="445" y="280" width="110" height="15" uuid="bc30cbd8-74c5-4267-b092-c22f0d9c07bf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gesamtRechnungssumme}.subtract($F{gesamtFaktLeistung})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="DetailUeberschrift" x="0" y="295" width="225" height="15" uuid="7aa3af0f-70b9-4c3e-80a4-225969bfd0ce">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[offener Rechnungsbetrag (Budget - Rechnungssumme)]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="OffeneRechnungFarbig" x="445" y="295" width="110" height="15" uuid="ab99b45b-00de-43c3-8b65-c688debc9880">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{gesamtBudget} == null ? null : $F{gesamtBudget}.subtract($F{gesamtRechnungssumme}).add($F{gesamtNichtBudgetrelevant})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="225" width="555" height="5" backcolor="#E6E6E6" uuid="ab301855-4ad5-4f65-8bc4-5269104684c5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="260" width="555" height="5" backcolor="#E6E6E6" uuid="ab14fc62-9250-4e4b-8196-c113209f5501">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="160" width="555" height="5" backcolor="#E6E6E6" uuid="dcbc0e38-9972-49c5-8e9a-ccb2aa2f5189">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+		<band height="35" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="10" width="555" height="15" uuid="40362758-ad75-41c6-9fb4-c06b0a94eb55">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$P{istProjektdetails} && !"intern".equals($F{projekttyp})]]></printWhenExpression>
+				</reportElement>
+				<dataSourceExpression><![CDATA[$F{listeBudgets}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{BudgetsSubreport}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="35" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="10" width="555" height="15" uuid="1f8db75f-bd13-4267-b67a-3b70d529ab37">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$P{istProjektdetails} && !"intern".equals($F{projekttyp})]]></printWhenExpression>
+				</reportElement>
+				<dataSourceExpression><![CDATA[$F{listeFaktur}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{FakturSubreport}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="26" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="10" width="555" height="15" uuid="261f9dae-91ce-43a7-833a-06988be5acd9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$P{istProjektdetails}]]></printWhenExpression>
+				</reportElement>
+				<dataSourceExpression><![CDATA[$F{listeKostenLeistungen}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{KostenLeistungenSubreport}]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="25" width="555" height="1" uuid="63de4fbd-5c45-4116-9497-aa1d731ce36b">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</break>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="8">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="535" y="0" width="20" height="8" uuid="a5c06dd8-d7a8-4a47-bc01-fee1c93db103">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Footer" x="455" y="0" width="80" height="8" uuid="a86c7ac3-d87f-40f7-afe3-5a08dabdc13a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Seite " + $V{PAGE_NUMBER} + " /"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Footer" x="0" y="0" width="175" height="8" uuid="51205a66-8c53-4383-b8b4-c03e93eb0033">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["Erstellungsdatum: " + new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="175" y="0" width="205" height="8" isRemoveLineWhenBlank="true" uuid="d615f19b-92ab-4fb3-8da3-aba2f70dc755">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bericht B014"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

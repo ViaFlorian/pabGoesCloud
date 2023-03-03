@@ -1,0 +1,1 @@
+ALTER TABLE Projektabrechnung ALTER COLUMN Fertigstellungsgrad decimal(18,6);

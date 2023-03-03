@@ -1,0 +1,139 @@
+<div class="tab-container-single-line-form">
+  <div class="border-bottom">
+    <form
+      (ngSubmit)="fuegeOderAktualisiereProjektstunde()"
+      [formGroup]="projektstundenFormGroup"
+      class="grid-arbeitsnachweis-bearbeiten-projektstunden-columns"
+    >
+      <mat-form-field>
+        <mat-label>Tag</mat-label>
+        <input (input)="entferneUnerlaubteZeichen('tag', '^[1-9][0-9]?$')" formControlName="tag" matInput type="text" />
+        <mat-error *ngIf="projektstundenFormGroup.get('tag')?.errors?.['required']"> Pflichtfeld </mat-error>
+        <mat-error *ngIf="projektstundenFormGroup.get('tag')?.errors?.['dayInMoth']"> Tag nicht im Monat </mat-error>
+      </mat-form-field>
+
+      <pab-autocomplete-projekt
+        [mitErrorPlatzhalter]="true"
+        [parentFormGroup]="projektstundenFormGroup"
+        [projektAuswahl]="projektAuswahl"
+        parentFormFieldName="projekt"
+      >
+      </pab-autocomplete-projekt>
+
+      <mat-form-field>
+        <mat-label>Stunden</mat-label>
+        <input
+          (input)="entferneUnerlaubteZeichen('stunden', '^([0-9]+)(,?)([0-9]{0,2})$')"
+          formControlName="stunden"
+          matInput
+          pattern="^(\d+(?:,\d{1,2})?)$"
+          type="text"
+        />
+        <mat-error *ngIf="projektstundenFormGroup.get('stunden')?.errors?.['required']"> Pflichtfeld </mat-error>
+        <mat-error *ngIf="projektstundenFormGroup.get('stunden')?.errors?.['pattern']"> Formatfehler </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="nichtFakturierfaehig" style="align-self: center"
+        >Nicht fakturierfähig
+      </mat-checkbox>
+
+      <mat-form-field>
+        <mat-label>Bemerkung</mat-label>
+        <input formControlName="bemerkung" matInput type="text" />
+      </mat-form-field>
+
+      <div *ngIf="arbeitsnachweisOffen" class="justify-end">
+        <button
+          *ngIf="!projektstundenFormGroup.getRawValue().id"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Hinzufügen"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">add</mat-icon>
+        </button>
+        <button
+          *ngIf="projektstundenFormGroup.getRawValue().id"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Aktualisieren"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">autorenew</mat-icon>
+        </button>
+
+        <button (click)="leereForm()" color="basic" mat-stroked-button matTooltip="Formular leeren">
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <section class="table-container">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="tagVon">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tagVon">Tag</th>
+        <td *matCellDef="let element" mat-cell>{{ element.tagVon }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="projektnummer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn"> not_interested </mat-icon>
+          {{ element.projektnummer }}
+        </td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="stunden">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="stunden">Stunden</th>
+        <td *matCellDef="let element" mat-cell>{{ element.anzahlStunden | number : '1.2-2' : 'de' }}</td>
+        <td *matFooterCellDef mat-footer-cell>
+          Summe: {{ tabelle.dataSource.data | summiereProjektStunden | number : '1.2-2' : 'de' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nichtFakturierfaehig">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="nichtFakturierfaehig">Nicht Fakturierfähig</th>
+        <td *matCellDef="let element" class="status" mat-cell>
+          <mat-icon *ngIf="element.nichtFakturierfaehig">check_circle_outline</mat-icon>
+        </td>
+        <td *matFooterCellDef mat-footer-cell>
+          Davon nicht fakturierfähig:
+          {{ tabelle.dataSource.data | summiereProjektNichtFakturierStunden | number : '1.2-2' : 'de' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bemerkung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+        <td *matFooterCellDef mat-footer-cell>
+          Inklusive Reisezeit:
+          {{
+            tabelle.dataSource.data
+              | summiereProjektStunden
+              | summiereProjektStundenMitAngReisezeit : angerechneteReisezeit
+              | number : '1.2-2' : 'de'
+          }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actions">Löschen</th>
+        <td *matCellDef="let element" mat-cell>
+          <a (click)="loescheProjektstunde(element)" *ngIf="arbeitsnachweisOffen" mat-icon-button>
+            <mat-icon>delete_forever</mat-icon>
+          </a>
+        </td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr (click)="ladeProjektstundenInForm(row)" *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+      <tr *matFooterRowDef="tabelle.displayedColumns; sticky: true" mat-footer-row></tr>
+    </table>
+  </section>
+</div>

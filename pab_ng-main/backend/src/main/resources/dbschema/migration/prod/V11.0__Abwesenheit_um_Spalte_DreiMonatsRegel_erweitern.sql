@@ -1,0 +1,1 @@
+ALTER TABLE Abwesenheit ADD DreiMonatsRegelAktiv bit NULL, DreiMonatsRegelUebersteuert bit NULL

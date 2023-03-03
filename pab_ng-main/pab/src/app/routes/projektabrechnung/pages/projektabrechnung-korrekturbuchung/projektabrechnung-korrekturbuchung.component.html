@@ -1,0 +1,36 @@
+<pab-projektabrechnung-korrekturbuchung-action-bar
+  (speichernEvent)="speichern()"
+  [istListeVeraendert]="istAenderungVorhanden()"
+></pab-projektabrechnung-korrekturbuchung-action-bar>
+<div class="basis-container basis-container-grid">
+  <pab-headline [text]="ueberschrift"></pab-headline>
+  <div class="border">
+    <pab-projektabrechnung-korrekturbuchung-filter
+      [korrekturbuchungFilterGroup]="korrekturbuchungFilterGroup"
+      [kundeAuswahl]="kundeAuswahl"
+      [organisationseinheitAuswahl]="organisationseinheitAuswahl"
+      [projektAuswahl]="projektAuswahl"
+    ></pab-projektabrechnung-korrekturbuchung-filter>
+  </div>
+  <div #pabKorrekturbuchungTabelleBorder class="border tab-container-korrekturbuchung-form">
+    <pab-spinner
+      *ngIf="!projektabrechnungKorrekturbuchungSpinner.isClosed()"
+      [spinnerHeight]="pabKorrekturbuchungTabelleBorder.offsetHeight.toString()"
+      [spinnerWidth]="pabKorrekturbuchungTabelleBorder.offsetWidth.toString()"
+    ></pab-spinner>
+    <pab-projektabrechnung-korrekturbuchung-form
+      (neueBuchungHinzufuegenEvent)="reagiereAufProjektabrechnungKorrekturbuchungHinzufuegen($event)"
+      [abrechnungsmonateGesamtauswahl]="abrechnungsmonateAuswahl"
+      [formKorrekturbuchungsVorgangObs]="formKorrekturbuchungsVorgangObs"
+      [kostenartAuswahl]="kostenartAuswahl"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahl"
+      [projektAuswahl]="projektAuswahl"
+    ></pab-projektabrechnung-korrekturbuchung-form>
+    <pab-projektabrechnung-korrekturbuchung-tabelle
+      (buchungAusgewaehltEvent)="reagiereAufBuchungsAuswahlInTabelle($event)"
+      [kostenartAuswahl]="kostenartAuswahl"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahl"
+      [projektabrechnungKorrekturbuchungen]="projektabrechnungKorrekturbuchungTabellenAnzeige"
+    ></pab-projektabrechnung-korrekturbuchung-tabelle>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<form [formGroup]="anwAuswahlFormGroup" class="grid-with-3-columns">
+  <pab-autocomplete-mitarbeiter
+    [mitarbeiterAuswahl]="mitarbeiterAuswahl | mitarbeiterToObs"
+    [parentFormGroup]="anwAuswahlFormGroup"
+    parentFormFieldName="mitarbeiter"
+    [mitErrorPlatzhalter]="false"
+  ></pab-autocomplete-mitarbeiter>
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Intern/Extern</mat-label>
+    <input formControlName="internExtern" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Regelmäßige Arbeitsstätte</mat-label>
+    <input formControlName="geschaeftsstelle" matInput type="text" />
+  </mat-form-field>
+
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>
+      <mat-icon
+        *ngIf="getAbgeschlossenIcon(anwAuswahlFormGroup.get('abrechnungsmonat')?.value)"
+        [fontIcon]="getAbgeschlossenIcon(anwAuswahlFormGroup.get('abrechnungsmonat')?.value)"
+      ></mat-icon>
+      Abrechnungsmonat
+    </mat-label>
+    <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="abrechnungsmonat">
+      <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonatAuswahl" [value]="abrechnungsmonat">
+        <mat-icon [fontIcon]="getAbgeschlossenIcon(abrechnungsmonat)"></mat-icon>
+        {{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Sachbearbeiter:in</mat-label>
+    <input formControlName="sachbearbeiter" matInput type="text" />
+  </mat-form-field>
+</form>

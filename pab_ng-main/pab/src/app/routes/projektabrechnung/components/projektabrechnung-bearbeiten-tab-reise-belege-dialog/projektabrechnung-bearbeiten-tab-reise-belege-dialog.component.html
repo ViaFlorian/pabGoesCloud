@@ -1,0 +1,59 @@
+<h1 mat-dialog-title>Belege</h1>
+
+<div mat-dialog-content class="dialog-body-tabelle">
+  <section class="dialog-table">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="tag">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tag">Tag</th>
+        <td *matCellDef="let element" mat-cell>{{ element.datum }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="einsatzort">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="einsatzort">Einsatzort</th>
+        <td *matCellDef="let element" mat-cell>{{ element.arbeitsstaette }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="projektnummer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn"> not_interested </mat-icon>
+          {{ element.projektnummer }}
+        </td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="belegartName">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="belegartName">Belegart</th>
+        <td *matCellDef="let element" mat-cell>{{ element.belegartName }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="betrag">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="betrag">Betrag (Brutto)</th>
+        <td *matCellDef="let element" mat-cell>{{ element.betrag | number : '1.2-2' : 'de' }}</td>
+        <td *matFooterCellDef mat-footer-cell>
+          Summe: {{ tabelle.dataSource.data | summiereBelegeBetraege | number : '1.2-2' : 'de' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bemerkung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+      <tr *matFooterRowDef="tabelle.displayedColumns; sticky: true" mat-footer-row></tr>
+    </table>
+  </section>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button [mat-dialog-close]="false" color="primary" mat-flat-button>
+    <mat-icon>cancel</mat-icon>
+    Schließen
+  </button>
+</div>

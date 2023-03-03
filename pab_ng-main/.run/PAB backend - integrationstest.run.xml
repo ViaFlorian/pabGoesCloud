@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="PAB backend - integrationstest" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="integrationtest" />
+    <module name="backend" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="de.viadee.pabbackend.PabBackendApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

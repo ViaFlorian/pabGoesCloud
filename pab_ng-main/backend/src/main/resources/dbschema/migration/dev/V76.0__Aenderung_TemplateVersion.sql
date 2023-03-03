@@ -1,0 +1,1 @@
+UPDATE Parameter SET [Value] = 'V20200101.0' WHERE [Key] = 'ArbeitsnachweisTemplateVersion';

@@ -1,0 +1,38 @@
+<form [formGroup]="auslagenFilterFormGroup" class="grid-pab-auslagen-filter-columns">
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>
+      <mat-icon
+        *ngIf="getAbgeschlossenIcon(auslagenFilterFormGroup.get('abrechnungsmonat')?.value)"
+        [fontIcon]="getAbgeschlossenIcon(auslagenFilterFormGroup.get('abrechnungsmonat')?.value)"
+      ></mat-icon>
+      Abrechnungsmonat
+    </mat-label>
+    <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="abrechnungsmonat">
+      <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonatAuswahl" [value]="abrechnungsmonat">
+        <mat-icon [fontIcon]="getAbgeschlossenIcon(abrechnungsmonat)"></mat-icon>
+        {{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <pab-autocomplete-projekt
+    [mitErrorPlatzhalter]="false"
+    [parentFormGroup]="auslagenFilterFormGroup"
+    [projektAuswahl]="projektAuswahl"
+    parentFormFieldName="projekt"
+  >
+  </pab-autocomplete-projekt>
+
+  <pab-autocomplete-mitarbeiter
+    [mitarbeiterAuswahl]="mitarbeiterAuswahl | mitarbeiterToObs"
+    [mitErrorPlatzhalter]="false"
+    [parentFormGroup]="auslagenFilterFormGroup"
+    parentFormFieldName="mitarbeiter"
+  ></pab-autocomplete-mitarbeiter>
+
+  <div class="justify-end">
+    <button (click)="leereAuslagenFilterForm()" color="basic" mat-stroked-button matTooltip="Filter leeren">
+      <mat-icon class="mat-icon-in-button">clear</mat-icon>
+    </button>
+  </div>
+</form>

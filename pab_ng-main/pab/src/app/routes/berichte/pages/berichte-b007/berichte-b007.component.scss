@@ -1,0 +1,26 @@
+.grid-berichte-b007-columns {
+  display: grid;
+  grid-template-columns: 16% 16% 15% 15% 20% 3%;
+  grid-gap: 3%;
+  grid-template-areas:
+    'Abrechnungsmonat   Abrechnungsmonat    Kostenart                     Kostenart     Mitarbeitergruppe   ClearButton'
+    'Sachbearbeiter     Bearbeitungsstatus  Projekt                       Kunde         Mitarbeiter         .'
+    'AktivInaktiv       Buchungstyp         Organisationseinheit          Projekttyp    Kostenartdetails    .';
+}
+
+.grid-kostenartdetails-checkbox {
+  grid-area: Kostenartdetails;
+  margin-top: 10px;
+}
+
+.table-container .text-rechtsbuendig {
+  text-align: right;
+}
+
+.mat-column-projektnummer {
+  width: 5%;
+}
+
+.mat-column-projektBezeichnung {
+  width: 35%;
+}

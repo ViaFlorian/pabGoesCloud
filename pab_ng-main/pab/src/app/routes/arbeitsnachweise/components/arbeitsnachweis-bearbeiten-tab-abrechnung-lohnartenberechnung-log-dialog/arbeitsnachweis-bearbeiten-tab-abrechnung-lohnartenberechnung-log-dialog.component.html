@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Lohnartenberechnung Log</h1>
+
+<div mat-dialog-content class="dialog-body-tabelle-mit-text">
+  <span>
+    {{ untertitel }}
+  </span>
+  <section class="dialog-table">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="datum">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="datum">Datum</th>
+        <td *matCellDef="let element" mat-cell>{{ element.datum | date : 'dd.MM.yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="meldung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="meldung">Meldung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.meldung }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="wert">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="wert">Wert</th>
+        <td *matCellDef="let element" mat-cell>{{ element.wert | number : '1.2-2' : 'de' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="einheit">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="einheit">Einheit</th>
+        <td *matCellDef="let element" mat-cell>{{ element.einheit }}</td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+    </table>
+  </section>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button [mat-dialog-close]="false" color="primary" mat-flat-button>
+    <mat-icon>cancel</mat-icon>
+    Schließen
+  </button>
+</div>

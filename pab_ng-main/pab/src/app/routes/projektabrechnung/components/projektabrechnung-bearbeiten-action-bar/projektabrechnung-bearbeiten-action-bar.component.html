@@ -1,0 +1,29 @@
+<mat-toolbar color="secondary">
+  <div>
+    <button [disabled]="!darfGespeichertWerden" (click)="speichern()" mat-button>
+      <mat-icon>save</mat-icon>
+      <span>Speichern</span>
+    </button>
+    <button [disabled]="!darfGespeichertWerden" (click)="speichernUndSchliessen()" mat-button>
+      <mat-icon>save_alt</mat-icon>
+      <span>Speichern und Schließen</span>
+    </button>
+    <button [disabled]="!darfGespeichertWerden" (click)="speichernUndNeu()" mat-button>
+      <mat-icon>data_saver_on</mat-icon>
+      <span>Speichern und Neu</span>
+    </button>
+    <button mat-button *ngIf="istFestpreisProjekt" [disabled]="!offen" (click)="oeffneFertigstellungDialog()">
+      <mat-icon>percent</mat-icon>
+      Fertigstellung
+    </button>
+    <button mat-button [disabled]="!darfAbgerechnetWerden || !offen" (click)="abrechnen()">
+      <mat-icon>calculate</mat-icon>
+      Abrechnen
+    </button>
+    <button mat-button [disabled]="!aktuelleProjektabrechnung || !istProjektKunde" (click)="oeffneFakturuebersicht()">
+      <mat-icon>inventory_2</mat-icon>
+      Fakturübersicht
+    </button>
+    <pab-close-button></pab-close-button>
+  </div>
+</mat-toolbar>

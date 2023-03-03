@@ -1,0 +1,1 @@
+UPDATE Mitarbeiter SET Firmenwagen = 0

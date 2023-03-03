@@ -1,0 +1,33 @@
+<pab-projektabrechnung-uebersicht-action-bar></pab-projektabrechnung-uebersicht-action-bar>
+<div class="basis-container basis-container-grid">
+  <pab-headline [text]="ueberschrift"></pab-headline>
+  <div class="border">
+    <pab-projektabrechnung-uebersicht-filter
+      [formGroup]="formGroup"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahlGefiltert"
+      [sachbearbeiterAuswahl]="sachbearbeiterAuswahl"
+      [projektAuswahl]="projektAuswahl"
+      [kundeAuswahl]="kundeAuswahl"
+      [organisationseinheitAuswahl]="organisationseinheitAuswahl"
+    ></pab-projektabrechnung-uebersicht-filter>
+  </div>
+  <div class="border" #pabProjektabrechnungUebersichtTabelleBorder>
+    <pab-spinner
+      *ngIf="!ladeProjektabrechnungenSpinner.isClosed()"
+      [spinnerHeight]="(pabProjektabrechnungUebersichtTabelleBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabProjektabrechnungUebersichtTabelleBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <pab-projektabrechnung-uebersicht-tabelle
+      (anzahlProjektabrechnungenEvent)="reagiereAufAnzahlProjektabrechnungenEvent($event)"
+      (listeAnMitarbeiternEvent)="reagiereAufListeAnMitarbeiternEvent($event)"
+      [formGroup]="formGroup"
+      [sachbearbeiterAuswahl]="sachbearbeiterAuswahl"
+      [projektAuswahl]="projektAuswahl"
+      [kundeAuswahl]="kundeAuswahl"
+      [organisationseinheitAuswahl]="organisationseinheitAuswahl"
+      [projektabrechnungen]="projektabrechnungen"
+      [projektabrechnungMitarbeiterPairs]="projektabrechnungMitarbeiterPairs"
+      [filterProjektabrechnungenSpinner]="ladeProjektabrechnungenSpinner"
+    ></pab-projektabrechnung-uebersicht-tabelle>
+  </div>
+</div>

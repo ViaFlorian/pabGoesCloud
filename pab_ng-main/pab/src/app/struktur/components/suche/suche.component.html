@@ -1,0 +1,17 @@
+<div class="suche-container">
+  <div class="suche-box">
+    <form [formGroup]="sucheFormGroup" class="suche-form">
+      <mat-icon class="suche-icon">search</mat-icon>
+      <input
+        (input)="reagiereAufSucheEingabe()"
+        formControlName="suchbegriff"
+        class="suche-feld"
+        type="text"
+        placeholder="Suche ..."
+      />
+      <mat-icon *ngIf="sucheFormGroup.get('suchbegriff')?.value" class="close-icon" (click)="suchbegriffZuruecksetzen()"
+        >close
+      </mat-icon>
+    </form>
+  </div>
+</div>

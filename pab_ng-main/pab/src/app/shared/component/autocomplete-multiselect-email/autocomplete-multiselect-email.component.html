@@ -1,0 +1,27 @@
+<form [formGroup]="formGroup">
+  <mat-form-field>
+    <mat-label>Email Adressen</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Email Auswahl">
+      <mat-chip-row (removed)="entfernen(emailAdresse)" *ngFor="let emailAdresse of ausgewaehlteEmailAdressen">
+        {{ emailAdresse }}
+        <button [attr.aria-label]="'entferne ' + emailAdresse" matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    </mat-chip-grid>
+    <input
+      #emailInput
+      (matChipInputTokenEnd)="hinzufuegen($event)"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipGrid"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      formControlName="email"
+      placeholder="Neuer Empfänger"
+    />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="waehleEmail($event)">
+      <mat-option *ngFor="let emailAdresse of gefilterteEmailAdressen | async" [value]="emailAdresse">
+        {{ emailAdresse }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

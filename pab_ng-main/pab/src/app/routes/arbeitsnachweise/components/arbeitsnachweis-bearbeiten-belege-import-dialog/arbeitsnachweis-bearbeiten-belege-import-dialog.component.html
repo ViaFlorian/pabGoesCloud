@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Belege importieren</h1>
+
+<div mat-dialog-content class="dialog-body-belege-upload">
+  <div class="dialog-body">
+    <div (fileDropped)="verarbeiteDatei($event)" class="border" pab-drag-and-drop>
+      <input #fileUpload (change)="onFileAusgewaehlt($event)" class="file-input" type="file" />
+      <div class="file-upload">
+        <mat-icon class="upload-icon">upload_file</mat-icon>
+        <p>Datei in das Fenster ziehen oder</p>
+        <button (click)="fileUpload.click()" class="upload-btn" mat-flat-button color="primary">auswählen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-dialog-close="true" color="basic" mat-stroked-button>
+    <mat-icon>cancel</mat-icon>
+    Abbrechen
+  </button>
+</div>

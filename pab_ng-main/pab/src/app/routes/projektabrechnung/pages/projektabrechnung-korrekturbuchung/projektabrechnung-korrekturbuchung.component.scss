@@ -1,0 +1,8 @@
+// Hinweis: Die 2. Zeile ist 100% - Anzahl an Form-Elementen * 78px (Größe in Angular Material 15) + Row-Gap
+.tab-container-korrekturbuchung-form {
+  display: grid;
+  grid-template-rows: 262px calc(100% - 297px);
+  grid-row-gap: 35px;
+  height: calc(100% - 15px);
+  padding-top: 15px;
+}

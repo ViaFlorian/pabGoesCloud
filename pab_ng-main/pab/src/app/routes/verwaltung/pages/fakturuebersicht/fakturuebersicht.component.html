@@ -1,0 +1,40 @@
+<pab-fakturuebersicht-action-bar
+  [aenderung]="fakturenListe.istVeraendert()"
+  (speichernEvent)="reagiereAufSpeichernEvent($event)"
+>
+</pab-fakturuebersicht-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline text="Fakturübersicht"></pab-headline>
+    <div class="justify-end">
+      <button (click)="oeffneHinweisDialog()" [matTooltip]="hinweisText" mat-button>
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="border">
+    <pab-fakturuebersicht-auswahl-form
+      [fakturAuswahlFormGroup]="fakturAuswahlFormGroup"
+      [projektAuswahl]="projektAuswahl"
+      [kundeAlle]="kundeAlle"
+    ></pab-fakturuebersicht-auswahl-form>
+  </div>
+
+  <div #pabFakturBorder class="border">
+    <pab-spinner
+      *ngIf="!ladeFakturSpinner.isClosed()"
+      [spinnerHeight]="(pabFakturBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabFakturBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <pab-fakturuebersicht-faktur-form-tabelle
+      [fakturenListe]="fakturenListe"
+      [fakturAuswahlFormGroup]="fakturAuswahlFormGroup"
+      [fakturFormGroup]="fakturFormGroup"
+      [istProjektAusgewaehlt]="istProjektAusgewaehlt()"
+      [abrechnungsmonateAuswahl]="abrechnungsmonateAuswahl"
+      [kundeAuswahl]="kundeAlle"
+      (rechnungssummeAktualisierenEvent)="reagiereAufRechnungssummeAktualisierenEvent()"
+    ></pab-fakturuebersicht-faktur-form-tabelle>
+  </div>
+</div>

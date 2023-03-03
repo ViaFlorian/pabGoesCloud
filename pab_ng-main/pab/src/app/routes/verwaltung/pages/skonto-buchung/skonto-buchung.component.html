@@ -1,0 +1,42 @@
+<pab-skonto-buchung-action-bar
+  [aenderung]="this.skontoBuchungenListe.istVeraendert()"
+  (speichernEvent)="reagiereAufSpeichernEvent($event)"
+>
+</pab-skonto-buchung-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline text="Skonto-Buchung"></pab-headline>
+    <div class="justify-end">
+      <button (click)="oeffneHinweisDialog()" [matTooltip]="hinweisText" mat-button>
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="border">
+    <pab-skonto-buchung-auswahl-form
+      [skontoBuchungAuswahlFormGroup]="skontoBuchungAuswahlFormGroup"
+      [projektAuswahl]="projektAuswahl"
+      [kundeAlle]="kundeAlle"
+      [organisationseinheitAlle]="organisationseinheitAlle"
+      [mitarbeiterAlle]="mitarbeiterAlle"
+    >
+    </pab-skonto-buchung-auswahl-form>
+  </div>
+
+  <div #pabSkontoBorder class="border">
+    <pab-spinner
+      *ngIf="!ladeSkontosSpinner.isClosed()"
+      [spinnerHeight]="(pabSkontoBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabSkontoBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <pab-skonto-buchung-skonto-form-tabelle
+      [skontoBuchungenListe]="skontoBuchungenListe"
+      [skontoBuchungFormGroup]="skontoBuchungFormGroup"
+      [skontoBuchungAuswahlFormGroup]="skontoBuchungAuswahlFormGroup"
+      [istProjektAusgewaehlt]="istProjektAusgewaehlt()"
+      [abrechnungsmonateAuswahl]="abrechnungsmonateAuswahl"
+      (summenAktualisierenEvent)="reagiereAufSummenAktualisierenEvent()"
+    ></pab-skonto-buchung-skonto-form-tabelle>
+  </div>
+</div>

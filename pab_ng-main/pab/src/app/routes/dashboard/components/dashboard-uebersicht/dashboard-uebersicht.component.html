@@ -1,0 +1,53 @@
+<div class="grid-areas">
+  <h2 style="grid-area: MitarbeiterHeadline">Erfassungsstand Mitarbeiter:innen</h2>
+  <h2 style="grid-area: ProjekteHeadline">Erfassungsstand Projekte</h2>
+
+  <div class="grid-with-2-columns" style="grid-area: MitarbeiterSubline">
+    <div class="justify-center">
+      <h3>Intern</h3>
+    </div>
+    <div class="justify-center">
+      <h3>Extern</h3>
+    </div>
+  </div>
+
+  <div class="grid-with-2-columns" style="grid-area: MitarbeiterDiagramme">
+    <div class="justify-center">
+      <ngx-charts-pie-chart
+        [customColors]="farbenArbeitsnachweise"
+        [doughnut]="zeigeAlsDoughnutAn"
+        [legendPosition]="legendePosition"
+        [legendTitle]="legendeTitel"
+        [legend]="zeigeLegaendeAn"
+        [results]="datenIntern"
+        [view]="ansicht"
+        [animations]="false"
+      ></ngx-charts-pie-chart>
+    </div>
+    <div class="justify-center">
+      <ngx-charts-pie-chart
+        [customColors]="farbenArbeitsnachweise"
+        [doughnut]="zeigeAlsDoughnutAn"
+        [legendPosition]="legendePosition"
+        [legendTitle]="legendeTitel"
+        [legend]="zeigeLegaendeAn"
+        [results]="datenExtern"
+        [view]="ansicht"
+        [animations]="false"
+      ></ngx-charts-pie-chart>
+    </div>
+  </div>
+
+  <div class="justify-center" style="grid-area: ProjekteDiagramme">
+    <ngx-charts-pie-chart
+      [customColors]="farbenProjekte"
+      [doughnut]="zeigeAlsDoughnutAn"
+      [legendPosition]="legendePosition"
+      [legendTitle]="legendeTitel"
+      [legend]="zeigeLegaendeAn"
+      [results]="datenProjekte"
+      [view]="ansicht"
+      [animations]="false"
+    ></ngx-charts-pie-chart>
+  </div>
+</div>

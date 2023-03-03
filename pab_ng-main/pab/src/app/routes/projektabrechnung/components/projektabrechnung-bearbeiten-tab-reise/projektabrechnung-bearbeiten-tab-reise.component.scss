@@ -1,0 +1,40 @@
+.grid-areas-pab-bearbeiten-reise {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-row-gap: 15px;
+}
+
+.grid-areas-pab-bearbeiten-reise-reisezeiten-input-slots {
+  display: grid;
+  grid-template-columns: 44% 8% 21% 21%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'LabelLinks         Trenner         LabelRechts         LabelRechts'
+    'SlotLinks1         Trenner         SlotRechts1         TatsaechlicheReisezeit'
+    'SlotLinks2         Trenner         SlotRechts2         .'
+    'SlotLinks3         Trenner         SlotRechts3         .';
+}
+
+.grid-areas-pab-bearbeiten-reise-belege-und-auslagen-input-slots {
+  display: grid;
+  grid-template-columns: 30% 5% 5% 8% 44%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'LabelLinks         LabelLinks                LabelLinks                Trenner         LabelRechts'
+    'SlotLinks1         SlotLinks1Button1         SlotLinks1Button2         Trenner         SlotRechts1'
+    'SlotLinks2         SlotLinks2Button1         SlotLinks2Button2         Trenner         SlotRechts2'
+    'SlotLinks3         SlotLinks3Button1         .                         Trenner         SlotRechts3'
+    'SlotLinks4         .                         .                         Trenner         SlotRechts4'
+    'SlotLinks5         .                         .                         Trenner         SlotRechts5';
+}
+
+.grid-areas-pab-bearbeiten-reise-pauschale-input-slots {
+  display: grid;
+  grid-template-columns: 44% 8% 44%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'LabelLinks         Trenner         LabelRechts'
+    '.                  Trenner         SlotRechts1'
+    '.                  Trenner         SlotRechts2'
+    '.                  Trenner         SlotRechts3';
+}

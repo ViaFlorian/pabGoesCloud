@@ -1,0 +1,140 @@
+<pab-arbeitsnachweis-bearbeiten-action-bar
+  (arbeitsnachweisAbrechnenEvent)="reagiereAufArbeitsnachweisAbrechnenEvent()"
+  (arbeitsnachweisImportierenEvent)="reagiereAufAnwImportierenEvent()"
+  (belegeImportierenEvent)="reagiereAufBelegImportierenEvent()"
+  (speichernEvent)="reagiereAufSpeichernEvent($event)"
+  [aenderung]="istAenderungVorhanden()"
+  [aktuellerArbeitsnachweis]="aktuellerArbeitsnachweis"
+></pab-arbeitsnachweis-bearbeiten-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline [text]="aktuellerArbeitsnachweis | arbeitsnachweisBearbeitenUeberschrift"></pab-headline>
+    <div class="justify-end">
+      <button
+        (click)="oeffneFehlerlogDialog(this.aktuellerArbeitsnachweis!.fehlerlog)"
+        *ngIf="istFehlerlogVorhanden()"
+        class="action-button"
+        mat-button
+        matTooltip="Zusammenfassung des letzten Arbeitsnachweis-Import anzeigen"
+      >
+        <mat-icon>view_list</mat-icon>
+      </button>
+      <a
+        [disabled]="!aktuellerArbeitsnachweis"
+        [href]="dmsBelegUrl"
+        class="action-button"
+        mat-button
+        matTooltip="Belege anzeigen"
+        target="_blank"
+      >
+        <mat-icon>attach_file</mat-icon>
+      </a>
+      <button
+        (click)="zeigeDreimonatsRegeln()"
+        [disabled]="!aktuellerArbeitsnachweis"
+        class="action-button"
+        mat-button
+        matTooltip="Dreimonatsregeln anzeigen"
+      >
+        <mat-icon>calendar_today</mat-icon>
+      </button>
+      <button
+        (click)="oeffneLohnartenDialog()"
+        [disabled]="!aktuellerArbeitsnachweis"
+        class="action-button"
+        mat-button
+        matTooltip="Lohnartenzuordnung anzeigen"
+      >
+        <mat-icon>assignment</mat-icon>
+      </button>
+      <button
+        (click)="oeffneStundenkonto()"
+        [disabled]="!aktuellerArbeitsnachweis"
+        class="action-button"
+        mat-button
+        matTooltip="Stundenkonto anzeigen"
+      >
+        <mat-icon>hourglass_empty</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="border">
+    <pab-arbeitsnachweis-bearbeiten-anw-auswahl-form
+      [abrechnungsmonatAuswahl]="abrechnungsmonatAuswahl"
+      [anwAuswahlFormGroup]="anwAuswahlFormGroup"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahl"
+      [sachbearbeiterAuswahl]="sachbearbeiterAuswahl"
+    ></pab-arbeitsnachweis-bearbeiten-anw-auswahl-form>
+  </div>
+  <div #pabArbeitsnachweisTabsBorder class="border">
+    <pab-spinner
+      *ngIf="!ladeArbeitsnachweisSpinner.isClosed()"
+      [spinnerHeight]="(pabArbeitsnachweisTabsBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabArbeitsnachweisTabsBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <mat-tab-group
+      (selectedIndexChange)="pruefeUndReagiereAufAbrechnungsAuswahl($event)"
+      [(selectedIndex)]="ausgewaehlterTab"
+      animationDuration="0ms"
+      class="height-full"
+      mat-align-tabs="start"
+    >
+      <mat-tab label="Projektstunden">
+        <pab-arbeitsnachweis-bearbeiten-tab-projektstunden
+          (projektstundenAktualisiert)="pruefeUndReagiereAufProjektstundenEingabe()"
+          [abrechnungsmonat]="anwAuswahlFormGroup.get('abrechnungsmonat')!.value"
+          [angerechneteReisezeit]="angerechneteReisezeit"
+          [arbeitsnachweisOffen]="istAktuellerArbeitsnachweisOffen()"
+          [projektAuswahl]="projektAuswahl"
+          [projektstundenFormGroup]="projektstundenFormGroup"
+          [projektstundenListen]="projektstundenListen"
+        ></pab-arbeitsnachweis-bearbeiten-tab-projektstunden>
+      </mat-tab>
+      <mat-tab label="Belege und Auslagen">
+        <pab-arbeitsnachweis-bearbeiten-tab-belege
+          [abrechnungsmonat]="anwAuswahlFormGroup.get('abrechnungsmonat')!.value"
+          [arbeitsnachweisOffen]="istAktuellerArbeitsnachweisOffen()"
+          [belegartenAuswahl]="belegartenAuswahl"
+          [belegeFormGroup]="belegeFormGroup"
+          [belegeListen]="belegeListen"
+          [einsatzortAuswahl]="einsatzortAuswahl"
+          [projektAuswahl]="projektAuswahl"
+          [smartphoneAuswahlFormGroup]="smartphoneAuswahlFormGroup"
+        ></pab-arbeitsnachweis-bearbeiten-tab-belege>
+      </mat-tab>
+      <mat-tab label="Abwesenheiten">
+        <pab-arbeitsnachweis-bearbeiten-tab-abwesenheiten
+          [abrechnungsmonat]="anwAuswahlFormGroup.get('abrechnungsmonat')!.value"
+          [abwesenheitenFormGroup]="abwesenheitenFormGroup"
+          [abwesenheitsListen]="abwesenheitsListen"
+          [arbeitsnachweisOffen]="istAktuellerArbeitsnachweisOffen()"
+          [einsatzortAuswahl]="einsatzortAuswahl"
+          [projektAuswahl]="projektAuswahl"
+        ></pab-arbeitsnachweis-bearbeiten-tab-abwesenheiten>
+      </mat-tab>
+      <mat-tab label="Sonderzeiten">
+        <pab-arbeitsnachweis-bearbeiten-tab-sonderzeiten
+          (reisezeitAktualisiertEvent)="reagiereAufReisezeitAktualisiertEvent()"
+          (sonderzeitAktualisiert)="pruefeUndReagiereAufSonderzeitenEingabe()"
+          [abrechnungsmonat]="anwAuswahlFormGroup.get('abrechnungsmonat')!.value"
+          [arbeitsnachweisOffen]="istAktuellerArbeitsnachweisOffen()"
+          [projektAuswahl]="projektAuswahl"
+          [projektstundeTypAuswahl]="projektstundeTypAuswahl"
+          [projektstundenListen]="projektstundenListen"
+          [sonderzeitenFormGroup]="sonderzeitenFormGroup"
+        >
+        </pab-arbeitsnachweis-bearbeiten-tab-sonderzeiten>
+      </mat-tab>
+      <mat-tab label="Abrechnung">
+        <pab-arbeitsnachweis-bearbeiten-tab-abrechnung
+          (auszahlungUndSonderstundenAktualisiertEvent)="reagiereAufAuszahlungUndSonderstundenAktualisiertEvent()"
+          [abrechnungAuszahlungFormGroup]="abrechnungAuszahlungFormGroup"
+          [arbeitsnachweisAbrechnung]="arbeitsnachweisAbrechnung"
+          [arbeitsnachweisOffen]="istAktuellerArbeitsnachweisOffen()"
+          [ladeAbrechnungSpinner]="ladeAbrechnungSpinner"
+        >
+        </pab-arbeitsnachweis-bearbeiten-tab-abrechnung>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,1 @@
+ALTER TABLE Arbeitsnachweis ADD Uebertrag DECIMAL(18,2) NULL

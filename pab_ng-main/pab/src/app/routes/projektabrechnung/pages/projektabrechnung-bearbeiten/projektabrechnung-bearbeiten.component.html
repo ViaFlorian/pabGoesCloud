@@ -1,0 +1,135 @@
+<pab-projektabrechnung-bearbeiten-action-bar
+  (oeffneFakturuebersichtEvent)="reagiereAufOeffneFakturuebersichtEvent()"
+  (oeffneFertigstellungDialogEvent)="reagiereAufOeffneFertigstellungDialogEvent()"
+  (projektabrechnungAbrechnenEvent)="reagiereAufProjektabrechnungAbrechnenEvent()"
+  (speichernEvent)="reagiereAufSpeichernEvent($event)"
+  [aenderung]="istAenderungVorhanden()"
+  [offen]="istAktuelleProjektabrechnungOffen()"
+  [aktuelleProjektabrechnung]="aktuelleProjektabrechnung"
+  [istFestpreisProjekt]="istProjektFestpreis()"
+  [istProjektKunde]="istProjektKunde()"
+></pab-projektabrechnung-bearbeiten-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline
+      [text]="
+        aktuelleProjektabrechnung?.statusId
+          | projektabrechnungBearbeitenUeberschrift
+            : aktuelleProjektabrechnung?.fertigstellungsgrad
+            : pabAuswahlFormGroup.getRawValue().abrechnungsmonat
+            : pabAuswahlFormGroup.getRawValue().projekt
+      "
+    ></pab-headline>
+    <div class="justify-end">
+      <button
+        *ngIf="aktuelleProjektabrechnung && aktuelleProjektabrechnung.korrekturVorhanden"
+        mat-button
+        color="accent"
+        matTooltip="Korrekturbuchung vorhanden"
+      >
+        <mat-icon>report_problem</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="border">
+    <pab-projektabrechnung-bearbeiten-pab-auswahl-form
+      [pabAuswahlFormGroup]="pabAuswahlFormGroup"
+      [mitarbeiterAlle]="mitarbeiterAlle"
+      [sachbearbeiterAlle]="sachbearbeiterAlle"
+      [kundeAlle]="kundeAlle"
+      [organisationseinheitAlle]="organisationseinheitAlle"
+      [projektAuswahl]="projektAuswahl"
+      [abrechnungsmonatAuswahl]="abrechnungsmonatAuswahl"
+      [projektabrechnungKostenLeistungAuswahl]="projektabrechnungKostenLeistungAuswahl"
+    ></pab-projektabrechnung-bearbeiten-pab-auswahl-form>
+  </div>
+  <div #pabProjektabrechnungTabsBorder class="border">
+    <pab-spinner
+      *ngIf="!ladeProjektabrechnungSpinner.isClosed()"
+      [spinnerHeight]="(pabProjektabrechnungTabsBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabProjektabrechnungTabsBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <mat-tab-group
+      [(selectedIndex)]="ausgewaehlterTab"
+      animationDuration="0ms"
+      class="height-full"
+      mat-align-tabs="start"
+    >
+      <mat-tab
+        label="Projektzeit (P)"
+        [disabled]="
+          !pabAuswahlFormGroup.get('mitarbeiter')?.value?.mitarbeiterId || !hatMitarbeiterMehrAlsBerechneteLeistung
+        "
+      >
+        <pab-projektabrechnung-bearbeiten-tab-projektzeit
+          [pabProjektzeitFormGroup]="pabProjektzeitFormGroup"
+          [pabProjektzeitAlternativeStundensaetzeFormArray]="pabProjektzeitAlternativeStundensaetzeFormArray"
+          [projektabrechnungOffen]="istAktuelleProjektabrechnungOffen()"
+          [pabAuswahlFormGroup]="pabAuswahlFormGroup"
+          [mitarbeiterAlle]="mitarbeiterAlle"
+          (ergaenzeAlternativenStundensatzEvent)="reagiereAufErgaenzeAlternativenStundensatzEvent()"
+          (aktualisiereGesamtKostenUndLeistungEvent)="reagiereAufAktualisiereGesamtKostenUndLeistungEvent()"
+        ></pab-projektabrechnung-bearbeiten-tab-projektzeit>
+      </mat-tab>
+      <mat-tab
+        label="Reise (R)"
+        [disabled]="
+          !pabAuswahlFormGroup.get('mitarbeiter')?.value?.mitarbeiterId || !hatMitarbeiterMehrAlsBerechneteLeistung
+        "
+      >
+        <pab-projektabrechnung-bearbeiten-tab-reise
+          [aktuelleProjektabrechnung]="aktuelleProjektabrechnung"
+          [pabReiseFormGroup]="pabReiseFormGroup"
+          [projektabrechnungOffen]="istAktuelleProjektabrechnungOffen()"
+          [pabAuswahlFormGroup]="pabAuswahlFormGroup"
+          [mitarbeiterAlle]="mitarbeiterAlle"
+          (aktualisiereGesamtKostenUndLeistungEvent)="reagiereAufAktualisiereGesamtKostenUndLeistungEvent()"
+          (oeffneBelegeDialogEvent)="reagiereAufOeffneBelegeDialogEvent()"
+          (oeffneAuslagenDialogEvent)="reagiereAufReiseOeffneAuslagenDialogEvent()"
+          (oeffneSpesenUndZuschlaegeDialogEvent)="reagiereAufOeffneSpesenUndZuschlaegeDialogEvent()"
+          (navigiereZuArbeitsnachweisBearbeitenEvent)="reagiereAufNavigiereZuArbeitsnachweisBearbeitenEvent()"
+        ></pab-projektabrechnung-bearbeiten-tab-reise>
+      </mat-tab>
+      <mat-tab
+        label="Sonderarbeit (S)"
+        [disabled]="
+          !pabAuswahlFormGroup.get('mitarbeiter')?.value?.mitarbeiterId || !hatMitarbeiterMehrAlsBerechneteLeistung
+        "
+      >
+        <pab-projektabrechnung-bearbeiten-tab-sonderarbeit
+          [pabSonderarbeitFormGroup]="pabSonderarbeitFormGroup"
+          [projektabrechnungOffen]="istAktuelleProjektabrechnungOffen()"
+          [pabAuswahlFormGroup]="pabAuswahlFormGroup"
+          [mitarbeiterAlle]="mitarbeiterAlle"
+          (aktualisiereGesamtKostenUndLeistungEvent)="reagiereAufAktualisiereGesamtKostenUndLeistungEvent()"
+        ></pab-projektabrechnung-bearbeiten-tab-sonderarbeit>
+      </mat-tab>
+      <mat-tab
+        label="Sonstige (Ü)"
+        [disabled]="
+          pabAuswahlFormGroup.get('mitarbeiter')?.value?.mitarbeiterId && !hatMitarbeiterMehrAlsBerechneteLeistung
+        "
+      >
+        <pab-projektabrechnung-bearbeiten-tab-sonstige
+          [aktuelleProjektabrechnung]="aktuelleProjektabrechnung"
+          [pabSonstigeFormGroup]="pabSonstigeFormGroup"
+          [projektabrechnungOffen]="istAktuelleProjektabrechnungOffen()"
+          [pabAuswahlFormGroup]="pabAuswahlFormGroup"
+          [mitarbeiterAlle]="mitarbeiterAlle"
+          (aktualisiereGesamtKostenUndLeistungEvent)="reagiereAufAktualisiereGesamtKostenUndLeistungEvent()"
+          (oeffneAuslagenDialogEvent)="reagiereAufSonstigeOeffneAuslagenDialogEvent()"
+        ></pab-projektabrechnung-bearbeiten-tab-sonstige>
+      </mat-tab>
+      <mat-tab
+        label="Fakturfähige Leistung (F)"
+        *ngIf="istProjektFestpreis()"
+        [disabled]="!pabAuswahlFormGroup.get('mitarbeiter')?.value?.mitarbeiterId"
+      >
+        <pab-projektabrechnung-bearbeiten-tab-fakturfaehige-leistung
+          [pabFakturfaehigeLeistungFormGroup]="pabFakturfaehigeLeistungFormGroup"
+        ></pab-projektabrechnung-bearbeiten-tab-fakturfaehige-leistung>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

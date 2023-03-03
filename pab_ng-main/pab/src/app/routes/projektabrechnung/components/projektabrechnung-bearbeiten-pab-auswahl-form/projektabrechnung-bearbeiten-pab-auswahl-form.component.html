@@ -1,0 +1,79 @@
+<div class="grid-form-mit-card">
+  <form [formGroup]="pabAuswahlFormGroup" class="grid-with-3-columns">
+    <pab-autocomplete-projekt
+      [mitErrorPlatzhalter]="false"
+      [parentFormGroup]="pabAuswahlFormGroup"
+      [projektAuswahl]="projektAuswahl"
+      parentFormFieldName="projekt"
+    ></pab-autocomplete-projekt>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Kunde</mat-label>
+      <input formControlName="kunde" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>OE</mat-label>
+      <input formControlName="organisationseinheit" matInput type="text" />
+    </mat-form-field>
+
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>
+        <mat-icon
+          *ngIf="getAbgeschlossenIcon(pabAuswahlFormGroup.get('abrechnungsmonat')?.value)"
+          [fontIcon]="getAbgeschlossenIcon(pabAuswahlFormGroup.get('abrechnungsmonat')?.value)"
+        ></mat-icon>
+        Abrechnungsmonat
+      </mat-label>
+      <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="abrechnungsmonat">
+        <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonatAuswahl" [value]="abrechnungsmonat">
+          <mat-icon [fontIcon]="getAbgeschlossenIcon(abrechnungsmonat)"></mat-icon>
+          {{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Projekttyp</mat-label>
+      <input formControlName="projekttyp" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Projektverantwortung</mat-label>
+      <input formControlName="projektverantwortung" matInput type="text" />
+    </mat-form-field>
+
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>[{{ anzahlMitarbeiter }}] Mitarbeiter:in</mat-label>
+      <mat-select formControlName="mitarbeiter">
+        <mat-option
+          *ngFor="let projektabrechnungKostenLeistung of projektabrechnungKostenLeistungAuswahl"
+          [value]="projektabrechnungKostenLeistung"
+          >{{ projektabrechnungKostenLeistung | projaktabrechnungKostenLeistungAnzeigeName : mitarbeiterAlle }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Sachbearbeiter:in</mat-label>
+      <input formControlName="sachbearbeiter" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Geschäftsstellenzuordnung</mat-label>
+      <input formControlName="geschaeftsstelle" matInput type="text" />
+    </mat-form-field>
+  </form>
+
+  <mat-card class="card-border card-pab-bearbeiten">
+    <mat-card-header>
+      <mat-card-title class="card-title">Monatssumme</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="pabAuswahlFormGroup">
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Kosten</mat-label>
+          <input formControlName="kosten" matInput type="text" />
+        </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic">
+          <mat-label>Leistung</mat-label>
+          <input formControlName="leistung" matInput type="text" />
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

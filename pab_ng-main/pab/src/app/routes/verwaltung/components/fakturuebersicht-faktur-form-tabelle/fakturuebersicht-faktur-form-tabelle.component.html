@@ -1,0 +1,193 @@
+<div class="tab-container-double-line-form">
+  <div class="border-bottom">
+    <form
+      (ngSubmit)="fuegeOderAktualisiereFaktur()"
+      [formGroup]="fakturFormGroup"
+      class="grid-areas-faktur-form-columns"
+    >
+      <mat-form-field style="grid-area: Rechnungsdatum">
+        <mat-label>Rechnungsdatum</mat-label>
+        <input [matDatepicker]="dpRechnungsdatum" formControlName="rechnungsdatum" matInput />
+        <mat-hint>TT.MM.JJJJ</mat-hint>
+        <mat-datepicker-toggle [for]="dpRechnungsdatum" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #dpRechnungsdatum startView="month"></mat-datepicker>
+        <mat-error *ngIf="fakturFormGroup.get('rechnungsdatum')?.errors?.['required']">
+          Pflichtfeld (TT.MM.JJJJ)
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field style="grid-area: Rechnungsnummer">
+        <mat-label>Rechnungsnummer</mat-label>
+        <input formControlName="rechnungsnummer" matInput type="text" />
+        <mat-error *ngIf="fakturFormGroup.get('rechnungsnummer')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+      <mat-form-field style="grid-area: Referenzmonat">
+        <mat-label>
+          <mat-icon
+            *ngIf="getAbgeschlossenIcon(fakturFormGroup.get('referenzmonat')?.value)"
+            [fontIcon]="getAbgeschlossenIcon(fakturFormGroup.get('referenzmonat')?.value)"
+          ></mat-icon>
+          Referenzmonat
+        </mat-label>
+        <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="referenzmonat">
+          <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonateAuswahl" [value]="abrechnungsmonat">
+            <mat-icon [fontIcon]="getAbgeschlossenIcon(abrechnungsmonat)"></mat-icon>
+            {{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="fakturFormGroup.get('referenzmonat')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+      <pab-autocomplete-kunde
+        [kundeAuswahl]="kundeAuswahl"
+        [parentFormGroup]="fakturFormGroup"
+        label="Abw. Rechnungsempfänger"
+        parentFormFieldName="abwRechnungsempfaenger"
+        style="grid-area: AbwRechnungsempfaenger"
+      ></pab-autocomplete-kunde>
+
+      <mat-form-field style="grid-area: BetragNetto">
+        <mat-label>Betrag (Netto)</mat-label>
+        <input
+          formControlName="betragNetto"
+          matInput
+          type="text"
+          (input)="entferneUnerlaubteZeichen('betragNetto', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        />
+        <mat-error *ngIf="fakturFormGroup.get('betragNetto')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+      <mat-form-field style="grid-area: NichtBudgettRelevant">
+        <mat-label>Davon nicht budgetrelevant</mat-label>
+        <input
+          formControlName="nichtBudgetRelevant"
+          matInput
+          type="text"
+          (input)="entferneUnerlaubteZeichen('nichtBudgetRelevant', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        />
+      </mat-form-field>
+      <mat-form-field style="grid-area: Umsatzsteuer">
+        <mat-label>Umsatzsteuer (%)</mat-label>
+        <input
+          formControlName="umsatzsteuer"
+          matInput
+          type="text"
+          (input)="entferneUnerlaubteZeichen('umsatzsteuer', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        />
+        <mat-error *ngIf="fakturFormGroup.get('umsatzsteuer')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+      <mat-form-field style="grid-area: Bemerkung">
+        <mat-label>Bemerkung</mat-label>
+        <input formControlName="bemerkung" matInput type="text" />
+      </mat-form-field>
+      <mat-form-field style="grid-area: Debitorennummer">
+        <mat-label>Debitorennummer</mat-label>
+        <input formControlName="debitorennummer" matInput type="text" />
+      </mat-form-field>
+
+      <div style="grid-area: Button" class="justify-end">
+        <button
+          *ngIf="!fakturFormGroup.getRawValue().id"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Hinzufügen"
+          type="submit"
+          class="margin-right-small"
+          [disabled]="!istProjektAusgewaehlt"
+        >
+          <mat-icon class="mat-icon-in-button">add</mat-icon>
+        </button>
+        <button
+          *ngIf="fakturFormGroup.getRawValue().id"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Aktualisieren"
+          type="submit"
+          class="margin-right-small"
+          [disabled]="!istProjektAusgewaehlt"
+        >
+          <mat-icon class="mat-icon-in-button">autorenew</mat-icon>
+        </button>
+
+        <button
+          (click)="leereForm()"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Formular leeren"
+          [disabled]="!istProjektAusgewaehlt"
+        >
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <section class="table-container">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="referenzmonat">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="referenzmonat">Referenzmonat</th>
+        <td *matCellDef="let element" mat-cell>{{ element.referenzmonat }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="rechnungsdatum">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="rechnungsdatum">Rechnungsdatum</th>
+        <td *matCellDef="let element" mat-cell>{{ element.rechnungsdatum | date : 'dd.MM.yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="rechnungsnummer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="rechnungsnummer">Rechnungsnummer</th>
+        <td *matCellDef="let element" mat-cell>{{ element.rechnungsnummer }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="abwRechnungsempfaenger">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="abwRechnungsempfaenger">
+          Abw. Rechnungsempfänger
+        </th>
+        <td *matCellDef="let element" mat-cell>{{ element.abwRechnungsempfaenger }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="debitorennummer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="debitorennummer">Debitornnummer</th>
+        <td *matCellDef="let element" mat-cell>{{ element.debitorennummer }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="betragNetto">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="betragNetto">Betrag (Netto)</th>
+        <td *matCellDef="let element" mat-cell>{{ element.betragNetto | number : '1.2-2' : 'de' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nichtBudgetRelevant">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="nichtBudgetRelevant">
+          Davon nicht budgetrelevant
+        </th>
+        <td *matCellDef="let element" mat-cell>{{ element.nichtBudgetRelevant }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="umsatzsteuer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="umsatzsteuer">Umsatzsteuer</th>
+        <td *matCellDef="let element" mat-cell>
+          {{ element.umsatzsteuer | number : '1.2-2' : 'de' | ergaenzeProzentZeichen }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="betragBrutto">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="betragBrutto">Betrag (Brutto)</th>
+        <td *matCellDef="let element" mat-cell>{{ element.betragBrutto | number : '1.2-2' : 'de' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="bemerkung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actions"></th>
+        <td *matCellDef="let element" mat-cell>
+          <a (click)="loescheFaktur(element)" mat-icon-button>
+            <mat-icon>delete_forever</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr (click)="ladeFakturInForm(row)" *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+    </table>
+  </section>
+</div>

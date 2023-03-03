@@ -1,0 +1,38 @@
+<h1 *ngIf="!data.validierungsModus" mat-dialog-title>Arbeitsnachweis importieren</h1>
+<h1 *ngIf="data.validierungsModus" mat-dialog-title>Arbeitsnachweis validieren</h1>
+
+<div
+  mat-dialog-content
+  [ngClass]="data.validierungsModus ? 'dialog-body-arbeitsnachweis-validieren' : 'dialog-body-arbeitsnachweis-upload'"
+>
+  <div *ngIf="!data.validierungsModus">
+    <mat-icon class="mat-icon-in-text-align">priority_high</mat-icon>
+    <span>
+      Ungesicherte Eingaben werden nach Durchführung des Imports verworfen. Bereits gespeicherte Daten werden nach
+      Speicherung der importierten Daten überschrieben.
+    </span>
+  </div>
+  <div class="dialog-body">
+    <div (fileDropped)="verarbeiteDatei($event)" class="border" pab-drag-and-drop>
+      <input
+        #fileUpload
+        (change)="onFileAusgewaehlt($event)"
+        [accept]="akzeptierterDateiTyp"
+        class="file-input"
+        type="file"
+      />
+      <div class="file-upload">
+        <mat-icon class="upload-icon">upload_file</mat-icon>
+        <p>Datei in das Fenster ziehen oder</p>
+        <button (click)="fileUpload.click()" class="upload-btn" color="primary" mat-flat-button>auswählen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button color="basic" mat-dialog-close="true" mat-stroked-button>
+    <mat-icon>cancel</mat-icon>
+    Abbrechen
+  </button>
+</div>

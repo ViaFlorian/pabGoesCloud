@@ -1,0 +1,109 @@
+<pab-monatsabschluss-action-bar></pab-monatsabschluss-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline [text]="ueberschrift"></pab-headline>
+  </div>
+
+  <div class="border monatsabschlussContainer">
+    <form [formGroup]="monatsabschlussFormGroup">
+      <mat-form-field>
+        <mat-label>
+          <mat-icon
+            *ngIf="getAbgeschlossenIcon(monatsabschlussFormGroup.get('abrechnungsmonat')?.value)"
+            [fontIcon]="getAbgeschlossenIcon(monatsabschlussFormGroup.get('abrechnungsmonat')?.value)"
+          ></mat-icon>
+          Abrechnungsmonat
+        </mat-label>
+        <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="abrechnungsmonat">
+          <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonateAuswahl" [value]="abrechnungsmonat">
+            <mat-icon [fontIcon]="getAbgeschlossenIcon(abrechnungsmonat)"></mat-icon>
+            {{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <table [dataSource]="monatsabschlussAktionenTabelle.dataSource" mat-table>
+      <ng-container matColumnDef="aktion">
+        <th *matHeaderCellDef mat-header-cell>Aktion</th>
+        <td *matCellDef="let element" mat-cell>{{ element.aktion }}</td>
+      </ng-container>
+      <ng-container matColumnDef="mitarbeiter">
+        <th *matHeaderCellDef mat-header-cell>Mitarbeiter:in</th>
+        <td *matCellDef="let element" mat-cell>{{ element.mitarbeiter }}</td>
+      </ng-container>
+      <ng-container matColumnDef="datum">
+        <th *matHeaderCellDef mat-header-cell>Datum</th>
+        <td *matCellDef="let element" mat-cell>{{ element.datum }}</td>
+      </ng-container>
+      <tr *matHeaderRowDef="monatsabschlussAktionenTabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: monatsabschlussAktionenTabelle.displayedColumns" mat-row></tr>
+    </table>
+  </div>
+
+  <div class="border grid-verwaltung-monatsabschluss-nicht-abgeschlossen-columns">
+    <h2>{{ ueberschriftMitarbeiterTabelle }}</h2>
+    <h2>{{ ueberschriftProjekteTabelle }}</h2>
+    <section class="table-container">
+      <table
+        (matSortChange)="nichtAbgeschlosseneMitarbeiterTabelle.onSortEvent()"
+        [dataSource]="nichtAbgeschlosseneMitarbeiterTabelle.dataSource"
+        mat-table
+        matMultiSort
+      >
+        <ng-container matColumnDef="aktion">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="aktion"></th>
+          <td *matCellDef="let element" mat-cell>{{ element.aktion }}</td>
+        </ng-container>
+        <ng-container matColumnDef="mitarbeiter">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitarbeiter">Mitarbeiter:in</th>
+          <td *matCellDef="let element" mat-cell>{{ element.mitarbeiterName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="internExtern">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="internExtern">Intern/Extern</th>
+          <td *matCellDef="let element" mat-cell>{{ element.internExtern }}</td>
+        </ng-container>
+        <ng-container matColumnDef="sachbearbeiter">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="sachbearbeiter">Sachbearbeiter:in</th>
+          <td *matCellDef="let element" mat-cell>{{ element.sachbearbeiterName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="bearbeitungsstatus">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bearbeitungsstatus">Bearbeitungsstatus</th>
+          <td *matCellDef="let element" mat-cell>{{ element.bearbeitungsstatus }}</td>
+        </ng-container>
+        <tr *matHeaderRowDef="nichtAbgeschlosseneMitarbeiterTabelle.displayedColumns; sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: nichtAbgeschlosseneMitarbeiterTabelle.displayedColumns" mat-row></tr>
+      </table>
+    </section>
+    <section class="table-container">
+      <table
+        (matSortChange)="nichtAbgeschlosseneProjekteTabelle.onSortEvent()"
+        [dataSource]="nichtAbgeschlosseneProjekteTabelle.dataSource"
+        mat-table
+        matMultiSort
+      >
+        <ng-container matColumnDef="aktion">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="aktion"></th>
+          <td *matCellDef="let element" mat-cell>{{ element.aktion }}</td>
+        </ng-container>
+        <ng-container matColumnDef="projektnummer">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+          <td *matCellDef="let element" mat-cell>{{ element.projektnummer }}</td>
+        </ng-container>
+        <ng-container matColumnDef="projektbezeichnung">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektbezeichnung">Projektbezeichnung</th>
+          <td *matCellDef="let element" mat-cell>{{ element.projektbezeichnung }}</td>
+        </ng-container>
+        <ng-container matColumnDef="sachbearbeiter">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="sachbearbeiter">Sachbearbeiter:in</th>
+          <td *matCellDef="let element" mat-cell>{{ element.sachbearbeiter }}</td>
+        </ng-container>
+        <ng-container matColumnDef="bearbeitungsstatus">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bearbeitungsstatus">Bearbeitungsstatus</th>
+          <td *matCellDef="let element" mat-cell>{{ element.bearbeitungsstatus }}</td>
+        </ng-container>
+        <tr *matHeaderRowDef="nichtAbgeschlosseneProjekteTabelle.displayedColumns; sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: nichtAbgeschlosseneProjekteTabelle.displayedColumns" mat-row></tr>
+      </table>
+    </section>
+  </div>
+</div>

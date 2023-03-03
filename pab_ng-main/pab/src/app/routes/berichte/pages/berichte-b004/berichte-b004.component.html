@@ -1,0 +1,113 @@
+<pab-berichte-action-bar
+  (erstellePDFEvent)="erstelleUndZeigePdf()"
+  (versendePDFEvent)="versendePdfAlsEmail()"
+  [actionBarButtonKonfiguration]="actionBarButtonKonfiguration"
+></pab-berichte-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline [text]="ueberschrift"></pab-headline>
+    <div class="justify-end">
+      <button (click)="oeffneHinweisDialog()" [matTooltip]="hinweisText" mat-button>
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="border">
+    <form [formGroup]="berichtFilterFormGroup" class="grid-berichte-b004-columns">
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Abrechnungsmonat</mat-label>
+        <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="abrechnungsmonat">
+          <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonatAuswahl" [value]="abrechnungsmonat"
+            >{{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Bearbeitungsstatus</mat-label>
+        <mat-select formControlName="bearbeitungsstatus">
+          <mat-option *ngFor="let type of eBearbeitungsstatusEnum | keyvalue" [value]="type.value">{{
+            type.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <pab-autocomplete-mitarbeiter
+        [mitarbeiterAuswahl]="mitarbeiterAuswahl | mitarbeiterToObs"
+        [mitErrorPlatzhalter]="false"
+        [parentFormGroup]="berichtFilterFormGroup"
+        parentFormFieldName="mitarbeiter"
+      ></pab-autocomplete-mitarbeiter>
+
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Sachbearbeiter:in</mat-label>
+        <mat-select [compareWith]="sindMitarbeiterGleich" formControlName="sachbearbeiter">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let sachbearbeiter of sachbearbeiterAuswahl" [value]="sachbearbeiter"
+            >{{ sachbearbeiter | mitarbeiterAnzeigeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="justify-end">
+        <button (click)="onLeereFilter()" color="basic" mat-stroked-button matTooltip="Filter leeren">
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="border">
+    <div class="height-full" #pabB004UebersichtTabelleBorder>
+      <pab-spinner
+        *ngIf="!ladeBerichteSpinner.isClosed()"
+        [spinnerHeight]="(pabB004UebersichtTabelleBorder.offsetHeight - 20).toString()"
+        [spinnerWidth]="(pabB004UebersichtTabelleBorder.offsetWidth - 20).toString()"
+      ></pab-spinner>
+
+      <section class="table-container">
+        <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+          <ng-container matColumnDef="mitarbeiter">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitarbeiter">Mitarbeiter:in</th>
+            <td *matCellDef="let element" mat-cell>{{ element.mitarbeiter }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="sachbearbeiter">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="sachbearbeiter">Sachbearbeiter:in</th>
+            <td *matCellDef="let element" mat-cell>{{ element.sachbearbeiter }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="bearbeitungsstatus">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bearbeitungsstatus">Bearbeitungsstatus</th>
+            <td *matCellDef="let element" mat-cell>{{ element.bearbeitungsstatus }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="projektstunden">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektstunden">Projektstunden</th>
+            <td *matCellDef="let element" mat-cell>{{ element.projektstunden | number : '1.2-2' : 'de' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="reisezeit">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="reisezeit">Reisezeit</th>
+            <td *matCellDef="let element" mat-cell>{{ element.reisezeit | number : '1.2-2' : 'de' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="sonderarbeitszeit">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="sonderarbeitszeit">Sonderarbeitszeit</th>
+            <td *matCellDef="let element" mat-cell>{{ element.sonderarbeitszeit | number : '1.2-2' : 'de' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="rufbereitschaft">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="rufbereitschaft">Rufbereitschaft</th>
+            <td *matCellDef="let element" mat-cell>{{ element.rufbereitschaft | number : '1.2-2' : 'de' }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+        </table>
+        <pab-tabelle-leer-card *ngIf="anzahlErgebnisse === 0"></pab-tabelle-leer-card>
+      </section>
+    </div>
+  </div>
+</div>

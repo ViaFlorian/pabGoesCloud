@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Lohnartenzuordnung</h1>
+
+<div mat-dialog-content class="dialog-body-tabelle-mit-text">
+  <span>
+    Die Lohnartenberechnung wird beim Speichern des Arbeitsnachweises aktualisiert. <br />
+    Detailinformationen sind per Doppelklick auf die untenstehenden Zeilen abrufbar.
+  </span>
+  <section class="dialog-table">
+    <table
+      (matSortChange)="tabelle.onSortEvent()"
+      [dataSource]="tabelle.dataSource"
+      class="klickbare-tabelle"
+      mat-table
+      matMultiSort
+    >
+      <ng-container matColumnDef="konto">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="konto">Konto</th>
+        <td *matCellDef="let element" mat-cell>{{ element.konto }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="bezeichnung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bezeichnung">Bezeichnung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.bezeichnung }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="betrag">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="betrag">Betrag</th>
+        <td *matCellDef="let element" mat-cell>{{ element.betrag | number : '1.2-2' : 'de' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="einheit">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="einheit">Einheit</th>
+        <td *matCellDef="let element" mat-cell>{{ element.einheit }}</td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr (dblclick)="oeffneLohnartLogBuch(row)" *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+    </table>
+  </section>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button [mat-dialog-close]="false" color="primary" mat-flat-button>
+    <mat-icon>cancel</mat-icon>
+    Schließen
+  </button>
+</div>

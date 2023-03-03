@@ -1,0 +1,143 @@
+<pab-berichte-action-bar
+  (erstelleExcelEvent)="reagiereAufErstelleExcel()"
+  [actionBarButtonKonfiguration]="actionBarButtonKonfiguration"
+></pab-berichte-action-bar>
+<div class="basis-container basis-container-grid">
+  <div class="grid-titel-columns">
+    <pab-headline [text]="ueberschrift"></pab-headline>
+    <div class="justify-end">
+      <button (click)="oeffneHinweisDialog()" [matTooltip]="hinweisText" mat-button>
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="border">
+    <form [formGroup]="berichtFilterFormGroup" class="grid-berichte-b008-columns">
+      <div class="grid-with-2-columns" style="grid-area: Abrechnungsmonat">
+        <mat-form-field>
+          <mat-label>Von Abrechnungsmonat</mat-label>
+          <input [matDatepicker]="dpAbrechnungsmonatAbWann" formControlName="abrechnungsmonatAbWann" matInput />
+          <mat-hint>MM.YY</mat-hint>
+          <mat-datepicker-toggle [for]="dpAbrechnungsmonatAbWann" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker
+            #dpAbrechnungsmonatAbWann
+            (monthSelected)="setAbrechnungsmonatAbWann($event, dpAbrechnungsmonatAbWann)"
+            startView="year"
+          >
+          </mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Bis Abrechnungsmonat</mat-label>
+          <input [matDatepicker]="dpAbrechnungsmonatBisWann" formControlName="abrechnungsmonatBisWann" matInput />
+          <mat-hint>MM.YY</mat-hint>
+          <mat-datepicker-toggle [for]="dpAbrechnungsmonatBisWann" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker
+            #dpAbrechnungsmonatBisWann
+            (monthSelected)="setAbrechnungsmonatBisWann($event, dpAbrechnungsmonatBisWann)"
+            startView="year"
+          >
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <pab-autocomplete-projekt
+        [mitErrorPlatzhalter]="true"
+        [parentFormGroup]="berichtFilterFormGroup"
+        [projektAuswahl]="projektAuswahl"
+        parentFormFieldName="projekt"
+        style="grid-area: Projekt"
+      >
+      </pab-autocomplete-projekt>
+
+      <div stlye="grid-area: Kunde">
+        <pab-autocomplete-kunde
+          [parentFormGroup]="berichtFilterFormGroup"
+          [kundeAuswahl]="kundeAuswahl"
+          parentFormFieldName="kunde"
+        ></pab-autocomplete-kunde>
+      </div>
+
+      <div class="justify-end" style="grid-area: ClearButton">
+        <button (click)="onLeereFilter()" color="basic" mat-stroked-button matTooltip="Filter leeren">
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+
+      <div class="grid-with-2-columns grid-checkbox">
+        <mat-checkbox subscriptSizing="dynamic" formControlName="istDetailsAktiv"> Reisedetails </mat-checkbox>
+        <mat-checkbox subscriptSizing="dynamic" formControlName="istAusgabeInPT"> Ausgabe in PTs </mat-checkbox>
+      </div>
+
+      <mat-form-field subscriptSizing="dynamic" style="grid-area: Sachbearbeiter">
+        <mat-label>Sachbearbeiter:in</mat-label>
+        <mat-select formControlName="sachbearbeiter">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let sachbearbeiter of sachbearbeiterAuswahl" [value]="sachbearbeiter"
+            >{{ sachbearbeiter | mitarbeiterAnzeigeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field subscriptSizing="dynamic" style="grid-area: OE">
+        <mat-label>OE</mat-label>
+        <mat-select formControlName="organisationseinheit">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let organisationseinheit of organisationseinheitAuswahl" [value]="organisationseinheit"
+            >{{ organisationseinheit | organisationseinheitAnzeigeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="border">
+    <div class="height-full" #pabB008UebersichtTabelleBorder>
+      <pab-spinner
+        *ngIf="!ladeBerichteSpinner.isClosed()"
+        [spinnerHeight]="(pabB008UebersichtTabelleBorder.offsetHeight - 20).toString()"
+        [spinnerWidth]="(pabB008UebersichtTabelleBorder.offsetWidth - 20).toString()"
+      ></pab-spinner>
+
+      <section class="table-container">
+        <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+          <ng-container matColumnDef="projektnummer">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+            <td *matCellDef="let element" mat-cell class="text-rechtsbuendig">
+              <mat-icon *ngIf="!element.projektIstAktiv" class="vertical-center" color="warn">
+                not_interested
+              </mat-icon>
+              {{ element.projektnummer }}
+            </td>
+            <td *matFooterCellDef mat-footer-cell></td>
+          </ng-container>
+
+          <ng-container matColumnDef="projektbezeichnung">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektbezeichnung">Bezeichnung</th>
+            <td *matCellDef="let element" mat-cell>{{ element.projektbezeichnung }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="abrechnungsmonat">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="abrechnungsmonat">Abrechnungsmonat</th>
+            <td *matCellDef="let element" mat-cell>{{ element.abrechnungsmonat }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="kosten">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kosten">Kosten</th>
+            <td *matCellDef="let element" mat-cell>{{ element.kosten | anzeigeGeldbetraegeEuro }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="leistungen">
+            <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="leistungen">Leistungen</th>
+            <td *matCellDef="let element" mat-cell>{{ element.leistungen | anzeigeGeldbetraegeEuro }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+        </table>
+        <pab-tabelle-leer-card *ngIf="anzahlErgebnisse === 0"></pab-tabelle-leer-card>
+      </section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.file-input {
+  display: none;
+}
+
+.file-upload {
+  display: grid;
+  grid-template-rows: 50% 20% 30%;
+  align-items: center;
+  justify-items: center;
+  height: 100%;
+}
+
+.upload-icon {
+  transform: scale(3);
+}

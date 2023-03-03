@@ -1,0 +1,24 @@
+<form [formGroup]="fakturAuswahlFormGroup" class="grid-faktur-auswahl-columns">
+  <pab-autocomplete-projekt
+    [mitErrorPlatzhalter]="false"
+    [parentFormGroup]="fakturAuswahlFormGroup"
+    [projektAuswahl]="projektAuswahl"
+    parentFormFieldName="projekt"
+  ></pab-autocomplete-projekt>
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Rechnungsempfänger laut Projekt</mat-label>
+    <input formControlName="rechnungsempfaenger" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Debitorennummer</mat-label>
+    <input formControlName="debitorennummer" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Rechnungssumme (Netto) - Gesamt</mat-label>
+    <input formControlName="gesamt" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Rechnungssumme (Netto) - Laufendes Jahr</mat-label>
+    <input formControlName="laufendesJahr" matInput type="text" />
+  </mat-form-field>
+</form>

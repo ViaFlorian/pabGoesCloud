@@ -1,0 +1,15 @@
+<div>
+  <h2>Aktuelles</h2>
+</div>
+
+<div>
+  <div *ngFor="let changelogEintrag of changelogEintraege">
+    <h3>
+      <b class="abstand-datum">{{ changelogEintrag.datum }}</b>
+      <span>{{ changelogEintrag.version }}</span>
+    </h3>
+    <ul>
+      <li *ngFor="let eintrag of changelogEintrag.eintraege">{{ eintrag }}</li>
+    </ul>
+  </div>
+</div>

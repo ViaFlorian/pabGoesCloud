@@ -1,0 +1,16 @@
+.grid-areas-pab-bearbeiten-sonstige {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-row-gap: 15px;
+}
+
+.grid-areas-pab-bearbeiten-sonstige-sonstige-input-slots {
+  display: grid;
+  grid-template-columns: 30% 5% 5% 8% 21% 21%;
+  grid-gap: 2%;
+  grid-template-areas:
+    'LabelLinks     LabelLinks                LabelLinks                  Trenner         LabelRechts     LabelRechts'
+    'SlotLinks1     SlotLinks1Button1         SlotLinks1Button2           Trenner         .               .'
+    'SlotLinks2     .                         .                           Trenner         SlotRechts2     Bemerkung'
+    'SlotLinks3     .                         .                           Trenner         SlotRechts3     .';
+}

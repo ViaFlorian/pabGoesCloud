@@ -1,0 +1,20 @@
+.grid-areas-pab-bearbeiten-dialig-fertigstellung-input-slots {
+  display: grid;
+  grid-template-columns: 36% 22% 22%;
+  grid-column-gap: 10%;
+  grid-row-gap: 5px;
+  grid-template-areas:
+    '.              LabelLinks         LabelRechts'
+    'Label1         SlotLinks1         SlotRechts1'
+    'Label2         SlotLinks2         SlotRechts2'
+    'Label3         SlotLinks3         SlotRechts3'
+    'Label4         .                  SlotRechts4'
+    '.              Trenner            Trenner'
+    'Label5         SlotLinks5         SlotRechts5'
+    'Label6         .                  SlotRechts6'
+    '.              Fehlermeldung      Fehlermeldung';
+}
+
+.trenner-hoehe {
+  height: 1px;
+}

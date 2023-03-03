@@ -1,0 +1,29 @@
+<mat-toolbar color="secondary">
+  <div>
+    <button [disabled]="!darfGespeichertWerden" (click)="speichern()" mat-button>
+      <mat-icon>save</mat-icon>
+      <span>Speichern</span>
+    </button>
+    <button [disabled]="!darfGespeichertWerden" (click)="speichernUndSchliessen()" mat-button>
+      <mat-icon>save_alt</mat-icon>
+      <span>Speichern und Schließen</span>
+    </button>
+    <button [disabled]="!darfGespeichertWerden" (click)="speichernUndNeu()" mat-button>
+      <mat-icon>data_saver_on</mat-icon>
+      <span>Speichern und Neu</span>
+    </button>
+    <button [disabled]="!darfAbgerechnetWerden" (click)="abrechnen()" mat-button>
+      <mat-icon>calculate</mat-icon>
+      Abrechnen
+    </button>
+    <button [disabled]="!darfImportiertWerden" (click)="arbeitsnachweisImportierenDialogOeffnen()" mat-button>
+      <mat-icon>assignment_returned</mat-icon>
+      <span>Arbeitsnachweis importieren</span>
+    </button>
+    <button [disabled]="!belegeDuerfenImportierWerden" (click)="belegeImportierenDialogOeffnen()" mat-button>
+      <mat-icon>attach_file</mat-icon>
+      <span>Belege importieren</span>
+    </button>
+    <pab-close-button></pab-close-button>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,156 @@
+<div #pabArbeitsnachweisAbrechnung class="tab-container-only-form">
+  <pab-spinner
+    *ngIf="!ladeAbrechnungSpinner.isClosed()"
+    [spinnerHeight]="(pabArbeitsnachweisAbrechnung.offsetHeight - 20).toString()"
+    [spinnerWidth]="pabArbeitsnachweisAbrechnung.offsetWidth.toString()"
+  ></pab-spinner>
+  <div class="grid-with-3-columns" style="font-size: 14px">
+    <div>
+      <div class="grid-titel-columns">
+        <h2>Auszahlung und Sollstunden</h2>
+        <div class="justify-end">
+          <button
+            (click)="oeffneFormDialog()"
+            *ngIf="arbeitsnachweisOffen"
+            mat-button
+            matTooltip="Auszahlung und Sollstunden bearbeiten"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="grid-columns">
+        <div class="grid-fuer-vorzeichen">
+          <div class="display-vorzeichen-box"></div>
+          <div class="display-text-box-left">Vortrag</div>
+        </div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.vortrag | usNummerZuDeString }}</div>
+        <div class="grid-fuer-vorzeichen">
+          <div class="display-vorzeichen-box">+</div>
+          <div class="display-text-box-left">Summe Ist-Stunden</div>
+        </div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.summeIstStunden | usNummerZuDeString }}</div>
+        <div class="grid-fuer-vorzeichen">
+          <div class="display-vorzeichen-box">-</div>
+          <div class="display-text-box-left">Sollstunden</div>
+        </div>
+        <div
+          [ngClass]="{
+            'text-editable': arbeitsnachweisOffen
+          }"
+          class="display-text-box-right"
+        >
+          {{ arbeitsnachweisAbrechnung.sollstunden | usNummerZuDeString }}
+        </div>
+        <div class="grid-fuer-vorzeichen">
+          <div class="display-vorzeichen-box">=</div>
+          <div class="display-text-box-left">Übertrag vor Auszahlung</div>
+        </div>
+        <div class="display-text-box-right">
+          {{ arbeitsnachweisAbrechnung.uebertragVorAuszahlung | usNummerZuDeString }}
+        </div>
+        <div class="grid-fuer-vorzeichen">
+          <div class="display-vorzeichen-box">-</div>
+          <div class="display-text-box-left">Auszahlung Sonderarbeitszeit</div>
+        </div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.sonderarbeitszeit | usNummerZuDeString }}</div>
+        <div class="grid-fuer-vorzeichen">
+          <div class="display-vorzeichen-box">-</div>
+          <div class="display-text-box-left">Auszahlung</div>
+        </div>
+        <div
+          [ngClass]="{
+            'text-editable': arbeitsnachweisOffen
+          }"
+          class="display-text-box-right"
+        >
+          {{ arbeitsnachweisAbrechnung.auszahlung | usNummerZuDeString }}
+        </div>
+        <div class="grid-fuer-vorzeichen">
+          <div class="display-vorzeichen-box">=</div>
+          <div class="display-text-box-left">Übertrag nach Auszahlung</div>
+        </div>
+        <div class="display-text-box-right">
+          {{ arbeitsnachweisAbrechnung.uebertragNachAuszahlung | usNummerZuDeString }}
+        </div>
+      </div>
+      <div class="display-zwischen-ueberschrift-box"><h3>informatorisch</h3></div>
+      <div class="grid-columns">
+        <div class="display-text-box-left">berechnete Sollstunden</div>
+        <div class="display-text-box-right">
+          {{ arbeitsnachweisAbrechnung.berechneteSollstunden | usNummerZuDeString }}
+        </div>
+        <div class="display-text-box-left">aktueller Stellenfaktor</div>
+        <div class="display-text-box-right">
+          {{ arbeitsnachweisAbrechnung.aktuellerStellenfaktor | usNummerZuDeString }}
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Abwesenheiten</h2>
+      <mat-divider></mat-divider>
+      <div class="display-zwischen-ueberschrift-box"><h3>Anzahl Tage für die Spesenberechnung</h3></div>
+      <div class="grid-columns">
+        <div class="display-text-box-left">> 8 Stunden</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.ueberAcht }}</div>
+        <div class="display-text-box-left">An-/Abreise</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.anAb }}</div>
+        <div class="display-text-box-left">= 24 Stunden</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.spesenGanztaegig }}</div>
+        <div class="display-text-box-left">Frühstück</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.fruehstueck }}</div>
+        <div class="display-text-box-left">Mittagessen</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.mittagessen }}</div>
+        <div class="display-text-box-left">Abendessen</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.abendessen }}</div>
+      </div>
+      <div class="display-zwischen-ueberschrift-box"><h3>Anzahl Tage für die Zuschlagsberechnung</h3></div>
+      <div class="grid-columns">
+        <div class="display-text-box-left">6 <= x <= 10 Stunden</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.zwischenSechsUndZehn }}</div>
+        <div class="display-text-box-left">> 10 Stunden</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.ueberZehn }}</div>
+        <div class="display-text-box-left">= 24 Stunden / mit Übernachtung</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.zuschlaegeGanztaegig }}</div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Sonderzeiten</h2>
+      <mat-divider></mat-divider>
+      <div class="grid-columns">
+        <div class="display-text-box-left">Sonderarbeitszeit</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.sonderarbeitszeit }}</div>
+        <div class="display-text-box-left">davon Werktag</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.davonWerktag }}</div>
+        <div class="display-text-box-left">davon Samstag</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.davonSamstag }}</div>
+        <div class="display-text-box-left">davon Sonntag/Feiertag</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.davonSonntagFeiertag }}</div>
+        <div class="display-text-box-left">Rufbereitschaft</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.rufbereitschaft }}</div>
+      </div>
+      <div class="display-zwischen-ueberschrift-box"></div>
+      <h2>Belege und Auslagen</h2>
+      <mat-divider></mat-divider>
+      <div class="grid-columns">
+        <div class="display-text-box-left">Summe Belege</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.summeBelege }}</div>
+        <div class="display-text-box-left">Firmenwagen</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.firmenwagen }}</div>
+        <div class="display-text-box-left">Kilometerpauschale Firmenwagen</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.firmenwagen }}</div>
+        <div class="display-text-box-left">Smartphone</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.smartphone }}</div>
+        <div class="display-text-box-left">Zuschlag Smartphone</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.zuschlagSmartphone }}</div>
+        <div class="display-text-box-left">Verbindungsentgelt</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.verbindungsentgelt }}</div>
+        <div class="display-text-box-left">Jobticket</div>
+        <div class="display-text-box-right">{{ arbeitsnachweisAbrechnung.jobticket }}</div>
+      </div>
+    </div>
+  </div>
+</div>

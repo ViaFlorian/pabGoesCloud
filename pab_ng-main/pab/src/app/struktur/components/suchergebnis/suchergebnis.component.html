@@ -1,0 +1,42 @@
+<div class="suchergebnis-content">
+  <div class="suchergebnis-filter">
+    <form [formGroup]="filterFormGroup" class="suchergebnis-filter-form">
+      <mat-checkbox formControlName="angeboteAnzeigen" class="suchergebnis-filter-checkbox"> Angebote </mat-checkbox>
+      <mat-checkbox formControlName="maskenAnzeigen" class="suchergebnis-filter-checkbox">Masken </mat-checkbox>
+      <mat-checkbox formControlName="kontakteAnzeigen" class="suchergebnis-filter-checkbox"> Kontakte </mat-checkbox>
+      <mat-checkbox formControlName="mitarbeiterAnzeigen" class="suchergebnis-filter-checkbox">
+        Mitarbeiter:innen
+      </mat-checkbox>
+      <mat-checkbox formControlName="projekteAnzeigen" class="suchergebnis-filter-checkbox">Projekte </mat-checkbox>
+      <mat-checkbox formControlName="unternehmenAnzeigen" class="suchergebnis-filter-checkbox">
+        Unternehmen
+      </mat-checkbox>
+      <mat-checkbox formControlName="vertraegeAnzeigen" class="suchergebnis-filter-checkbox"> Verträge </mat-checkbox>
+    </form>
+  </div>
+
+  <div class="suchergebnis-tabelle">
+    <pab-tabelle-leer-card *ngIf="suchergebnisse?.length === 0"></pab-tabelle-leer-card>
+    <cdk-virtual-scroll-viewport *ngIf="suchergebnisse" itemSize="40" class="scroll-viewport">
+      <div *cdkVirtualFor="let suchergebnis of suchergebnisse" class="suchergebnis-zeile">
+        <div class="suchergebnis">
+          <div class="suchergebnis-text">
+            {{ suchergebnis.bezeichnung }}
+          </div>
+          <div class="suchergebnis-text">
+            {{ suchergebnis.typ }}
+          </div>
+          <div class="suchergebnis-aktion">
+            <mat-icon
+              matTooltip="{{ akt.tooltip }}"
+              class="suchergebnis-aktion"
+              *ngFor="let akt of suchergebnis.aktion"
+              (click)="fuehreAktionAus(akt)"
+              >{{ akt.icon }}</mat-icon
+            >
+          </div>
+        </div>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>

@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B006SubreportStundenkonto" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="822" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" isSummaryNewPage="true" isIgnorePagination="true" uuid="87be3776-c535-4b2b-8fce-7ace96fdfbee">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Ueberschrift" hTextAlign="Left" fontName="DejaVu Sans" fontSize="11" isBold="true"/>
+	<style name="Filter" fontName="DejaVu Sans" fontSize="10"/>
+	<style name="DetailUeberschrift" fontName="DejaVu Sans" fontSize="8" isBold="true">
+		<box>
+			<topPen lineWidth="0.6" lineStyle="Dotted"/>
+			<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+			<bottomPen lineWidth="0.6" lineStyle="Dotted"/>
+			<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+		</box>
+	</style>
+	<style name="Gruppenwechsel" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
+	<style name="Detail" hTextAlign="Center" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($F{modifier}.equals("="))]]></conditionExpression>
+			<style isBold="true">
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="DetailSumme" hTextAlign="Center" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8" isBold="true"/>
+	<style name="DetailUeberschriftRotiert" style="DetailUeberschrift" hTextAlign="Left" vTextAlign="Middle" rotation="Right"/>
+	<style name="Footer" fontName="DejaVu Sans" fontSize="6"/>
+	<style name="Januar" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("1").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="Februar" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("2").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="März" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("3").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="April" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("4").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="Mai" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("5").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="Juni" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("6").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="Juli" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("7").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="August" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("8").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="September" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("9").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="Oktober" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("10").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="November" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("11").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<style name="Dezember" style="Detail">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($P{hoechsterAbrechnungsmonatDesJahres}.intValue() < Integer.valueOf("12").intValue())]]></conditionExpression>
+			<style mode="Opaque" forecolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="jahrZweistellig" class="java.lang.Integer"/>
+	<parameter name="hoechsterAbrechnungsmonatDesJahres" class="java.lang.Integer"/>
+	<parameter name="istVorlaeufig" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="stundenart" class="java.lang.String">
+		<fieldDescription><![CDATA[stundenart]]></fieldDescription>
+	</field>
+	<field name="januar" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[januar]]></fieldDescription>
+	</field>
+	<field name="februar" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[februar]]></fieldDescription>
+	</field>
+	<field name="maerz" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[maerz]]></fieldDescription>
+	</field>
+	<field name="april" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[april]]></fieldDescription>
+	</field>
+	<field name="mai" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[mai]]></fieldDescription>
+	</field>
+	<field name="juni" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[juni]]></fieldDescription>
+	</field>
+	<field name="juli" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[juli]]></fieldDescription>
+	</field>
+	<field name="august" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[august]]></fieldDescription>
+	</field>
+	<field name="september" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[september]]></fieldDescription>
+	</field>
+	<field name="oktober" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[oktober]]></fieldDescription>
+	</field>
+	<field name="november" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[november]]></fieldDescription>
+	</field>
+	<field name="dezember" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[dezember]]></fieldDescription>
+	</field>
+	<field name="zeileSumme" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[zeileSumme]]></fieldDescription>
+	</field>
+	<field name="modifier" class="java.lang.String">
+		<fieldDescription><![CDATA[modifier]]></fieldDescription>
+	</field>
+	<variable name="previous" class="java.lang.String">
+		<variableExpression><![CDATA[$V{current}]]></variableExpression>
+	</variable>
+	<variable name="current" class="java.lang.String">
+		<variableExpression><![CDATA[$F{stundenart}]]></variableExpression>
+	</variable>
+	<group name="Group1" keepTogether="true">
+		<groupExpression><![CDATA[("1".equals("1"))]]></groupExpression>
+		<groupHeader>
+			<band splitType="Prevent">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="40">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement style="Gruppenwechsel" x="0" y="0" width="800" height="15" uuid="2ce686c6-bd1c-40c9-8994-2baf5e377bf4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Stundenkonto]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Januar" x="157" y="25" width="49" height="15" uuid="58c4d231-6948-4c63-bcd3-6e3b4e29ad65">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("01." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Dezember" x="696" y="25" width="49" height="15" uuid="4715f4ee-6fdc-44ba-999c-d6e6139d5be7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="5.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("12." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Oktober" x="598" y="25" width="49" height="15" uuid="49e07382-e713-4172-af7c-6d4131163392">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="5.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("10." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" x="0" y="25" width="157" height="15" uuid="b49a39da-c4b3-4eee-9ebb-daaee4d05947">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="November" x="647" y="25" width="49" height="15" uuid="1f4f90f8-1790-4416-aaa0-7dfd36dc2266">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="5.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("11." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="August" x="500" y="25" width="49" height="15" uuid="626ede59-47be-41db-a155-6819afbb95dc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="5.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("08." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" x="745" y="25" width="55" height="15" uuid="5ea20115-87e0-4328-8ca1-e89bcc1aa9f1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Summe]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="April" x="304" y="25" width="49" height="15" uuid="98b6b0a7-06ae-4e4a-9f88-864c98a16c72">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("04." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Juni" x="402" y="25" width="49" height="15" uuid="dc0f9e5e-a52c-4da7-a985-dcd5aca19bce">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="5.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("06." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Februar" x="206" y="25" width="49" height="15" uuid="da8d7574-122e-48f5-a13a-7f0f12d69f87">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("02." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="September" x="549" y="25" width="49" height="15" uuid="3462885b-20cb-4561-b5cb-485434120c66">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="5.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("09." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Juli" x="451" y="25" width="49" height="15" uuid="efedf582-d3d4-4cee-83a7-83e9b5fbc704">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="5.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("07." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="März" isPrintRepeatedValues="false" x="255" y="25" width="49" height="15" uuid="dbc1242a-36cc-4071-86ef-63262f007e93">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("03." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Mai" x="353" y="25" width="49" height="15" uuid="e2ad9fd5-e695-427b-95f8-7c9f00a03c07">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("05." + $P{jahrZweistellig})]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Prevent">
+			<textField>
+				<reportElement style="Detail" x="15" y="0" width="142" height="15" uuid="5ae115b5-f22d-40f6-9762-b30a0679e129">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stundenart}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="157" y="0" width="49" height="15" uuid="d7fdb9a1-02a0-449e-bf38-d61eb0d025ab">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{januar}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="206" y="0" width="49" height="15" uuid="fb6d097c-6300-4df3-9fe8-da65de2cb52a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{februar}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="255" y="0" width="49" height="15" uuid="00fef5a3-6c83-4932-a7d9-07ff1aba5962">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{maerz}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="304" y="0" width="49" height="15" uuid="06b4139e-98c4-4a2c-bda8-f3beab576428">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{april}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="353" y="0" width="49" height="15" uuid="0287fa30-35ce-4ee5-b601-c43b83a3bff3">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mai}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="402" y="0" width="49" height="15" uuid="f76a891a-4c74-4d2b-a3d5-d5131b3d197e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{juni}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="451" y="0" width="49" height="15" uuid="77573194-7d20-4f08-ad02-6136b6ce8203">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{juli}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="500" y="0" width="49" height="15" uuid="65b24d7e-29b9-4856-bf46-17ad2b8c76cb">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{august}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="549" y="0" width="49" height="15" uuid="8940195b-df6d-429a-b3a7-54be49688719">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{september}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="598" y="0" width="49" height="15" uuid="d78671d8-40fc-4ba8-b6a3-573fcde1783d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{oktober}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="647" y="0" width="49" height="15" uuid="3602096c-b239-4ded-986a-ec1bfc9ce388">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{november}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="696" y="0" width="49" height="15" uuid="7f7bd3f9-99ac-4332-b9d2-4d8c9acd91b6"/>
+				<box rightPadding="2">
+					<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dezember}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="745" y="0" width="55" height="15" uuid="f253b454-b79e-42ab-b08e-50fd62faaea4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zeileSumme}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" style="Detail" x="0" y="0" width="15" height="15" uuid="0c2383f1-54cf-428d-b103-cacb97bce52d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modifier}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="10">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>Spesen und viadee Zuschläge</h1>
+
+<div mat-dialog-content class="dialog-body-tabelle">
+  <section class="dialog-table">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="tagVon">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tagVon">Tag</th>
+        <td *matCellDef="let element" mat-cell>{{ element.tagVon }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="uhrzeitVon">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="uhrzeitVon">Von</th>
+        <td *matCellDef="let element" mat-cell>{{ element.uhrzeitVon }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="uhrzeitBis">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="uhrzeitBis">Bis</th>
+        <td *matCellDef="let element" mat-cell>{{ element.uhrzeitBis }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="projektnummer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektId">Projektnummer</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn"> not_interested </mat-icon>
+          {{ element.projektnummer }}
+        </td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="spesen">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="betrag">Spesen</th>
+        <td *matCellDef="let element" mat-cell>{{ element.spesen | number : '1.2-2' : 'de' }}</td>
+        <td *matFooterCellDef mat-footer-cell>
+          Summe: {{ data.abwesenheiten | summiereAbwesenheitenSpesen | number : '1.2-2' : 'de' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="zuschlag">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="zuschlag">Zuschläge</th>
+        <td *matCellDef="let element" mat-cell>{{ element.zuschlag | number : '1.2-2' : 'de' }}</td>
+        <td *matFooterCellDef mat-footer-cell>
+          Summe: {{ data.abwesenheiten | summiereAbwesenheitenZuschlaege | number : '1.2-2' : 'de' }}
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+      <tr *matFooterRowDef="tabelle.displayedColumns; sticky: true" mat-footer-row></tr>
+    </table>
+  </section>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button [mat-dialog-close]="false" color="primary" mat-flat-button>
+    <mat-icon>cancel</mat-icon>
+    Schließen
+  </button>
+</div>

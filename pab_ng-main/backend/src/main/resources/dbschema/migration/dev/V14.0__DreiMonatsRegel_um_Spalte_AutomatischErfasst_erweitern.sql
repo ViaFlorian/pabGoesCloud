@@ -1,0 +1,1 @@
+ALTER TABLE DreiMonatsRegel ADD AutomatischErfasst bit NULL

@@ -1,0 +1,1 @@
+ALTER TABLE ArbeitsnachweisLohnartZuordnung ADD Einheit varchar(10) NULL

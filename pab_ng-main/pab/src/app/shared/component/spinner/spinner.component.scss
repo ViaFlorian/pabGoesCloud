@@ -1,0 +1,19 @@
+.spinner {
+  justify-self: center;
+}
+
+.spinner-backdrop {
+  background: #ffffff;
+  opacity: 1 !important;
+}
+
+.center {
+  display: grid;
+  justify-content: center;
+  place-items: center;
+}
+
+.spinner-position {
+  position: absolute;
+  z-index: 1000;
+}

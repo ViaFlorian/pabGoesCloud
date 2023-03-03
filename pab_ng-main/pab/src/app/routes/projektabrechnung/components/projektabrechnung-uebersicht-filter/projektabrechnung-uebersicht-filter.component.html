@@ -1,0 +1,161 @@
+<form [formGroup]="formGroup" class="grid-pab-uebersicht-filter-columns">
+  <div class="grid-with-2-columns" style="grid-area: Abrechnungsmonat">
+    <mat-form-field>
+      <mat-label>Von Abrechnungsmonat</mat-label>
+      <input [matDatepicker]="dpAbrechnungsmonatAbWann" formControlName="abrechnungsmonatAbWann" matInput />
+      <mat-hint>MM.YY</mat-hint>
+      <mat-datepicker-toggle [for]="dpAbrechnungsmonatAbWann" matSuffix></mat-datepicker-toggle>
+      <mat-datepicker
+        #dpAbrechnungsmonatAbWann
+        (monthSelected)="setAbrechnungsmonatAbWann($event, dpAbrechnungsmonatAbWann)"
+        startView="year"
+      >
+      </mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Bis Abrechnungsmonat</mat-label>
+      <input [matDatepicker]="dpAbrechnungsmonatBisWann" formControlName="abrechnungsmonatBisWann" matInput />
+      <mat-hint>MM.YY</mat-hint>
+      <mat-datepicker-toggle [for]="dpAbrechnungsmonatBisWann" matSuffix></mat-datepicker-toggle>
+      <mat-datepicker
+        #dpAbrechnungsmonatBisWann
+        (monthSelected)="setAbrechnungsmonatBisWann($event, dpAbrechnungsmonatBisWann)"
+        startView="year"
+      >
+      </mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <pab-autocomplete-projekt
+    [mitErrorPlatzhalter]="true"
+    [parentFormGroup]="formGroup"
+    [projektAuswahl]="projektAuswahl"
+    parentFormFieldName="projekt"
+    style="grid-area: Projekt"
+  ></pab-autocomplete-projekt>
+
+  <pab-autocomplete-kunde
+    [kundeAuswahl]="kundeAuswahl"
+    [parentFormGroup]="formGroup"
+    label="Kunde"
+    parentFormFieldName="kunde"
+    style="grid-area: Kunde"
+  ></pab-autocomplete-kunde>
+
+  <div class="grid-form-plus-operator" style="grid-area: Kosten">
+    <mat-form-field (keydown.enter)="$event.preventDefault()">
+      <mat-label>Kosten</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('kostenFilter', '^[1-9][0-9]*?$')"
+        formControlName="kostenFilter"
+        matInput
+        type="text"
+      />
+      <button
+        (click)="onSetzeFilterZurueck('kostenFilter')"
+        *ngIf="formGroup.value.kostenFilter"
+        aria-label="Clear"
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="kostenOperator">
+        <mat-option *ngFor="let type of eOperatorEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <pab-autocomplete-mitarbeiter
+    [mitarbeiterAuswahl]="mitarbeiterAuswahl"
+    [mitErrorPlatzhalter]="true"
+    [parentFormGroup]="formGroup"
+    parentFormFieldName="mitarbeiter"
+    style="grid-area: Mitarbeiter"
+  ></pab-autocomplete-mitarbeiter>
+
+  <mat-form-field style="grid-area: Sachbearbeiter">
+    <mat-label>Sachbearbeiter:in</mat-label>
+    <mat-select [compareWith]="sindMitarbeiterGleich" formControlName="sachbearbeiter">
+      <mat-option></mat-option>
+      <mat-option *ngFor="let sachbearbeiter of sachbearbeiterAuswahl" [value]="sachbearbeiter"
+        >{{ sachbearbeiter | mitarbeiterAnzeigeName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="grid-area: Organisationseinheit">
+    <mat-label>OE</mat-label>
+    <mat-select [compareWith]="sindOrganisationseinheitenGleich" formControlName="organisationseinheit">
+      <mat-option *ngFor="let organisationseinheit of organisationseinheitAuswahl" [value]="organisationseinheit"
+        >{{ organisationseinheit | organisationseinheitAnzeigeName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="grid-form-plus-operator" style="grid-area: Leistung">
+    <mat-form-field (keydown.enter)="$event.preventDefault()">
+      <mat-label>Leistung</mat-label>
+      <input
+        (input)="entferneUnerlaubteZeichen('leistungFilter', '^[1-9][0-9]*?$')"
+        formControlName="leistungFilter"
+        matInput
+        type="text"
+      />
+      <button
+        (click)="onSetzeFilterZurueck('leistungFilter')"
+        *ngIf="formGroup.value.leistungFilter"
+        aria-label="Clear"
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="leistungOperator">
+        <mat-option *ngFor="let type of eOperatorEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field style="grid-area: Bearbeitungsstatus">
+    <mat-label>Bearbeitungsstatus</mat-label>
+    <mat-select formControlName="bearbeitungsstatus">
+      <mat-option *ngFor="let type of eBearbeitungsstatusEnum | keyvalue" [value]="type.value">{{
+        type.value
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="grid-area: Projekttyp">
+    <mat-label>Projekttyp</mat-label>
+    <mat-select formControlName="projekttyp">
+      <mat-option *ngFor="let type of eProjekttypEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="grid-area: AktivInaktiv">
+    <mat-label>Aktiv/Inaktiv</mat-label>
+    <mat-select formControlName="aktivInaktiv">
+      <mat-option *ngFor="let type of eAktivInaktivEnum | keyvalue" [value]="type.value">{{ type.value }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="grid-area: Bebucht">
+    <mat-label>Bebucht/Nicht bebucht</mat-label>
+    <mat-select formControlName="buchungsstatus">
+      <mat-option *ngFor="let type of eBuchungsstatusProjektEnum | keyvalue" [value]="type.value">{{
+        type.value
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="justify-end">
+    <button (click)="onLeereFilter()" color="basic" mat-stroked-button matTooltip="Filter leeren">
+      <mat-icon class="mat-icon-in-button">clear</mat-icon>
+    </button>
+  </div>
+</form>

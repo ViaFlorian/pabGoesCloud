@@ -1,0 +1,62 @@
+<section class="table-container klickbare-tabelle">
+  <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+    <ng-container matColumnDef="typ">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="typ">Typ</th>
+      <td *matCellDef="let element" mat-cell>{{ element.typ }}</td>
+    </ng-container>
+    <ng-container matColumnDef="abrechnungsmonat">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="abrechnungsmonat">Abrechnungsmonat</th>
+      <td *matCellDef="let element" mat-cell>{{ element.abrechnungsmonat }}</td>
+    </ng-container>
+    <ng-container matColumnDef="mitarbeiterName">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitarbeiterName">Mitarbeiter/in</th>
+      <td *matCellDef="let element" mat-cell>{{ element.mitarbeiterName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="kostenartBezeichnung">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kostenartBezeichnung">Kostenart</th>
+      <td *matCellDef="let element" mat-cell>{{ element.kostenartBezeichnung }}</td>
+    </ng-container>
+    <ng-container matColumnDef="anzahlStundenKosten">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kostenAnzahlStunden">Kosten Anz. Std.</th>
+      <td *matCellDef="let element" mat-cell>{{ element.anzahlStundenKosten | number : '1.2-2' : 'de' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="betragKostensatz">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="betragKostensatz">Betrag/Kostensatz</th>
+      <td *matCellDef="let element" mat-cell>{{ element.betragKostensatz | currency : 'EUR' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="kosten">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kosten">Kosten</th>
+      <td *matCellDef="let element" mat-cell>{{ element.kosten | currency : 'EUR' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="anzahlStundenLeistung">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="leistungAnzahlStunden">Leistung Anz.</th>
+      <td *matCellDef="let element" mat-cell>{{ element.anzahlStundenLeistung | number : '1.2-2' : 'de' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="betragStundensatz">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="betragStundensatz">Betrag/Stundensatz</th>
+      <td *matCellDef="let element" mat-cell>{{ element.betragStundensatz | currency : 'EUR' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="leistung">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="leistung">Leistung</th>
+      <td *matCellDef="let element" mat-cell>{{ element.leistung | currency : 'EUR' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="bemerkung">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+      <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+    </ng-container>
+    <ng-container matColumnDef="zuletztGeaendertAm">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="zuletztGeaendertAm">Geändert am</th>
+      <td *matCellDef="let element" mat-cell>{{ element.zuletztGeaendertAm | date : 'dd.MM.yyyy' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="zuletztGeaendertVon">
+      <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="zuletztGeaendertVon">Geändert von</th>
+      <td *matCellDef="let element" mat-cell>{{ element.zuletztGeaendertVon }}</td>
+    </ng-container>
+    <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+    <tr
+      (click)="this.reagiereAufKorrekturbuchungAusgewaehlt(row)"
+      *matRowDef="let row; columns: tabelle.displayedColumns"
+      mat-row
+    ></tr>
+  </table>
+</section>

@@ -1,0 +1,9 @@
+.grid-arbeitsnachweis-uebersicht-filter-columns {
+  display: grid;
+  grid-template-columns: 35% 21% 31% 4%;
+  grid-gap: 3%;
+  grid-template-areas:
+    'Abrechnungsmonat       Mitarbeiter            Projektstunden        Button'
+    'Sachbearbeiter         OffenVorhanden         SpesenZuschlaege      .'
+    'Bearbeitungsstatus     InternExtern           BelegeAuslagen        .';
+}

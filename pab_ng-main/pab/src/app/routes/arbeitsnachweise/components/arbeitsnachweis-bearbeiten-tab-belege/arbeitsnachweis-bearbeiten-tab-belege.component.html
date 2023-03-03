@@ -1,0 +1,176 @@
+<div class="tab-container-double-line-form">
+  <div class="border-bottom">
+    <form
+      #fgdBelegForm="ngForm"
+      (ngSubmit)="fuegeOderAktualisiereBeleg()"
+      [formGroup]="belegeFormGroup"
+      class="grid-areas-arbeitsnachweis-bearbeiten-belege-columns"
+    >
+      <mat-form-field style="grid-area: Tag">
+        <mat-label>Tag</mat-label>
+        <input (input)="entferneUnerlaubteZeichen('tag', '^[1-3][0-9]?$')" formControlName="tag" matInput type="text" />
+        <mat-error *ngIf="belegeFormGroup.get('tag')?.errors?.['required']"> Pflichtfeld</mat-error>
+        <mat-error *ngIf="belegeFormGroup.get('tag')?.errors?.['dayInMoth']"> Tag nicht im Monat </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="grid-area: Belegart">
+        <mat-label>Belegart</mat-label>
+        <mat-select formControlName="belegart">
+          <mat-option *ngFor="let belegart of belegartenAuswahl" [value]="belegart">
+            {{ belegart.textKurz }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="belegeFormGroup.get('belegart')?.errors?.['objektLeer']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+
+      <pab-autocomplete-projekt
+        [mitErrorPlatzhalter]="true"
+        [parentFormGroup]="belegeFormGroup"
+        [projektAuswahl]="projektAuswahl"
+        parentFormFieldName="projekt"
+        style="grid-area: Projekt"
+      ></pab-autocomplete-projekt>
+
+      <pab-autocomplete-einsatzort
+        [einsatzortAuswahl]="einsatzortAuswahl"
+        [parentFormGroup]="belegeFormGroup"
+        parentFormFieldName="einsatzort"
+        style="grid-area: Einsatzort"
+      ></pab-autocomplete-einsatzort>
+
+      <div *ngIf="arbeitsnachweisOffen" class="justify-end" style="grid-area: Button">
+        <button
+          *ngIf="!belegeFormGroup.getRawValue().id"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Hinzufügen"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">add</mat-icon>
+        </button>
+        <button
+          *ngIf="belegeFormGroup.getRawValue().id"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Aktualisieren"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">autorenew</mat-icon>
+        </button>
+
+        <button (click)="leereForm()" color="basic" mat-stroked-button matTooltip="Formular leeren">
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+
+      <mat-form-field style="grid-area: Betrag">
+        <mat-label>Betrag (Brutto)</mat-label>
+        <input
+          (input)="entferneUnerlaubteZeichen('betrag', '^([0-9]+)(,?)([0-9]{0,2})$')"
+          formControlName="betrag"
+          matInput
+          pattern="^(\d+(?:,\d{1,2})?)$"
+          type="text"
+        />
+        <mat-error *ngIf="belegeFormGroup.get('betrag')?.errors?.['required']"> Pflichtfeld </mat-error>
+        <mat-error *ngIf="belegeFormGroup.get('betrag')?.errors?.['pattern']"> Formatfehler </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="grid-area: Kilometer">
+        <mat-label>Kilometer</mat-label>
+        <input
+          (input)="entferneUnerlaubteZeichen('kilometer', '^([0-9]+)(,?)([0-9]{0,2})$')"
+          formControlName="kilometer"
+          matInput
+          pattern="^(\d+(?:,\d{1,2})?)$"
+          type="text"
+        />
+        <mat-error *ngIf="belegeFormGroup.get('kilometer')?.errors?.['required']"> Pflichtfeld </mat-error>
+        <mat-error *ngIf="belegeFormGroup.get('kilometer')?.errors?.['pattern']"> Formatfehler </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="grid-area: Bemerkung">
+        <mat-label>Bemerkung</mat-label>
+        <input formControlName="bemerkung" matInput type="text" />
+        <mat-error *ngIf="belegeFormGroup.get('bemerkung')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="grid-area: BelegNr">
+        <mat-label>Beleg Nr.</mat-label>
+        <input formControlName="belegNr" matInput type="text" />
+      </mat-form-field>
+
+      <form [formGroup]="smartphoneAuswahlFormGroup" style="grid-area: Smartphone">
+        <mat-form-field appearance="fill">
+          <mat-label>Smartphone</mat-label>
+          <mat-select formControlName="smartphoneBesitzArt">
+            <mat-option *ngFor="let besitzArt of eSmartphoneBesitzArtenEnum | keyvalue" [value]="besitzArt.value">
+              {{ besitzArt.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </form>
+  </div>
+
+  <section class="table-container">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="tag">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tag">Tag</th>
+        <td *matCellDef="let element" mat-cell>{{ element.datum }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="einsatzort">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="einsatzort">Einsatzort</th>
+        <td *matCellDef="let element" mat-cell>{{ element.arbeitsstaette }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="projektnummer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektnummer">Projektnummer</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn"> not_interested </mat-icon>
+          {{ element.projektnummer }}
+        </td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="belegartName">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="belegartName">Belegart</th>
+        <td *matCellDef="let element" mat-cell>{{ element.belegartName }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="betrag">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="betrag">Betrag (Brutto)</th>
+        <td *matCellDef="let element" mat-cell>{{ element.betrag | number : '1.2-2' : 'de' }}</td>
+        <td *matFooterCellDef mat-footer-cell>
+          Summe: {{ tabelle.dataSource.data | summiereBelegeBetraege | number : '1.2-2' : 'de' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bemerkung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actions"></th>
+        <td *matCellDef="let element" mat-cell>
+          <a (click)="loescheBeleg(element)" *ngIf="arbeitsnachweisOffen" mat-icon-button>
+            <mat-icon>delete_forever</mat-icon>
+          </a>
+        </td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr (click)="ladeBelegInForm(row)" *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+      <tr *matFooterRowDef="tabelle.displayedColumns; sticky: true" mat-footer-row></tr>
+    </table>
+  </section>
+</div>

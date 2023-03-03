@@ -1,0 +1,44 @@
+.display-text-box-left {
+  align-self: center;
+  justify-self: left;
+  padding-top: 10px;
+}
+
+.display-text-box-right {
+  align-self: center;
+  justify-self: right;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.text-editable {
+  font-weight: 600;
+}
+
+.display-vorzeichen-box {
+  align-self: center;
+  justify-self: center;
+  padding-top: 10px;
+}
+
+.display-zwischen-ueberschrift-box {
+  align-self: center;
+  justify-self: left;
+  padding-top: 20px;
+}
+
+.grid-columns {
+  display: grid;
+  grid-template-columns: 65% 25%;
+  grid-gap: 10%;
+  row-gap: 0;
+}
+
+.grid-fuer-vorzeichen {
+  display: grid;
+  grid-template-columns: 5% 90%;
+  grid-gap: 5%;
+  row-gap: 0;
+}

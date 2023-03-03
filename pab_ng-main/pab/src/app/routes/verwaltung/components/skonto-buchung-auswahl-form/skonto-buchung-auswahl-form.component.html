@@ -1,0 +1,38 @@
+<form [formGroup]="skontoBuchungAuswahlFormGroup" class="grid-areas-skonto-buchung-auswahl-form-columns">
+  <pab-autocomplete-projekt
+    [mitErrorPlatzhalter]="false"
+    [parentFormGroup]="skontoBuchungAuswahlFormGroup"
+    [projektAuswahl]="projektAuswahl"
+    parentFormFieldName="projekt"
+    style="grid-area: Projekt"
+  ></pab-autocomplete-projekt>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Kunde">
+    <mat-label>Kunde</mat-label>
+    <input formControlName="kunde" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: SkontoNettoSumme">
+    <mat-label>Summe Skonto (Netto)</mat-label>
+    <input formControlName="skontoNettoSumme" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: SkontoBruttoSumme">
+    <mat-label>Summe Skonto (Brutto)</mat-label>
+    <input formControlName="skontoBruttoSumme" matInput type="text" />
+  </mat-form-field>
+
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Projekttyp">
+    <mat-label>Projekttyp</mat-label>
+    <input formControlName="projekttyp" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Projektverantwortung">
+    <mat-label>Projektverantwortung</mat-label>
+    <input formControlName="projektverantwortung" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Organisationseinheit">
+    <mat-label>OE</mat-label>
+    <input formControlName="organisationseinheit" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Gesamtrechnung">
+    <mat-label>Gesamtrechnung (Netto)</mat-label>
+    <input formControlName="gesamtRechnungNetto" matInput type="text" />
+  </mat-form-field>
+</form>

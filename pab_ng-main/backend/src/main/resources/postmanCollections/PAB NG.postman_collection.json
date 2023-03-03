@@ -1,0 +1,119 @@
+{
+  "info": {
+    "_postman_id": "d61f9861-f5a9-4435-a9e2-13b553f8c644",
+    "name": "PAB NG",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET ALL Mitarbeiter",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "GET ALL Mitarbeiter Select Options",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/mitarbeiter/selectOptions?aktiveMitarbeiter=true&inaktiveMitarbeiter=false&interneMitarbeiter=true&externeMitarbeiter=false",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "mitarbeiter",
+            "selectOptions"
+          ],
+          "query": [
+            {
+              "key": "aktiveMitarbeiter",
+              "value": "true"
+            },
+            {
+              "key": "inaktiveMitarbeiter",
+              "value": "false"
+            },
+            {
+              "key": "interneMitarbeiter",
+              "value": "true"
+            },
+            {
+              "key": "externeMitarbeiter",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET ALL Projekte Select Options Copy",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/mitarbeiter/selectOptions?aktiveMitarbeiter=true&inaktiveMitarbeiter=false&interneMitarbeiter=true&externeMitarbeiter=false",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "mitarbeiter",
+            "selectOptions"
+          ],
+          "query": [
+            {
+              "key": "aktiveMitarbeiter",
+              "value": "true"
+            },
+            {
+              "key": "inaktiveMitarbeiter",
+              "value": "false"
+            },
+            {
+              "key": "interneMitarbeiter",
+              "value": "true"
+            },
+            {
+              "key": "externeMitarbeiter",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET ALL Projekte",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "GET Arbeitsnachweis Übersicht",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Belegart Konstanten",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}

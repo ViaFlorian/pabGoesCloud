@@ -1,0 +1,30 @@
+h1 {
+  text-align: center;
+  font-size: 25px;
+  color: #2c2c2c;
+}
+
+.spinner {
+  justify-self: center;
+  margin: 20px;
+}
+
+.spinner-overlay-backdrop {
+  backdrop-filter: blur(4px) saturate(200%);
+  -webkit-backdrop-filter: blur(4px) saturate(200%);
+  background-color: rgba(252, 252, 252, 0.84);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.center {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  gap: 5px;
+  grid-auto-flow: row;
+}

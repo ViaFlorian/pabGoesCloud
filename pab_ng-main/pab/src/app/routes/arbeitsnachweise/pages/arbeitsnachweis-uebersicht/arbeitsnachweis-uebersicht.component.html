@@ -1,0 +1,28 @@
+<pab-arbeitsnachweis-uebersicht-action-bar></pab-arbeitsnachweis-uebersicht-action-bar>
+<div class="basis-container basis-container-grid">
+  <pab-headline [text]="ueberschrift"></pab-headline>
+  <div class="border">
+    <pab-arbeitsnachweis-uebersicht-filter
+      [formGroup]="formGroup"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahlGefiltert"
+      [sachbearbeiterAuswahl]="sachbearbeiterAuswahl"
+    ></pab-arbeitsnachweis-uebersicht-filter>
+  </div>
+  <div class="border" #pabArbeitsnachweisUebersichtTabelleBorder>
+    <pab-spinner
+      *ngIf="!ladeArbeitsnachweiseSpinner.isClosed()"
+      [spinnerHeight]="(pabArbeitsnachweisUebersichtTabelleBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabArbeitsnachweisUebersichtTabelleBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <pab-arbeitsnachweis-uebersicht-tabelle
+      (anzahlArbeitsnachweiseEvent)="reagiereAufAnzahlArbeitsnachweiseEvent($event)"
+      (listeAnMitarbeiternEvent)="reagiereAufListeAnMitarbeiternEvent($event)"
+      (arbeitsnachweisLoeschenEvent)="reagiereAufLoeschenEvent($event)"
+      [arbeitsnachweise]="arbeitsnachweise"
+      [formGroup]="formGroup"
+      [mitarbeiterAuswahl]="mitarbeiterAuswahl"
+      [sachbearbeiterAuswahl]="sachbearbeiterAuswahl"
+      [filterArbeitsnachweiseSpinner]="ladeArbeitsnachweiseSpinner"
+    ></pab-arbeitsnachweis-uebersicht-tabelle>
+  </div>
+</div>

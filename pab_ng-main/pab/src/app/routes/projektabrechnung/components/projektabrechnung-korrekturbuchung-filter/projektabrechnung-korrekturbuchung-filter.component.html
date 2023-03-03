@@ -1,0 +1,24 @@
+<form [formGroup]="korrekturbuchungFilterGroup" class="grid-pab-korrekturbuchung-filter-columns">
+  <pab-autocomplete-projekt
+    [mitErrorPlatzhalter]="false"
+    [parentFormGroup]="korrekturbuchungFilterGroup"
+    [projektAuswahl]="projektAuswahl"
+    parentFormFieldName="projekt"
+  ></pab-autocomplete-projekt>
+
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Kunde</mat-label>
+    <input formControlName="kunde" matInput type="text" />
+  </mat-form-field>
+
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>OE</mat-label>
+    <input formControlName="organisationseinheit" matInput type="text" />
+  </mat-form-field>
+
+  <div class="justify-end">
+    <button (click)="leereKorrekturbuchungFilterForm()" color="basic" mat-stroked-button matTooltip="Filter leeren">
+      <mat-icon class="mat-icon-in-button">clear</mat-icon>
+    </button>
+  </div>
+</form>

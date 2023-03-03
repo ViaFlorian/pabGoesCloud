@@ -1,0 +1,17 @@
+<mat-toolbar color="secondary">
+  <div>
+    <button (click)="erstelleExcel()" [disabled]="actionBarButtonKonfiguration.erstelleExcelDeaktiviert" mat-button>
+      <mat-icon>grid_on</mat-icon>
+      <span>Erstelle Excel</span>
+    </button>
+    <button (click)="erstellePDF()" [disabled]="actionBarButtonKonfiguration.erstellePDFDeaktiviert" mat-button>
+      <mat-icon>picture_as_pdf</mat-icon>
+      <span>Erstelle PDF</span>
+    </button>
+    <button (click)="versendePDF()" [disabled]="actionBarButtonKonfiguration.versendePDFDeaktiviert" mat-button>
+      <mat-icon>mail_outline</mat-icon>
+      <span>PDF Versand</span>
+    </button>
+    <pab-close-button></pab-close-button>
+  </div>
+</mat-toolbar>

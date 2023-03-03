@@ -1,0 +1,25 @@
+<pab-dashboard-action-bar></pab-dashboard-action-bar>
+<div class="basis-container basis-container-grid">
+  <pab-headline [text]="'Abrechnungsmonat ' + (aktuellerAbrechnungsmonat | abrechnungsmonatAnzeigeName)"></pab-headline>
+  <div class="border" #pabDashboardBorder>
+    <pab-spinner
+      *ngIf="!ladeDashboardSpinner.isClosed()"
+      [spinnerHeight]="(pabDashboardBorder.offsetHeight - 20).toString()"
+      [spinnerWidth]="(pabDashboardBorder.offsetWidth - 20).toString()"
+    ></pab-spinner>
+    <pab-dashboard-uebersicht-oe-leiter
+      *ngIf="zeigeUebersichtOeLeiter"
+      [aktuellesAbrechnungsjahr]="aktuellerAbrechnungsmonat.jahr"
+    ></pab-dashboard-uebersicht-oe-leiter>
+    <pab-dashboard-uebersicht
+      *ngIf="!zeigeUebersichtOeLeiter"
+      [mitarbeiters]="mitarbeiters"
+      [projekte]="projekte"
+      [arbeitsnachweise]="arbeitsnachweise"
+      [projektabrechnungen]="projektabrechnungen"
+    ></pab-dashboard-uebersicht>
+  </div>
+  <div class="border">
+    <pab-dashboard-changelog></pab-dashboard-changelog>
+  </div>
+</div>

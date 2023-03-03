@@ -1,0 +1,244 @@
+<div class="tab-container-arbeitsnachweis-bearbeiten-abwesenheit-form">
+  <div class="border-bottom">
+    <form
+      (ngSubmit)="fuegeOderAktualisiereAbwesenheit()"
+      [formGroup]="abwesenheitenFormGroup"
+      class="grid-areas-arbeitsnachweis-bearbeiten-abwesenheiten-columns"
+    >
+      <mat-form-field style="grid-area: TagVonTag">
+        <mat-label>Tag von</mat-label>
+        <input
+          (blur)="onVerlasseTagVon()"
+          (input)="entferneUnerlaubteZeichen('tagVon', '^[1-9][0-9]?$')"
+          [errorStateMatcher]="vonBisAngabenValidMatcher"
+          formControlName="tagVon"
+          matInput
+          type="text"
+        />
+        <mat-error *ngIf="abwesenheitenFormGroup.get('tagVon')?.errors?.['required']"> Pflichtfeld </mat-error>
+        <mat-error *ngIf="abwesenheitenFormGroup.get('tagVon')?.errors?.['dayInMoth']"> Tag nicht im Monat </mat-error>
+      </mat-form-field>
+      <div style="grid-area: TagVonUhrzeit" class="grid-with-2-columns">
+        <mat-form-field>
+          <mat-label>Stunde</mat-label>
+          <input
+            (input)="entferneUnerlaubteZeichen('hhVon', '^[0-9][0-9]?$')"
+            [errorStateMatcher]="vonBisAngabenValidMatcher"
+            formControlName="hhVon"
+            matInput
+            type="text"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Minute</mat-label>
+          <input
+            (input)="entferneUnerlaubteZeichen('mmVon', '^[0-9][0-9]?$')"
+            [errorStateMatcher]="vonBisAngabenValidMatcher"
+            formControlName="mmVon"
+            matInput
+            type="text"
+          />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field style="grid-area: TagBisTag">
+        <mat-label>Tag bis</mat-label>
+        <input
+          (blur)="onVerlasseTagBis()"
+          (input)="entferneUnerlaubteZeichen('tagBis', '^[1-9][0-9]?$')"
+          [errorStateMatcher]="vonBisAngabenValidMatcher"
+          formControlName="tagBis"
+          matInput
+          type="text"
+        />
+        <mat-error *ngIf="abwesenheitenFormGroup.get('tagBis')?.errors?.['required']"> Pflichtfeld </mat-error>
+        <mat-error *ngIf="abwesenheitenFormGroup.get('tagBis')?.errors?.['dayInMoth']"> Tag nicht im Monat </mat-error>
+      </mat-form-field>
+      <div style="grid-area: TagBisUhrzeit" class="grid-with-2-columns">
+        <mat-form-field>
+          <mat-label>Stunde</mat-label>
+          <input
+            (input)="entferneUnerlaubteZeichen('hhBis', '^[0-9][0-9]?$')"
+            [errorStateMatcher]="vonBisAngabenValidMatcher"
+            formControlName="hhBis"
+            matInput
+            type="text"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Minute</mat-label>
+          <input
+            (input)="entferneUnerlaubteZeichen('mmBis', '^[0-9][0-9]?$')"
+            [errorStateMatcher]="vonBisAngabenValidMatcher"
+            formControlName="mmBis"
+            matInput
+            type="text"
+          />
+        </mat-form-field>
+      </div>
+
+      <div style="grid-area: TagFehlermeldung" class="justify-center">
+        <mat-error *ngIf="abwesenheitenFormGroup.errors?.['tagVonNachTagBis']"
+          >Datum von ist nach Datum bis (Tage)
+        </mat-error>
+        <mat-error *ngIf="abwesenheitenFormGroup.errors?.['zeitVonNachZeitBis']"
+          >Datum von ist nach Datum bis (Uhrzeit)
+        </mat-error>
+        <mat-error *ngIf="abwesenheitenFormGroup.errors?.['zeitUeber2400']"
+          >Uhrzeit darf nicht größer als 24:00 sein
+        </mat-error>
+        <mat-error *ngIf="abwesenheitenFormGroup.errors?.['datumKollidiert']"
+          >Überschneidung mit existierenden Abwesenheiten
+        </mat-error>
+      </div>
+
+      <pab-autocomplete-projekt
+        [mitErrorPlatzhalter]="true"
+        [parentFormGroup]="abwesenheitenFormGroup"
+        [projektAuswahl]="projektAuswahl"
+        parentFormFieldName="projekt"
+        style="grid-area: Projekt"
+      ></pab-autocomplete-projekt>
+
+      <pab-autocomplete-einsatzort
+        [einsatzortAuswahl]="einsatzortAuswahl"
+        [parentFormGroup]="abwesenheitenFormGroup"
+        parentFormFieldName="einsatzort"
+        style="grid-area: Einsatzort"
+      ></pab-autocomplete-einsatzort>
+
+      <mat-form-field style="grid-area: Bemerkung">
+        <mat-label>Bemerkung</mat-label>
+        <input formControlName="bemerkung" matInput type="text" />
+      </mat-form-field>
+
+      <mat-checkbox formControlName="dreimonatsregelAktiv" style="align-self: center; grid-area: Dreimonatsregel"
+        >Dreimonatsregel aktiv
+      </mat-checkbox>
+
+      <div style="grid-area: Essen" class="grid-with-1-columns">
+        <mat-checkbox formControlName="mitUebernachtung" style="align-self: center">Übernachtung </mat-checkbox>
+        <mat-checkbox formControlName="mitFruehstueck" style="align-self: center">Frühstück </mat-checkbox>
+        <mat-checkbox formControlName="mitMitagessen" style="align-self: center">Mittagessen </mat-checkbox>
+        <mat-checkbox formControlName="mitAbendessen" style="align-self: center">Abendessen </mat-checkbox>
+      </div>
+
+      <div *ngIf="arbeitsnachweisOffen" class="justify-end" style="grid-area: Button">
+        <button
+          *ngIf="
+            !abwesenheitenFormGroup.getRawValue().id ||
+            this.abwesenheitenFormGroup.getRawValue().tagVon !== this.abwesenheitenFormGroup.getRawValue().tagBis
+          "
+          color="basic"
+          mat-stroked-button
+          matTooltip="Hinzufügen"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">add</mat-icon>
+        </button>
+        <button
+          *ngIf="
+            this.abwesenheitenFormGroup.getRawValue().id &&
+            this.abwesenheitenFormGroup.getRawValue().tagVon === this.abwesenheitenFormGroup.getRawValue().tagBis
+          "
+          color="basic"
+          mat-stroked-button
+          matTooltip="Aktualisieren"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">autorenew</mat-icon>
+        </button>
+
+        <button (click)="leereForm()" color="basic" mat-stroked-button matTooltip="Formular leeren">
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <section class="table-container">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="tagVon">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="tagVon">Tag</th>
+        <td *matCellDef="let element" mat-cell>{{ element.tagVon }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="uhrzeitVon">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="uhrzeitVon">Von</th>
+        <td *matCellDef="let element" mat-cell>{{ element.uhrzeitVon }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="uhrzeitBis">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="uhrzeitBis">Bis</th>
+        <td *matCellDef="let element" mat-cell>{{ element.uhrzeitBis }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="projektnummer">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektId">Projektnummer</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn"> not_interested </mat-icon>
+          {{ element.projektnummer }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="einsatzort">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="einsatzort">Einsatzort</th>
+        <td *matCellDef="let element" mat-cell>{{ element.arbeitsstaette }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="mitFruehstueck">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitFruehstueck">Frühstueck</th>
+        <td *matCellDef="let element" class="status" mat-cell>
+          <mat-icon *ngIf="element.mitFruehstueck">check_circle_outline</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mitMitagessen">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitMitagessen">Mitagessen</th>
+        <td *matCellDef="let element" class="status" mat-cell>
+          <mat-icon *ngIf="element.mitMitagessen">check_circle_outline</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mitAbendessen">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitAbendessen">Abendessen</th>
+        <td *matCellDef="let element" class="status" mat-cell>
+          <mat-icon *ngIf="element.mitAbendessen">check_circle_outline</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mitUebernachtung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitUebernachtung">Übernachtung</th>
+        <td *matCellDef="let element" class="status" mat-cell>
+          <mat-icon *ngIf="element.mitUebernachtung">check_circle_outline</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dreiMonatsRegelAktiv">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="dreiMonatsRegelAktiv">Dreimonatsregel</th>
+        <td *matCellDef="let element" class="status" mat-cell>
+          <mat-icon *ngIf="element.dreiMonatsRegelAktiv">check_circle_outline</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bemerkung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actions"></th>
+        <td *matCellDef="let element" mat-cell>
+          <a (click)="loescheAbwesenheit(element)" *ngIf="arbeitsnachweisOffen" mat-icon-button>
+            <mat-icon>delete_forever</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr (click)="ladeAbwesenheitInForm(row)" *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+    </table>
+  </section>
+</div>

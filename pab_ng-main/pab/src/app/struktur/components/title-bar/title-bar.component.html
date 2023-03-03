@@ -1,0 +1,178 @@
+<mat-toolbar>
+  <div *ngIf="showSearchOverlay" class="center pab-suchergebnisse-overlay mat-typography">
+    <pab-suchergebnis
+      [suchbegriff]="this.suchbegriff"
+      (suchergebnisNavigationEvent)="reagiereAufSuchergebnisNavigationEvent()"
+    ></pab-suchergebnis>
+  </div>
+  <div *ngIf="showMenuOverlay" class="center pab-menu-overlay mat-typography">
+    <div class="pab-menu-grid">
+      <mat-card class="pab-menu-grid-card">
+        <mat-card-title class="pab-menu-grid-card-title"> Arbeitsnachweise</mat-card-title>
+        <mat-card-content>
+          <button (click)="navigiereZu('/arbeitsnachweis/bearbeiten')" mat-menu-item mat-menu-item>
+            <mat-icon>add</mat-icon>
+            <span>Neu</span>
+          </button>
+          <button (click)="navigiereZu('/arbeitsnachweis')" mat-menu-item mat-menu-item>
+            <mat-icon>view_list</mat-icon>
+            <span>Übersicht</span>
+          </button>
+          <button (click)="oeffneValdierungsDialog()" mat-menu-item>
+            <mat-icon>done_all</mat-icon>
+            <span>Validieren</span>
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="pab-menu-grid-card">
+        <mat-card-title class="pab-menu-grid-card-title">Projektabrechnung</mat-card-title>
+        <mat-card-content>
+          <button (click)="navigiereZu('/projektabrechnung/bearbeiten')" mat-menu-item mat-menu-item>
+            <mat-icon>add</mat-icon>
+            <span>Neu</span>
+          </button>
+          <button (click)="navigiereZu('/projektabrechnung')" mat-menu-item mat-menu-item>
+            <mat-icon>view_list</mat-icon>
+            <span>Übersicht</span>
+          </button>
+          <button (click)="navigiereZu('/projektabrechnung/auslagen')" mat-menu-item mat-menu-item>
+            <mat-icon>credit_card</mat-icon>
+            <span>Auslagen</span>
+          </button>
+          <button (click)="navigiereZu('/projektabrechnung/korrekturbuchung')" mat-menu-item mat-menu-item>
+            <mat-icon>home_repair_service</mat-icon>
+            <span>Korrekturbuchung</span>
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="pab-menu-grid-card">
+        <mat-card-title class="pab-menu-grid-card-title">Mitarbeiter:innen</mat-card-title>
+        <mat-card-content>
+          <button (click)="navigiereZu('/mitarbeiter/stundenkonto')" mat-menu-item mat-menu-item>
+            <mat-icon>hourglass_empty</mat-icon>
+            <span>Stundenkonto</span>
+          </button>
+          <button (click)="navigiereZu('/mitarbeiter/urlaubskonto')" mat-menu-item mat-menu-item>
+            <mat-icon>beach_access</mat-icon>
+            <span>Urlaubskonto</span>
+          </button>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="pab-menu-grid-card">
+        <mat-card-title class="pab-menu-grid-card-title">Berichte</mat-card-title>
+        <mat-card-content>
+          <button [matMenuTriggerFor]="berichteMenuMitarbeiterinnenMenu" mat-menu-item>
+            <mat-icon>group</mat-icon>
+            <span>Mitarbeiter:innen</span>
+          </button>
+          <button [matMenuTriggerFor]="berichteMenuProjekteMenu" mat-menu-item>
+            <span>Projekte</span>
+          </button>
+          <button [matMenuTriggerFor]="berichteMenuKennzahlenMenu" mat-menu-item>
+            <span>Kennzahlen</span>
+          </button>
+
+          <mat-menu #berichteMenuMitarbeiterinnenMenu="matMenu" class="pab-menu-sub-menu mat-menu-width">
+            <button (click)="navigiereZu('/berichte/b002')" mat-menu-item mat-menu-item>
+              <span>B002 - Rufbereitschaft, Sonderarbeit pro Mitarbeiter:in, Projekt</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b004')" mat-menu-item mat-menu-item>
+              <span>B004 - Arbeitsnachweis pro Mitarbeiter:in und Abrechnungsmonat</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b005')" mat-menu-item mat-menu-item>
+              <span>B005 - Lohnarten pro Mitarbeiter:in und Abrechnungsmonat (LODAS-Vorerfassung)</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b006')" mat-menu-item mat-menu-item>
+              <span>B006 - Arbeitszeit, Stundenkonto pro Mitarbeiter:in und Jahr</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b009')" mat-menu-item mat-menu-item>
+              <span>B009 - Übersicht Stundenkonto pro Mitarbeiter:in</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b010')" mat-menu-item mat-menu-item>
+              <span>B010 - Übersicht Urlaubskonto pro Mitarbeiter:in</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b015')" mat-menu-item mat-menu-item>
+              <span>B015 - Verteilung Arbeitszeit auf OEs/Bereiche</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b016')" mat-menu-item mat-menu-item>
+              <span>B016 - Verteilung Arbeitszeit auf OEs/Bereiche für Personalvorgesetzte:innen</span>
+            </button>
+          </mat-menu>
+
+          <mat-menu #berichteMenuProjekteMenu="matMenu" class="mat-menu-width">
+            <button (click)="navigiereZu('/berichte/b007')" mat-menu-item mat-menu-item>
+              <span>B007 - Kosten, Leistung pro Projekt</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b008')" mat-menu-item mat-menu-item>
+              <span>B008 - Rechnungsvorlage pro Projekt</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b013')" mat-menu-item mat-menu-item>
+              <span>B013 - Faktur, Leistung nach OE, Kunde, Projekt</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b014')" mat-menu-item mat-menu-item>
+              <span>B014 - Übersicht Abrechnung, Faktur, Budget pro Projekt</span>
+            </button>
+          </mat-menu>
+
+          <mat-menu #berichteMenuKennzahlenMenu="matMenu" class="mat-menu-width">
+            <button (click)="navigiereZu('/berichte/b011')" mat-menu-item mat-menu-item>
+              <span>B011 - Kennzahlen - OE nach Monat, Projekt</span>
+            </button>
+            <button (click)="navigiereZu('/berichte/b012')" mat-menu-item mat-menu-item>
+              <span>B012 - Kennzahlen - Gesamt nach OE</span>
+            </button>
+          </mat-menu>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="pab-menu-grid-card">
+        <mat-card-title class="pab-menu-grid-card-title">Verwaltung</mat-card-title>
+        <mat-card-content>
+          <button (click)="navigiereZu('verwaltung/monatsabschluss')" mat-menu-item mat-menu-item>
+            <span>Monatsabschluss</span>
+          </button>
+          <button (click)="navigiereZu('verwaltung/fakturuebersicht')" mat-menu-item mat-menu-item>
+            <span>Fakturübersicht</span>
+          </button>
+          <button (click)="navigiereZu('verwaltung/projektbudget')" mat-menu-item mat-menu-item>
+            <span>Projektbudget</span>
+          </button>
+          <button (click)="navigiereZu('verwaltung/skonto-buchung')" mat-menu-item mat-menu-item>
+            <span>Skonto-Buchung</span>
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="sichtbare-titelleiste">
+    <button
+      (click)="toggleMenuOverlay()"
+      mat-icon-button
+      class="title-menu-text"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>apps</mat-icon>
+    </button>
+
+    <img (click)="navigiereZu('/')" src="assets/logo.svg" style="cursor: pointer" mat-tooltip="Zum Dashboard" />
+
+    <pab-suche (sucheEvent)="reagiereAufSuchenEvent($event)" class="suchleiste"></pab-suche>
+
+    <div class="nutzerinformationen">
+      <span class="rightside-element">{{ benutzerName }}</span>
+      <a
+        class="rightside-element title-menu-text"
+        href="https://confluence.intern.viadee.de/x/gYJ8Ag"
+        mat-button
+        target="_blank"
+      >
+        <mat-icon>help</mat-icon>
+      </a>
+      <button (click)="oeffneInfoDialog()" class="rightside-element title-menu-text" mat-button>
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>

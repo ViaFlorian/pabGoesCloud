@@ -1,0 +1,8 @@
+.grid-areas-skonto-buchung-auswahl-form-columns {
+  display: grid;
+  grid-template-columns: 25% 22% 22% 22%;
+  grid-gap: 3%;
+  grid-template-areas:
+    'Projekt           Kunde                    SkontoNettoSumme           SkontoBruttoSumme'
+    'Projekttyp        Projektverantwortung     Organisationseinheit       Gesamtrechnung';
+}

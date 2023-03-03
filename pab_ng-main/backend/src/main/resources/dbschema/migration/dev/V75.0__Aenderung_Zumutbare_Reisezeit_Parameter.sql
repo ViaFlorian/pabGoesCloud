@@ -1,0 +1,1 @@
+UPDATE Parameter SET [Key] = 'Zumutbare_Reisezeit', [Value] = 1 WHERE [Key] = 'Zumutbare_Reisezeit_kleiner_8_Stunden';

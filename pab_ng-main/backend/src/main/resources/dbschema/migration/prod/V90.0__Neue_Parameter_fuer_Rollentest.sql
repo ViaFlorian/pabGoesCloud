@@ -1,0 +1,1 @@
+INSERT INTO Parameter ([Key], [Value], Kommentar) VALUES ('TestRollen', '{ "StG" : "PAB-OELeiter", "EvH" : "PAB-GF", "HuM" : "PAB-OELeiter" }', 'Zum Test von Rollen kann hier die Rolle eines Anwenderts überschrieben werden; mögliche Rollen PAB-OELeiter, PAB-GF; PAB-Administrator und PAB-Sachbearbeiter sind NICHT möglich');

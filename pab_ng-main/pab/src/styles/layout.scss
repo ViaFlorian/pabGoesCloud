@@ -1,0 +1,349 @@
+@import 'variablen';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+// ###################################
+// ### Seiten-Struktur               #
+// ###################################
+.basis-container {
+  display: grid;
+  height: calc(100vh - 120px);
+  min-height: 800px;
+}
+
+.basis-container-grid {
+  grid-template-rows: 14px minmax(50px, min-content) minmax(200px, 1fr);
+  grid-row-gap: 28px;
+}
+
+.tab-container-only-form {
+  display: grid;
+  height: calc(100% - 15px);
+  padding-top: 15px;
+}
+
+// Hinweis: Die 2. Zeile ist 100% - Anzahl an Form-Elementen * 78px (Größe in Angular Material 15) + Row-Gap
+.tab-container-single-line-form {
+  display: grid;
+  grid-template-rows: 78px calc(100% - 113px);
+  grid-row-gap: 35px;
+  height: calc(100% - 15px);
+  padding-top: 15px;
+}
+
+// Hinweis: Die 2. Zeile ist 100% - Anzahl an Form-Elementen * 78px (Größe in Angular Material 15) + Row-Gap
+.tab-container-double-line-form {
+  display: grid;
+  grid-template-rows: 156px calc(100% - 191px);
+  grid-row-gap: 35px;
+  height: calc(100% - 15px);
+  padding-top: 15px;
+}
+
+.height-full {
+  height: 100%;
+}
+
+// ###################################
+// ### Toolbar                       #
+// ###################################
+mat-toolbar {
+  height: 35px;
+  max-height: 35px;
+}
+
+// ###################################
+// ### Grids                         #
+// ###################################
+.grid-with-1-columns {
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+.grid-with-2-columns {
+  display: grid;
+  grid-template-columns: 45% 45%;
+  grid-gap: 10%;
+}
+
+.grid-with-3-columns {
+  display: grid;
+  grid-template-columns: 32% 31% 31%;
+  grid-gap: 3%;
+}
+
+.grid-with-4-columns {
+  display: grid;
+  grid-template-columns: 23% 22% 22% 22%;
+  grid-gap: 3%;
+}
+
+.grid-form-mit-card {
+  display: grid;
+  grid-template-columns: 85% 12%;
+  grid-gap: 3%;
+}
+
+.grid-form-plus-operator {
+  display: grid;
+  grid-template-columns: 77% 20%;
+  grid-gap: 3%;
+}
+
+.grid-titel-columns {
+  display: grid;
+  grid-template-columns: 65% 25%;
+  grid-gap: 10%;
+}
+
+// ###################################
+// ### Util                          #
+// ###################################
+.right-float {
+  float: right !important;
+}
+
+.align-center {
+  align-self: center;
+}
+
+.vertical-center {
+  vertical-align: middle;
+}
+
+.justify-end {
+  justify-self: end;
+}
+
+.justify-center {
+  justify-self: center;
+}
+
+// ###################################
+// ### Border                        #
+// ###################################
+.border {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  width: 97%;
+  margin: auto;
+  padding: 10px;
+  height: 98%;
+}
+
+.border-bottom {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 1px 0px 0px;
+}
+
+// ###################################
+// ### Tabelle                       #
+// ###################################
+.mat-row:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.th.mat-mdc-header-cell {
+  font-size: 14px;
+}
+
+tr.mat-mdc-header-row {
+  height: 32px !important;
+}
+
+tr.mat-mdc-footer-row {
+  height: 32px !important;
+}
+
+td.mat-mdc-footer-cell {
+  height: 32px !important;
+}
+
+.table-container {
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.klickbare-tabelle tr {
+  cursor: pointer;
+}
+
+// ###################################
+// ### MAT-Form                      #
+// ###################################
+mat-form-field {
+  mat-error {
+    display: none !important;
+  }
+
+  mat-error:first-child {
+    display: block !important;
+  }
+}
+
+.warn-hint {
+  color: $warning_color !important;
+}
+
+// ###################################
+// ### MAT-Icon                      #
+// ###################################
+.mat-icon-in-text-align {
+  vertical-align: middle;
+}
+
+.mat-icon-in-button {
+  margin: 0 !important;
+}
+
+// ###################################
+// ### MAT-Tab                       #
+// ###################################
+.mat-tab-body-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  transition: height 500ms cubic-bezier(0.35, 0, 0.25, 1);
+  height: 100%;
+}
+
+// ###################################
+// ### MAT-Card                      #
+// ###################################
+.card-border {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+  border-radius: 0px !important;
+}
+
+.card-pab-bearbeiten {
+  height: 180px;
+}
+
+// ###################################
+// ### MAT-Expansion                 #
+// ###################################
+.expansion-border {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+  border-radius: 0px !important;
+}
+
+// ###################################
+// ### Dialog                        #
+// ###################################
+.dialog-container-small {
+  min-height: 100px;
+  max-height: 500px;
+  width: 600px;
+}
+
+.dialog-container-default {
+  min-height: 500px;
+  max-height: 800px;
+  width: 800px;
+}
+
+.dialog-container-large {
+  min-height: 500px;
+  max-height: 1200px;
+  width: 1000px;
+}
+
+.dialog-body {
+  display: grid;
+  grid-auto-flow: row;
+  white-space: pre-wrap;
+  grid-gap: 10px;
+}
+
+.dialog-body-tabelle {
+  display: grid;
+  height: 100%;
+  overflow: hidden !important;
+}
+
+.dialog-body-tabelle-mit-text {
+  display: grid;
+  grid-template-rows: 10% 80%;
+  grid-row-gap: 10px;
+  height: 100%;
+  overflow: hidden !important;
+}
+
+.dialog-body-belege-upload {
+  display: grid !important;
+  height: 250px;
+  padding-top: 24px !important;
+}
+
+.dialog-body-arbeitsnachweis-upload {
+  display: grid !important;
+  grid-template-rows: 30% 65%;
+  grid-row-gap: 5%;
+  height: 250px;
+}
+
+.dialog-body-arbeitsnachweis-validieren {
+  display: grid !important;
+  height: 250px;
+  padding-top: 24px !important;
+}
+
+.dialog-body-projektabrechnung-fertigstellung {
+  display: grid;
+  height: 605px;
+}
+
+.dialog-email-form {
+  display: grid;
+  height: 100%;
+}
+
+.dialog-table {
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+  min-height: 350px;
+}
+
+// ###################################
+// ### Snackbar                      #
+// ###################################
+
+.multiline-snackbar {
+  background: #1fcd98;
+  white-space: pre-wrap;
+}
+
+// ###################################
+// ### Projektabrechnung             #
+// ###################################
+.pab-titel {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.pab-titel-spalte {
+  text-align: center;
+}
+
+.pab-button {
+  height: 38px;
+  width: 32px;
+}
+
+.pab-button-position {
+  align-self: center;
+}
+
+// ###################################
+// ### Margin                        #
+// ###################################
+.margin-right-small {
+  margin-right: 5px;
+}

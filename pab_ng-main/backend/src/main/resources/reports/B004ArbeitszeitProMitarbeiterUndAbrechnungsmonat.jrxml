@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B004_Arbeitsnachweis_pro_MitarbeiterIn_und_Abrechnungsmonat" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d8b5662-232e-4543-bbe2-07fac3b18377">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Ueberschrift" hTextAlign="Left" fontName="DejaVu Sans" fontSize="11" isBold="true"/>
+	<style name="Filter" fontName="DejaVu Sans" fontSize="10"/>
+	<style name="DetailUeberschrift" fontName="DejaVu Sans" fontSize="8" isBold="true">
+		<box>
+			<topPen lineWidth="0.6" lineStyle="Dotted"/>
+			<leftPen lineWidth="0.6" lineStyle="Dotted"/>
+			<bottomPen lineWidth="0.6" lineStyle="Dotted"/>
+			<rightPen lineWidth="0.6" lineStyle="Dotted"/>
+		</box>
+	</style>
+	<style name="Gruppenwechsel" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
+	<style name="Detail" hTextAlign="Center" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8"/>
+	<style name="DetailSumme" hTextAlign="Center" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="8" isBold="true"/>
+	<style name="DetailUeberschriftRotiert" style="DetailUeberschrift" hTextAlign="Left" vTextAlign="Middle" rotation="Right"/>
+	<style name="Footer" fontName="DejaVu Sans" fontSize="6"/>
+	<parameter name="FilterString" class="java.lang.String"/>
+	<parameter name="Arbeitszeit" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="logo" class="java.awt.Image"/>
+	<parameter name="Sonderarbeitszeit" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="Rufbereitschaft" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="ReisekostenAuslagen" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="Abwesenheit" class="net.sf.jasperreports.engine.JasperReport"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="listeArbeitszeitenJR" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource">
+		<fieldDescription><![CDATA[listeArbeitszeitenJR]]></fieldDescription>
+	</field>
+	<field name="listeSonderarbeitszeitenJR" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource">
+		<fieldDescription><![CDATA[listeSonderarbeitszeitenJR]]></fieldDescription>
+	</field>
+	<field name="listeRufbereitschaftenJR" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource">
+		<fieldDescription><![CDATA[listeRufbereitschaftenJR]]></fieldDescription>
+	</field>
+	<field name="listeReisekostenAuslagenJR" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource">
+		<fieldDescription><![CDATA[listeReisekostenAuslagenJR]]></fieldDescription>
+	</field>
+	<field name="mitarbeiterPersonalnummer" class="java.lang.Integer">
+		<fieldDescription><![CDATA[mitarbeiterPersonalnummer]]></fieldDescription>
+	</field>
+	<field name="mitarbeiterFullName" class="java.lang.String"/>
+	<field name="listeAbwesenheitenJR" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource">
+		<fieldDescription><![CDATA[listeAbwesenheitenJR]]></fieldDescription>
+	</field>
+	<field name="auszahlung" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[auszahlung]]></fieldDescription>
+	</field>
+	<field name="sollstunden" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[sollstunden]]></fieldDescription>
+	</field>
+	<field name="smartphone" class="java.lang.String">
+		<fieldDescription><![CDATA[smartphone]]></fieldDescription>
+	</field>
+	<field name="verbindungsentgelt" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[verbindungsentgelt]]></fieldDescription>
+	</field>
+	<field name="jobticket" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[jobticket]]></fieldDescription>
+	</field>
+	<group name="Mitarbeiter Group" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{mitarbeiterPersonalnummer}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<textField>
+					<reportElement style="Gruppenwechsel" x="0" y="0" width="544" height="20" uuid="c225a34e-2087-4be6-8224-a6bfb2524506"/>
+					<textFieldExpression><![CDATA[$F{mitarbeiterPersonalnummer} + " - " + $F{mitarbeiterFullName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="73">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<staticText>
+					<reportElement style="Gruppenwechsel" x="0" y="0" width="252" height="20" uuid="5689b4c5-c579-44e5-8835-67535c08aac3">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left"/>
+					<text><![CDATA[Sonstige Daten aus dem Arbeitsnachweis]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Detail" x="0" y="20" width="202" height="10" uuid="60b7330e-20f7-45bc-99b2-efc7a39d2c9c">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<text><![CDATA[Auszahlung in Std.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Detail" x="0" y="30" width="202" height="10" uuid="6fc3295f-b8ca-4b9a-8276-5071d12a84e7">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<text><![CDATA[Sollarbeitszeit in Std.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Detail" x="0" y="40" width="202" height="10" uuid="f45e3ac0-891f-4648-a943-d048ef03d9c3">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<text><![CDATA[Smartphone]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement key="" style="Detail" x="202" y="20" width="100" height="10" uuid="70a3d946-cf33-4f5a-b209-ff5c3c3dd86e"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($F{auszahlung} == null ? "0,00" : $F{auszahlung})]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="Detail" x="202" y="30" width="100" height="10" uuid="82f60f70-edea-416e-a73c-7414d7ac5e6f"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($F{sollstunden} == null ? "0,00" : $F{sollstunden})]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="Detail" x="202" y="40" width="100" height="10" uuid="e2fa67ff-fc01-484a-87e3-9633b63f8816"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($F{smartphone} == null ? "" : $F{smartphone})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Detail" x="0" y="50" width="202" height="10" uuid="3e83df67-f5a8-4e36-b2bd-1cf7465c6696">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<text><![CDATA[Verbindungsentgelt]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="false">
+					<reportElement style="Detail" x="202" y="50" width="100" height="10" uuid="59bc2ef2-e4ca-4789-b140-17bef798aab9"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($F{verbindungsentgelt} == null ? "0,00" : $F{verbindungsentgelt})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Detail" x="0" y="60" width="202" height="10" uuid="4b679791-8264-457a-b97e-cdabb25f0cd2">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<text><![CDATA[Jobticket]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement style="Detail" x="202" y="60" width="100" height="10" uuid="81e97f1a-9899-4a46-8aa1-23c506033a04"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[($F{jobticket} == null ? "0,00" : $F{jobticket})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement key="" style="Ueberschrift" x="0" y="0" width="474" height="30" uuid="70ae981a-738f-43bd-8bd0-00423d3c9439"/>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Arbeitsnachweis pro Mitarbeiter/in und Abrechnungsmonat]]></text>
+			</staticText>
+			<image onErrorType="Icon">
+				<reportElement x="453" y="-9" width="100" height="40" uuid="94409b77-4ba4-4638-8f72-5c1851c5ff86"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.equals(new Integer(1))]]></printWhenExpression>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Filter" x="0" y="0" width="550" height="16" uuid="7d6f1d9f-7c9b-46c9-ae35-5f66fdddb4cd">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2" bottomPadding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($P{FilterString} == null ? "keine Filter angegeben" : $P{FilterString})]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="0" width="550" height="20" isRemoveLineWhenBlank="true" uuid="61939a72-b3bc-4606-ba83-342afbf5fe4c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="REPORT_DATA_SOURCE">
+					<subreportParameterExpression><![CDATA[$F{listeArbeitszeitenJR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_LOCAL">
+					<subreportParameterExpression><![CDATA[$P{REPORT_LOCALE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA[$P{Arbeitszeit}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[new Boolean($F{listeArbeitszeitenJR}.getRecordCount() > new Integer("0"))]]></printWhenExpression>
+			<subreport>
+				<reportElement x="0" y="0" width="550" height="20" isRemoveLineWhenBlank="true" uuid="cafdd9c8-2001-4a44-a77f-171f15b7908d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="REPORT_DATA_SOURCE">
+					<subreportParameterExpression><![CDATA[$F{listeArbeitszeitenJR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_LOCALE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_LOCALE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{listeSonderarbeitszeitenJR}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{Sonderarbeitszeit}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[new Boolean($F{listeRufbereitschaftenJR}.getRecordCount() > new Integer("0"))]]></printWhenExpression>
+			<subreport>
+				<reportElement x="0" y="0" width="550" height="20" isRemoveLineWhenBlank="true" uuid="1e30cded-8c8d-4698-aa64-6db266e2898a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="REPORT_DATA_SOURCE">
+					<subreportParameterExpression><![CDATA[$F{listeArbeitszeitenJR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_LOCALE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_LOCALE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{listeRufbereitschaftenJR}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{Rufbereitschaft}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[new Boolean($F{listeReisekostenAuslagenJR}.getRecordCount() > new Integer("0"))]]></printWhenExpression>
+			<subreport>
+				<reportElement x="0" y="0" width="550" height="20" isRemoveLineWhenBlank="true" uuid="63c6642a-cbd5-473e-9f07-2f474038c5a7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="REPORT_DATA_SOURCE">
+					<subreportParameterExpression><![CDATA[$F{listeArbeitszeitenJR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_LOCALE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_LOCALE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{listeReisekostenAuslagenJR}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{ReisekostenAuslagen}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[new Boolean($F{listeAbwesenheitenJR}.getRecordCount() > new Integer("0"))]]></printWhenExpression>
+			<subreport>
+				<reportElement x="0" y="0" width="550" height="20" isRemoveLineWhenBlank="true" uuid="292a141c-aaab-4f00-8707-2b085f42d119">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="REPORT_DATA_SOURCE">
+					<subreportParameterExpression><![CDATA[$F{listeArbeitszeitenJR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_LOCALE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_LOCALE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[$F{listeAbwesenheitenJR}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{Abwesenheit}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Footer" x="470" y="0" width="60" height="20" uuid="d76d9040-b662-4167-b62d-acf18834bdde"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Seite " + $V{PAGE_NUMBER} + " /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Footer" x="530" y="0" width="20" height="20" uuid="370e1fc0-db67-4fd8-9308-d8a73c66be83"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Footer" x="1" y="0" width="252" height="20" uuid="e98c1696-3e7e-44c0-91c2-09f94a8f2c15"/>
+				<textFieldExpression><![CDATA["Erstellungsdatum: " + new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Footer" x="227" y="5" width="100" height="11" uuid="4b0d6a4d-ea21-41d8-8a92-aa050fd6fccf"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Bericht B004]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

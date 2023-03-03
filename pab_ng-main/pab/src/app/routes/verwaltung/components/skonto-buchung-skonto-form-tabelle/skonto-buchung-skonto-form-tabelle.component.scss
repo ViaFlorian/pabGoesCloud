@@ -1,0 +1,8 @@
+.grid-areas-skonto-buchung-form-columns {
+  display: grid;
+  grid-template-columns: 28% 27% 27% 9%;
+  grid-gap: 3%;
+  grid-template-areas:
+    'Wertstellung             Referenzmonat          Bemerkung                 Button'
+    'SkontoNettoBetrag       Umsatzsteuer           SkontoBruttoBetrag        .';
+}

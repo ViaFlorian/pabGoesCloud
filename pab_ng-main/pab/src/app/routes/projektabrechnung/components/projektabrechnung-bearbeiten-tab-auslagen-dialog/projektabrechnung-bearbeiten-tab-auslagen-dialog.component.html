@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Auslagen (viadee)</h1>
+
+<div mat-dialog-content class="dialog-body-tabelle">
+  <section class="dialog-table">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="belegartName">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="belegartName">Belegart</th>
+        <td *matCellDef="let element" mat-cell>{{ element.belegartName }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="bemerkung">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+        <td *matFooterCellDef mat-footer-cell></td>
+      </ng-container>
+
+      <ng-container matColumnDef="kosten">
+        <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kosten">Betrag (Brutto)</th>
+        <td *matCellDef="let element" class="mat-cell-number" mat-cell>
+          {{ element.kosten | number : '1.2-2' : 'de' }}
+        </td>
+        <td *matFooterCellDef mat-footer-cell>
+          Summe: {{ data.sonstigeProjektkostens | summiereSonstigeProjektkostenKosten | number : '1.2-2' : 'de' }}
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+      <tr *matFooterRowDef="tabelle.displayedColumns; sticky: true" mat-footer-row></tr>
+    </table>
+  </section>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button [mat-dialog-close]="false" color="primary" mat-flat-button>
+    <mat-icon>cancel</mat-icon>
+    Schließen
+  </button>
+</div>

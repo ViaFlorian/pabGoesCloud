@@ -1,0 +1,30 @@
+<form [formGroup]="parentFormGroup">
+  <mat-form-field [subscriptSizing]="mitErrorPlatzhalter ? 'fixed' : 'dynamic'">
+    <mat-label>
+      <mat-icon
+        *ngIf="
+          parentFormGroup.get(parentFormFieldName)?.value.id &&
+          !parentFormGroup.get(parentFormFieldName)?.value.istAktiv
+        "
+      >
+        not_interested
+      </mat-icon>
+      Projekt
+    </mat-label>
+    <input
+      (blur)="onVerlasseEingabefeldProjekt()"
+      [matAutocomplete]="autoProjekte"
+      [formControlName]="parentFormFieldName"
+      matInput
+      type="text"
+    />
+    <mat-autocomplete #autoProjekte="matAutocomplete" [displayWith]="projektAnzeigeNamePipe.transform">
+      <mat-option *ngFor="let projekt of projektAuswahlGefiltert | async" [value]="projekt">
+        <mat-icon *ngIf="!projekt.istAktiv" color="warn">not_interested</mat-icon>
+        {{ projekt | projekteAnzeigeName }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="parentFormGroup.get(parentFormFieldName)?.errors?.['required']">Pflichtfeld </mat-error>
+    <mat-error *ngIf="parentFormGroup.get(parentFormFieldName)?.errors?.['objektLeer']"> Pflichtfeld </mat-error>
+  </mat-form-field>
+</form>

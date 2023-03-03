@@ -1,0 +1,35 @@
+<form [formGroup]="projektbudgetAuswahlFormGroup" class="grid-areas-projektbudget-auswahl-form-columns">
+  <pab-autocomplete-projekt
+    [mitErrorPlatzhalter]="false"
+    [parentFormGroup]="projektbudgetAuswahlFormGroup"
+    [projektAuswahl]="projektAuswahl"
+    parentFormFieldName="projekt"
+    style="grid-area: Projekt"
+  ></pab-autocomplete-projekt>
+
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Kunde">
+    <mat-label>Kunde</mat-label>
+    <input formControlName="kunde" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Organisationseinheit">
+    <mat-label>OE</mat-label>
+    <input formControlName="organisationseinheit" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Sachbearbeiter">
+    <mat-label>Sachbearbeiter:in</mat-label>
+    <input formControlName="sachbearbeiter" matInput type="text" />
+  </mat-form-field>
+
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Projekttyp">
+    <mat-label>Projekttyp</mat-label>
+    <input formControlName="projekttyp" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Projektverantwortung">
+    <mat-label>Projektverantwortung</mat-label>
+    <input formControlName="projektverantwortung" matInput type="text" />
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" style="grid-area: Geschaeftsstelle">
+    <mat-label>Geschäftsstellenzuordnung</mat-label>
+    <input formControlName="geschaeftsstelle" matInput type="text" />
+  </mat-form-field>
+</form>

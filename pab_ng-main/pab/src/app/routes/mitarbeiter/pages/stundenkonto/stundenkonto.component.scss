@@ -1,0 +1,10 @@
+.grid-auswahl-columns {
+  display: grid;
+  grid-template-columns: 42.5%;
+}
+
+.grid-form-columns {
+  display: grid;
+  grid-template-columns: 42.5% 42.5% 9%;
+  grid-gap: 3%;
+}

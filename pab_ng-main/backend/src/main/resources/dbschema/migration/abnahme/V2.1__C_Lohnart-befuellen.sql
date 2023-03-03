@@ -1,0 +1,15 @@
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('008', 'Zuschlag ÜberStd. 50% Frei');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('009', 'Zuschlag ÜberStd. 50% Pfl.');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('012', 'Überstunden Grundvergütung');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('014', 'Zuschlag ÜberStd. 25% Frei');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('016', 'Zuschlag ÜberStd. 25% Pfl.');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('032', 'Rufbereitschaft');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('053', 'Sachbezug Frühstück');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('057', 'Jobticket');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('078', 'Verpfl.-Mehraufw.Frei');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('079', 'Verpfl.-Mehraufw.25%');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('080', 'Verpfl.-Mehraufw.Pfl.');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('081', 'Dienstf.u.Nebenkosten.Frei');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('091', 'Handy-Erstattung.Frei');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('092', 'Handy-Erstattung.Pfl.');
+INSERT C_Lohnart (Konto, Bezeichnung) VALUES ('115', 'Zuschlag ÜberStd. 100% Frei');

@@ -1,0 +1,8 @@
+.grid-areas-faktur-form-columns {
+  display: grid;
+  grid-template-columns: 18% 18% 18% 25% 9%;
+  grid-gap: 3%;
+  grid-template-areas:
+    'Rechnungsdatum             Rechnungsnummer             Referenzmonat        AbwRechnungsempfaenger       Button'
+    'BetragNetto                NichtBudgettRelevant        Umsatzsteuer         Bemerkung                    Debitorennummer';
+}

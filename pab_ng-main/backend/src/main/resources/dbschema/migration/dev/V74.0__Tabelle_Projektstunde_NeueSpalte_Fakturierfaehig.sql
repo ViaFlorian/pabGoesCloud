@@ -1,0 +1,1 @@
+ALTER TABLE Projektstunde ADD Fakturierfaehig [bit] NULL;

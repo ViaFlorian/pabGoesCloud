@@ -1,0 +1,99 @@
+<h1 mat-dialog-title>% Fertigstellung festlegen</h1>
+
+<div
+  mat-dialog-content
+  class="dialog-body-projektabrechnung-fertigstellung"
+  #pabProjektabrechnungFertigstellungDialogContent
+>
+  <pab-spinner
+    *ngIf="data.ladeFertigstellungDialogDatenSpinner && !data.ladeFertigstellungDialogDatenSpinner.isClosed()"
+    [spinnerHeight]="pabProjektabrechnungFertigstellungDialogContent.offsetHeight.toString()"
+    [spinnerWidth]="(pabProjektabrechnungFertigstellungDialogContent.offsetWidth - 30).toString()"
+  ></pab-spinner>
+  <form
+    [formGroup]="data.pabFertigstellungFormGroup"
+    class="grid-areas-pab-bearbeiten-dialig-fertigstellung-input-slots"
+  >
+    <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+    <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+    <div style="grid-area: Label1">Fertigstellung (%)</div>
+    <div style="grid-area: Label2">* Projektbudget (&euro;)</div>
+    <div style="grid-area: Label3">= Leistung faktuierfähig kumuliert (&euro;)</div>
+    <div style="grid-area: Label4">Leistung faktuierfähig (&euro;)</div>
+    <div style="grid-area: Label5">Leistung rechnerisch inkl. Korrekturen (&euro;)</div>
+    <div style="grid-area: Label6">errechnete Fertigstellung anhand rechnerischer Leistung (%)</div>
+
+    <div style="grid-area: Trenner">
+      <div class="trenner-hoehe border-bottom"></div>
+      <div class="trenner-hoehe"></div>
+    </div>
+
+    <mat-form-field style="grid-area: SlotLinks1">
+      <input formControlName="bisherFertigstellung" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field style="grid-area: SlotLinks2">
+      <input formControlName="bisherProjektbudget" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field style="grid-area: SlotLinks3">
+      <input formControlName="bisherLeistungFaktuierfaehigKumuliert" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field style="grid-area: SlotLinks5">
+      <input formControlName="bisherLeistungRechnerisch" matInput type="text" />
+    </mat-form-field>
+
+    <mat-form-field style="grid-area: SlotRechts1">
+      <input
+        formControlName="monatFertigstellung"
+        matInput
+        type="text"
+        (input)="entferneUnerlaubteZeichen('monatFertigstellung', '^-?(([0-9]*)|([0-9]+),([0-9]{0,6}))$')"
+      />
+      <mat-error *ngIf="data.pabFertigstellungFormGroup.get('monatFertigstellung')?.errors?.['min']">
+        Fertigstellungsgrad zwischen 0 und 100 eingeben
+      </mat-error>
+      <mat-error *ngIf="data.pabFertigstellungFormGroup.get('monatFertigstellung')?.errors?.['max']">
+        Fertigstellungsgrad zwischen 0 und 100 eingeben
+      </mat-error>
+      <mat-error *ngIf="data.pabFertigstellungFormGroup.get('monatFertigstellung')?.errors?.['pattern']">
+        Maximal 6 Nachkommastellen eingeben
+      </mat-error>
+      <mat-error *ngIf="data.pabFertigstellungFormGroup.get('monatFertigstellung')?.errors?.['required']">
+        Pflichtfeld
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field style="grid-area: SlotRechts2">
+      <input formControlName="monatProjektbudget" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field style="grid-area: SlotRechts3">
+      <input formControlName="monatLeistungFaktuierfaehigKumuliert" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field style="grid-area: SlotRechts4">
+      <input formControlName="monatLeistungFaktuierfaehig" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field style="grid-area: SlotRechts5">
+      <input formControlName="monatLeistungRechnerisch" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field style="grid-area: SlotRechts6">
+      <input formControlName="monatErrechneteFertigstellung" matInput type="text" />
+    </mat-form-field>
+
+    <div style="grid-area: Fehlermeldung" class="justify-center">
+      <mat-error *ngIf="data.pabFertigstellungFormGroup.errors?.['bearbeitenFertigstellungErrechneteLeistungZuKlein']"
+        >Die errechnete Leistung laut Fertigstellungsgrad ist kleiner als die Summe der Leistungen aller Mitarbeiter im
+        Abrechnungsmonat.
+      </mat-error>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button [mat-dialog-close]="false" cdkFocusInitial color="basic" mat-stroked-button>
+    <mat-icon>cancel</mat-icon>
+    Abbrechen
+  </button>
+  <button [mat-dialog-close]="true" [disabled]="!data.pabFertigstellungFormGroup.valid" color="primary" mat-flat-button>
+    <mat-icon>check_circle</mat-icon>
+    Übernehmen
+  </button>
+</div>

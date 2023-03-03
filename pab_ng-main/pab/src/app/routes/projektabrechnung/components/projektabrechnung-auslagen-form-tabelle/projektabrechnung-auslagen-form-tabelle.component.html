@@ -1,0 +1,217 @@
+<div class="tab-container-double-line-form">
+  <div class="border-bottom">
+    <form
+      (ngSubmit)="fuegeOderAktualisiereSonstigeProjektkosten()"
+      [formGroup]="auslagenDetailsFormGroup"
+      class="grid-areas-pab-auslagen-form-columns"
+    >
+      <mat-form-field style="grid-area: Abrechnungsmonat">
+        <mat-label>
+          <mat-icon
+            *ngIf="getAbgeschlossenIcon(auslagenDetailsFormGroup.get('abrechnungsmonat')?.value)"
+            [fontIcon]="getAbgeschlossenIcon(auslagenDetailsFormGroup.get('abrechnungsmonat')?.value)"
+          ></mat-icon>
+          Abrechnungsmonat
+        </mat-label>
+        <mat-select [compareWith]="sindAbrechnungsmonateGleich" formControlName="abrechnungsmonat">
+          <mat-option *ngFor="let abrechnungsmonat of abrechnungsmonatAuswahl" [value]="abrechnungsmonat">
+            <mat-icon [fontIcon]="getAbgeschlossenIcon(abrechnungsmonat)"></mat-icon>
+            {{ abrechnungsmonat | abrechnungsmonatAnzeigeName }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="auslagenDetailsFormGroup.get('abrechnungsmonat')?.errors?.['abrechnungsmonatLeer']">
+          Pflichtfeld
+        </mat-error>
+        <mat-error *ngIf="auslagenDetailsFormGroup.get('abrechnungsmonat')?.errors?.['abrechnungsmonatAbgeschlossen']">
+          Abrechnungsmonat ist abgeschlossen
+        </mat-error>
+      </mat-form-field>
+
+      <pab-autocomplete-projekt
+        [mitErrorPlatzhalter]="true"
+        [parentFormGroup]="auslagenDetailsFormGroup"
+        [projektAuswahl]="projektAuswahl"
+        parentFormFieldName="projekt"
+        style="grid-area: Projekt"
+      ></pab-autocomplete-projekt>
+
+      <pab-autocomplete-mitarbeiter
+        [mitarbeiterAuswahl]="mitarbeiterAuswahl | mitarbeiterToObs"
+        [parentFormGroup]="auslagenDetailsFormGroup"
+        parentFormFieldName="mitarbeiter"
+        [mitErrorPlatzhalter]="true"
+        style="grid-area: Mitarbeiter"
+      ></pab-autocomplete-mitarbeiter>
+
+      <mat-form-field style="grid-area: Kostenart">
+        <mat-label>Kostenart</mat-label>
+        <mat-select formControlName="viadeeAuslagenKostenart">
+          <mat-option
+            *ngFor="let viadeeAuslagenKostenart of viadeeAuslagenKostenartAuswahl"
+            [value]="viadeeAuslagenKostenart"
+          >
+            {{ viadeeAuslagenKostenart.bezeichnung }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="auslagenDetailsFormGroup.get('viadeeAuslagenKostenart')?.errors?.['objektLeer']">
+          Pflichtfeld
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="grid-area: Belegart">
+        <mat-label>Belegart</mat-label>
+        <mat-select formControlName="belegart">
+          <mat-option *ngFor="let belegart of belegartAuswahl" [value]="belegart">
+            {{ belegart.textKurz }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="auslagenDetailsFormGroup.get('belegart')?.errors?.['objektLeer']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="grid-area: Betrag">
+        <mat-label>Betrag (Brutto)</mat-label>
+        <input
+          (input)="entferneUnerlaubteZeichen('betrag', '^([0-9]+)(,?)([0-9]{0,2})$')"
+          formControlName="betrag"
+          matInput
+          type="text"
+        />
+        <mat-error *ngIf="auslagenDetailsFormGroup.get('betrag')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="grid-area: Bemerkung">
+        <mat-label>Bemerkung</mat-label>
+        <input formControlName="bemerkung" matInput type="text" />
+        <mat-error *ngIf="auslagenDetailsFormGroup.get('bemerkung')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+
+      <div style="grid-area: Button" class="justify-end">
+        <button
+          *ngIf="!auslagenDetailsFormGroup.getRawValue().id"
+          [disabled]="abrechnungsmonatAbgeschlossen"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Hinzufügen"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">add</mat-icon>
+        </button>
+        <button
+          *ngIf="auslagenDetailsFormGroup.getRawValue().id"
+          [disabled]="abrechnungsmonatAbgeschlossen"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Aktualisieren"
+          type="submit"
+          class="margin-right-small"
+        >
+          <mat-icon class="mat-icon-in-button">autorenew</mat-icon>
+        </button>
+
+        <button
+          (click)="leereAuslagenDetailsForm()"
+          [disabled]="abrechnungsmonatAbgeschlossen"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Formular leeren"
+        >
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div #pabProjektabrechnungAuslagenTabelleBorder>
+    <pab-spinner
+      *ngIf="!projektabrechnungAuslagenSpinner.isClosed()"
+      [spinnerHeight]="pabProjektabrechnungAuslagenTabelleBorder.offsetHeight.toString()"
+      [spinnerWidth]="pabProjektabrechnungAuslagenTabelleBorder.offsetWidth.toString()"
+    ></pab-spinner>
+    <section class="table-container klickbare-tabelle">
+      <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+        <ng-container matColumnDef="abrechnungsmonat">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="abrechnungsmonat">Abrechnungsmonat</th>
+          <td *matCellDef="let element" mat-cell>
+            <mat-icon
+              [fontIcon]="getAbgeschlossenIconMitBoolean(element.istAbrechnungsmonatAbgeschlossen)"
+              class="vertical-center"
+            ></mat-icon>
+            {{ element.abrechnungsmonat }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="projektName">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="projektName">Projekt</th>
+          <td *matCellDef="let element" mat-cell>
+            <mat-icon *ngIf="!element.projekt.istAktiv" class="vertical-center" color="warn"> not_interested </mat-icon>
+            {{ element.projektName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mitarbeiterName">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="mitarbeiterName">Mitarbeiter/in</th>
+          <td *matCellDef="let element" mat-cell>
+            <mat-icon *ngIf="element.mitarbeiter && !element.mitarbeiter.istAktiv" class="vertical-center" color="warn">
+              not_interested
+            </mat-icon>
+            {{ element.mitarbeiterName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="viadeeAuslagenKostenartName">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="viadeeAuslagenKostenartName">Kostenart</th>
+          <td *matCellDef="let element" mat-cell>{{ element.viadeeAuslagenKostenartName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="belegartName">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="belegartName">Belegart</th>
+          <td *matCellDef="let element" mat-cell>{{ element.belegartName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="kosten">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="kosten">Betrag (Brutto)</th>
+          <td *matCellDef="let element" class="mat-cell-number" mat-cell>
+            {{ element.kosten | number : '1.2-2' : 'de' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bemerkung">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="bemerkung">Bemerkung</th>
+          <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="zuletztGeaendertAm">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="zuletztGeaendertAm">Geändert am</th>
+          <td *matCellDef="let element" mat-cell>{{ element.zuletztGeaendertAm | date : 'dd.MM.yyyy' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="zuletztGeaendertVon">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="zuletztGeaendertVon">Geändert von</th>
+          <td *matCellDef="let element" mat-cell>{{ element.zuletztGeaendertVon }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell mat-multi-sort-header="actions"></th>
+          <td *matCellDef="let element" mat-cell>
+            <a
+              (click)="loescheSonstigeProjektkosten(element)"
+              *ngIf="!abrechnungsmonatIstAbgeschlossen(element.jahr, element.monat)"
+              mat-icon-button
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </a>
+          </td>
+          <td *matFooterCellDef mat-footer-cell></td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+        <tr
+          (click)="ladeSonstigeProjektkostenInForm(row)"
+          *matRowDef="let row; columns: tabelle.displayedColumns"
+          mat-row
+        ></tr>
+      </table>
+    </section>
+  </div>
+</div>

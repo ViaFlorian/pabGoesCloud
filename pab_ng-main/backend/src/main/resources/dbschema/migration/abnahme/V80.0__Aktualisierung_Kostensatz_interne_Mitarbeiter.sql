@@ -1,0 +1,2 @@
+Update MitarbeiterKostensatz Set Betrag = 41.7 where Bezeichnung Like 'Kostensatz_A';
+Update Mitarbeiter Set Kostensatz = 41.7 Where IstAktiv = 1 and IstIntern = 1 and MitarbeiterTypID = (Select ID From C_MitarbeiterTyp where TextKurz Like 'Angestellter');

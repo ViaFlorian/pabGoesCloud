@@ -1,0 +1,99 @@
+<div class="tab-container-only-form">
+  <div class="grid-form-mit-card">
+    <form [formGroup]="pabSonstigeFormGroup">
+      <div class="grid-areas-pab-bearbeiten-sonstige">
+        <div>
+          <mat-expansion-panel expanded="true" class="expansion-border">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Sonstige</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="grid-areas-pab-bearbeiten-sonstige-sonstige-input-slots">
+              <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+              <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+              <mat-form-field style="grid-area: SlotLinks1">
+                <mat-label>Auslagen (viadee)</mat-label>
+                <input formControlName="kostenSonstigeAuslagen" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks2">
+                <mat-label>+ Pauschale</mat-label>
+                <input formControlName="kostenSonstigePauschale" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotLinks3">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="kostenSonstigeBetrag" matInput type="text" />
+              </mat-form-field>
+
+              <div style="grid-area: SlotLinks1Button1" class="pab-button-position">
+                <button
+                  [disabled]="!aktuelleProjektabrechnung"
+                  (click)="oeffneAuslagenDialog()"
+                  color="basic"
+                  mat-stroked-button
+                  matTooltip="Auslagen Details"
+                  class="pab-button"
+                >
+                  <mat-icon class="mat-icon-in-button">view_list</mat-icon>
+                </button>
+              </div>
+              <div style="grid-area: SlotLinks1Button2" class="pab-button-position">
+                <button
+                  [disabled]="!aktuelleProjektabrechnung"
+                  (click)="navigiereZuAuslagenErfassen()"
+                  color="basic"
+                  mat-stroked-button
+                  matTooltip="Auslagen erfassen"
+                  class="pab-button"
+                >
+                  <mat-icon class="mat-icon-in-button">edit</mat-icon>
+                </button>
+              </div>
+
+              <mat-form-field style="grid-area: SlotRechts2">
+                <mat-label>+ Pauschale</mat-label>
+                <input
+                  formControlName="leistungSonstigePauschale"
+                  matInput
+                  type="text"
+                  pattern="^(\d+(?:,\d{1,2})?)$"
+                  (input)="entferneUnerlaubteZeichen('leistungSonstigePauschale', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                />
+                <mat-error *ngIf="pabSonstigeFormGroup.get('leistungSonstigePauschale')?.errors?.['pattern']">
+                  Formatfehler
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="grid-area: SlotRechts3">
+                <mat-label>= Betrag</mat-label>
+                <input formControlName="leistungSonstigeBetrag" matInput type="text" />
+              </mat-form-field>
+
+              <mat-form-field style="grid-area: Bemerkung">
+                <mat-label>Bemerkung</mat-label>
+                <input formControlName="bemerkung" matInput type="text" />
+              </mat-form-field>
+            </div>
+          </mat-expansion-panel>
+        </div>
+      </div>
+    </form>
+
+    <mat-card class="card-border card-pab-bearbeiten">
+      <mat-card-header>
+        <mat-card-title class="card-title">Summe Sonstige</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="pabSonstigeFormGroup">
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Kosten</mat-label>
+            <input formControlName="kosten" matInput type="text" />
+          </mat-form-field>
+          <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Leistung</mat-label>
+            <input formControlName="leistung" matInput type="text" />
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

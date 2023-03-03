@@ -1,0 +1,13 @@
+name: Eslint Action
+description: Führt Eslint für unser Frontend aus.
+
+runs:
+  using: "composite"
+  steps:
+    - name: Lint sourcecode
+      shell: bash
+      run: ./scripts/entrypoint-eslint.sh
+
+branding:
+  icon: "award"
+  color: "green"

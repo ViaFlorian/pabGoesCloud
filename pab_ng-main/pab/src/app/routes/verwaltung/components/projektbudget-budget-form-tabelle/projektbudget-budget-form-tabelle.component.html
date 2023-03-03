@@ -1,0 +1,95 @@
+<div class="tab-container-single-line-form">
+  <div class="border-bottom">
+    <form
+      (ngSubmit)="fuegeOderAktualisiereProjektBudget()"
+      [formGroup]="projektbudgetFormGroup"
+      class="grid-projektbudget-budget-columns"
+    >
+      <mat-form-field>
+        <mat-label>Wertstellung</mat-label>
+        <input [matDatepicker]="dpWertstellung" formControlName="wertstellung" matInput />
+        <mat-hint>TT.MM.JJJJ</mat-hint>
+        <mat-datepicker-toggle [for]="dpWertstellung" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #dpWertstellung startView="month"></mat-datepicker>
+        <mat-error *ngIf="projektbudgetFormGroup.get('wertstellung')?.errors?.['required']">
+          Pflichtfeld (TT.MM.JJJJ)
+        </mat-error>
+        <mat-error *ngIf="projektbudgetFormGroup.get('wertstellung')?.errors?.['abrechnungsmoantAbgeschlossen']">
+          Abrechnungsmonat ist bereits abgeschlossen.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Budgetbetrag</mat-label>
+        <input
+          formControlName="budgetBetrag"
+          matInput
+          type="text"
+          (input)="entferneUnerlaubteZeichen('budgetBetrag', '^-?(([0-9]*)|([0-9]+),([0-9]{0,2}))$')"
+        />
+        <mat-error *ngIf="projektbudgetFormGroup.get('budgetBetrag')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Bemerkung</mat-label>
+        <input formControlName="bemerkung" matInput type="text" />
+        <mat-error *ngIf="projektbudgetFormGroup.get('bemerkung')?.errors?.['required']"> Pflichtfeld </mat-error>
+      </mat-form-field>
+
+      <div class="justify-end">
+        <button
+          color="basic"
+          mat-stroked-button
+          matTooltip="Hinzufügen"
+          type="submit"
+          class="margin-right-small"
+          [disabled]="!istProjektAusgewaehlt"
+        >
+          <mat-icon class="mat-icon-in-button">add</mat-icon>
+        </button>
+
+        <button
+          (click)="leereForm()"
+          color="basic"
+          mat-stroked-button
+          matTooltip="Formular leeren"
+          [disabled]="!istProjektAusgewaehlt"
+        >
+          <mat-icon class="mat-icon-in-button">clear</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <section class="table-container">
+    <table (matSortChange)="tabelle.onSortEvent()" [dataSource]="tabelle.dataSource" mat-table matMultiSort>
+      <ng-container matColumnDef="projektnummer">
+        <th *matHeaderCellDef mat-header-cell>Projektnummer</th>
+        <td *matCellDef="let element" mat-cell>{{ element.projektnummer }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="wertstellung">
+        <th *matHeaderCellDef mat-header-cell>Wertstellung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.wertstellung | date : 'dd.MM.yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="bemerkung">
+        <th *matHeaderCellDef mat-header-cell>Bemerkung</th>
+        <td *matCellDef="let element" mat-cell>{{ element.bemerkung }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="budgetBetrag">
+        <th *matHeaderCellDef mat-header-cell>Budgetbetrag</th>
+        <td *matCellDef="let element" mat-cell>{{ element.budgetBetrag | number : '1.2-2' : 'de' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="saldoBerechnet">
+        <th *matHeaderCellDef mat-header-cell>Saldo Berechnet</th>
+        <td *matCellDef="let element" mat-cell>{{ element.saldoBerechnet | number : '1.2-2' : 'de' }}</td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="tabelle.displayedColumns; sticky: true" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: tabelle.displayedColumns" mat-row></tr>
+    </table>
+  </section>
+</div>

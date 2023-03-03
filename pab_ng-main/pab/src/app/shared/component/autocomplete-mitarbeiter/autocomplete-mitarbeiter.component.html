@@ -1,0 +1,31 @@
+<form [formGroup]="parentFormGroup">
+  <mat-form-field [subscriptSizing]="mitErrorPlatzhalter ? 'fixed' : 'dynamic'">
+    <mat-label>
+      <mat-icon
+        *ngIf="
+          parentFormGroup.get(parentFormFieldName)?.value.id &&
+          !parentFormGroup.get(parentFormFieldName)?.value.istAktiv
+        "
+      >
+        not_interested
+      </mat-icon>
+      Mitarbeiter:in
+    </mat-label>
+    <input
+      (blur)="onVerlasseEingabefeldMitarbeiter()"
+      [formControlName]="parentFormFieldName"
+      [matAutocomplete]="autoMitarbeiter"
+      matInput
+      type="text"
+    />
+    <mat-autocomplete #autoMitarbeiter="matAutocomplete" [displayWith]="mitarbeiterAnzeigeNamePipe.transform">
+      <mat-option *ngFor="let mitarbeiter of mitarbeiterAuswahlGefiltert | async" [value]="mitarbeiter">
+        <mat-icon *ngIf="!mitarbeiter.istAktiv" color="warn"> not_interested</mat-icon>
+        {{ mitarbeiter | mitarbeiterAnzeigeName }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="parentFormGroup.get(parentFormFieldName)?.errors">
+      {{ erstelleFehlerMeldung() }}
+    </mat-error>
+  </mat-form-field>
+</form>

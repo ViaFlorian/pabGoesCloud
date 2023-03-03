@@ -1,0 +1,7 @@
+INSERT INTO Parameter ([Key], [Value], Kommentar) VALUES ('dmsAuthToken', 'sRVjZRc64U9j13BFS1eI8CLWxZfHoIZ/iBo8wo5rJwHY0vfYh7ZlOYXMAPGlFKbWbDTOywY/JK1YOVAV84Ams+I96ZRuVDipZJU7VsC/hsY=&_z_A0V5ayCSTxHPFB68kTcfdYiRkSuhvaolNkpU517ajaWWWplw4klWrunn6Bb9Kfs0IbED7qJT_Pt0m0g2GuwPdOxxACu7l', 'Token zur Authentifizierung im DMS');
+INSERT INTO Parameter ([Key], [Value], Kommentar) VALUES ('dmsBaseUrl', 'https://viadee.d-velop.cloud', 'DMS URL ohne "/" am Ende');
+INSERT INTO Parameter ([Key], [Value], Kommentar) VALUES ('repoId', 'cc2cdd59-766b-4934-bc31-a8cf09f1f6b5', 'ID des DMS Repository');
+INSERT INTO Parameter ([Key], [Value], Kommentar) VALUES ('dmsSourceCategory', 'af7109be-3231-4bfc-9cab-dd0897f38df7', 'Kategorie unter der PAB Dokumente Ablegen soll');
+INSERT INTO Parameter ([Key], [Value], Kommentar) VALUES ('dmsAbrechnungsmonatPropertyKey', '157d4972-8e90-4876-b2ba-30d380635cb9', 'ID des Feldes Abrechnungsmonat im DMS');
+INSERT INTO Parameter ([Key], [Value], Kommentar) VALUES ('dmsPersonalNrPropertyKey', '235706d9-89dd-4c9d-ba0e-83f5c2b39657', 'ID des Feldes PersonalNr im DMS');
+INSERT INTO Parameter ([Key], [Value], Kommentar) VALUES ('dmsMitarbeiterNamePropertyKey', '83611d21-b14d-4f42-ad1d-1619c137e97f', 'ID des Feldes Name im DMS');

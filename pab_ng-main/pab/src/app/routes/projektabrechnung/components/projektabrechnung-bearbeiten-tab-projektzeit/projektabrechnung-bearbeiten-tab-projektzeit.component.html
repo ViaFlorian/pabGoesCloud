@@ -1,0 +1,233 @@
+<div class="tab-container-only-form">
+  <form [formGroup]="pabProjektzeitFormGroup">
+    <div formArrayName="alternativeStundensaetze">
+      <div class="grid-areas-pab-bearbeiten-projektzeit-columns">
+        <div class="grid-pab-bearbeiten-projektzeit-stunden-gesamt" style="grid-area: GesamtStunden">
+          <form [formGroup]="pabProjektzeitFormGroup">
+            <mat-form-field>
+              <mat-label>Stunden (Arbeitsnachweis) gesamt</mat-label>
+              <input formControlName="kostenStundenGesamt" matInput type="text" />
+            </mat-form-field>
+          </form>
+
+          <div class="justify-end">
+            <button
+              *ngIf="pabProjektzeitFormGroup.getRawValue().kostenStundenGesamt.kostenStundenGesamt !== '0,00'"
+              [disabled]="pabProjektzeitAlternativeStundensaetzeFormArray.length >= 2"
+              color="basic"
+              mat-stroked-button
+              matTooltip="Alternativen Stundensatz hinzufügen"
+              (click)="fuegeAlternativenStundensatzHinzu()"
+              class="pab-button"
+            >
+              <mat-icon class="mat-icon-in-button">call_split</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="pabProjektzeitFormGroup.getRawValue().kostenStundenGesamt !== '0,00'"
+          style="grid-area: Stundensatz01"
+        >
+          <form [formGroup]="pabProjektzeitFormGroup">
+            <mat-expansion-panel expanded="true" class="expansion-border">
+              <mat-expansion-panel-header>
+                <mat-panel-title>Stundensatz</mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="grid-areas-pab-bearbeiten-projektzeit-stundensatz-input-slots">
+                <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+                <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+                <mat-form-field style="grid-area: SlotLinks1">
+                  <mat-label>Stunden</mat-label>
+                  <input
+                    formControlName="kostenStunden"
+                    matInput
+                    type="text"
+                    (input)="entferneUnerlaubteZeichen('kostenStunden', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                    pattern="^(\d+(?:,\d{1,2})?)$"
+                    [errorStateMatcher]="bearbeitenProjektzeitGesamtstundenErrorStateMatcher"
+                  />
+                  <mat-error
+                    *ngIf="pabProjektzeitFormGroup.errors?.['bearbeitenProjektzeitGesamtstundenUnterschritten']"
+                    >Stunden weniger als Gesamtstunden
+                  </mat-error>
+                  <mat-error
+                    *ngIf="pabProjektzeitFormGroup.errors?.['bearbeitenProjektzeitGesamtstundenUeberschritten']"
+                    >Stunden mehr als Gesamtstunden
+                  </mat-error>
+                  <mat-error *ngIf="pabProjektzeitFormGroup.get('kostenStunden')?.errors?.['pattern']">
+                    Formatfehler
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotLinks2">
+                  <mat-label>* Kostensatz</mat-label>
+                  <input formControlName="kostenKostensatz" matInput type="text" />
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotLinks2Letzter">
+                  <mat-label>Letzter</mat-label>
+                  <input formControlName="kostenKostensatzLetzter" matInput type="text" />
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotLinks2Vertrag">
+                  <mat-label>Vertrag</mat-label>
+                  <input formControlName="kostenKostensatzVertrag" matInput type="text" />
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotLinks3">
+                  <mat-label>= Betrag</mat-label>
+                  <input formControlName="kostenBetrag" matInput type="text" />
+                </mat-form-field>
+
+                <mat-form-field style="grid-area: SlotRechts2">
+                  <mat-label>* Stundensatz</mat-label>
+                  <input
+                    formControlName="leistungStundensatz"
+                    matInput
+                    type="text"
+                    (input)="entferneUnerlaubteZeichen('leistungStundensatz', '^([0-9]+)(,?)([0-9]{0,2})$')"
+                    pattern="^(\d+(?:,\d{1,2})?)$"
+                  />
+                  <mat-error *ngIf="pabProjektzeitFormGroup.get('leistungStundensatz')?.errors?.['pattern']">
+                    Formatfehler
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotRechts2Letzter">
+                  <mat-label>Letzter</mat-label>
+                  <input formControlName="leistungStundensatzLetzter" matInput type="text" />
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotRechts2Vertrag">
+                  <mat-label>Vertrag</mat-label>
+                  <input formControlName="leistungStundensatzVertrag" matInput type="text" />
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotRechts3">
+                  <mat-label>= Betrag</mat-label>
+                  <input formControlName="leistungBetrag" matInput type="text" />
+                </mat-form-field>
+              </div>
+            </mat-expansion-panel>
+          </form>
+        </div>
+
+        <div
+          *ngFor="
+            let alternativerStundensatz of pabProjektzeitAlternativeStundensaetzeFormArray.controls;
+            let i = index
+          "
+          [style]="'grid-area: StundensatzAlt0' + (i + 1)"
+        >
+          <form [formGroupName]="i">
+            <mat-expansion-panel expanded="true" class="expansion-border">
+              <mat-expansion-panel-header>
+                <mat-panel-title>Alternativer Stundensatz</mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="grid-areas-pab-bearbeiten-projektzeit-alternativer-stundensatz-input-slots">
+                <div style="grid-area: LabelLinks" class="pab-titel pab-titel-spalte">Kosten (Brutto)</div>
+                <div style="grid-area: LabelRechts" class="pab-titel pab-titel-spalte">Leistung (Netto)</div>
+
+                <mat-form-field style="grid-area: SlotLinks1">
+                  <mat-label>Stunden</mat-label>
+                  <input
+                    formControlName="kostenStunden"
+                    matInput
+                    type="text"
+                    pattern="^(\d+(?:,\d{1,2})?)$"
+                    (input)="
+                      entferneUnerlaubteZeichenAusAlternativenStundensatz(
+                        'kostenStunden',
+                        i,
+                        '^([0-9]+)(,?)([0-9]{0,2})$'
+                      )
+                    "
+                    [errorStateMatcher]="bearbeitenProjektzeitGesamtstundenErrorStateMatcher"
+                  />
+                  <mat-error
+                    *ngIf="pabProjektzeitAlternativeStundensaetzeFormArray.errors?.['projektabrechnungProjektzeitGesamtstundenUnterschritten']"
+                    >Stunden weniger als Gesamtstunden
+                  </mat-error>
+                  <mat-error
+                    *ngIf="pabProjektzeitAlternativeStundensaetzeFormArray.errors?.['projektabrechnungProjektzeitGesamtstundenUeberschritten']"
+                    >Stunden mehr als Gesamtstunden
+                  </mat-error>
+                  <mat-error
+                    *ngIf="pabProjektzeitAlternativeStundensaetzeFormArray.at(i).get('kostenStunden')?.errors?.['pattern']"
+                  >
+                    Formatfehler
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotLinks2">
+                  <mat-label>* Kostensatz</mat-label>
+                  <input formControlName="kostenKostensatz" matInput type="text" />
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotLinks3">
+                  <mat-label>= Betrag</mat-label>
+                  <input formControlName="kostenBetrag" matInput type="text" />
+                </mat-form-field>
+
+                <mat-form-field style="grid-area: SlotRechts2">
+                  <mat-label>* Stundensatz</mat-label>
+                  <input
+                    formControlName="leistungStundensatz"
+                    matInput
+                    type="text"
+                    pattern="^(\d+(?:,\d{1,2})?)$"
+                    (input)="
+                      entferneUnerlaubteZeichenAusAlternativenStundensatz(
+                        'leistungStundensatz',
+                        i,
+                        '^([0-9]+)(,?)([0-9]{0,2})$'
+                      )
+                    "
+                  />
+                  <mat-error *ngIf="pabProjektzeitFormGroup.get('leistungStundensatz')?.errors?.['pattern']">
+                    Formatfehler
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field style="grid-area: SlotRechts3">
+                  <mat-label>= Betrag</mat-label>
+                  <input formControlName="leistungBetrag" matInput type="text" />
+                </mat-form-field>
+              </div>
+            </mat-expansion-panel>
+          </form>
+        </div>
+        <div
+          *ngFor="
+            let alternativerStundensatz of pabProjektzeitAlternativeStundensaetzeFormArray.controls;
+            let i = index
+          "
+          [style]="'grid-area: LoeschButton0' + (i + 1)"
+          class="justify-center"
+        >
+          <button
+            mat-stroked-button
+            color="basic"
+            (click)="loescheAlternativenStundensatz(i)"
+            matTooltip="Alternativen Stundensatz löschen"
+            class="pab-loesch-button"
+          >
+            <mat-icon class="mat-icon-in-button">delete_forever</mat-icon>
+          </button>
+        </div>
+
+        <mat-card class="card-border card-pab-bearbeiten" style="grid-area: Card">
+          <mat-card-header>
+            <mat-card-title class="card-title">Summe Projektzeit</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="pabProjektzeitFormGroup">
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Kosten</mat-label>
+                <input formControlName="kosten" matInput type="text" />
+              </mat-form-field>
+              <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Leistung</mat-label>
+                <input formControlName="leistung" matInput type="text" />
+              </mat-form-field>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</div>
